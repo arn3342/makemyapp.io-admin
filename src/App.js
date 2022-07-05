@@ -58,7 +58,6 @@ function ScreenRenderer () {
       type: AuthActions.PERFORM_SIGNIN_LOCAL,
       data: {}
     })
-    console.log(StorageHelper.GetItem('appData'))
   }, [firebaseApp.instance])
 
   if (firebaseApp.instance) {

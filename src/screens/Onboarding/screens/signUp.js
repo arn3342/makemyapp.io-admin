@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Spacer, SubTitle, Title } from '../../../components/global'
 import '../components/index.css'
 import { Button, Input } from '../../../components/form'
@@ -13,7 +13,7 @@ import { ref, getDatabase, set, push, update } from 'firebase/database'
 import { initializeApp } from 'firebase/app'
 import { FirebaseActions } from '../../../data/actions'
 
-export default ({ onSwitchRequest = () => {} }) => {
+export default ({ onSwitchRequest = () => {}, projectMetaData }) => {
   const [submitting, setSubmitting] = useState(false)
   const [globalError, setGlobalError] = useState()
   const dispatch = useDispatch()
@@ -24,7 +24,8 @@ export default ({ onSwitchRequest = () => {} }) => {
       type: AuthActions.PERFORM_SIGNUP,
       data: {
         email: values.email,
-        password: values.password
+        password: values.password,
+        projects: [projectMetaData]
       }
     })
   }
@@ -77,7 +78,7 @@ export default ({ onSwitchRequest = () => {} }) => {
               <SubTitle
                 size='medium'
                 fontType='light'
-                content='Only one last step...'
+                content="Set up your account in a minute and let's start building!"
               />
               <Spacer size='medium' />
               <Input

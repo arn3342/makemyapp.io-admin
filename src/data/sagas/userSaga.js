@@ -46,7 +46,8 @@ function * performSignUp (payload) {
           email: data.email,
           firstName: 'Your',
           lastName: 'Name',
-          userId: signup.user.uid
+          userId: signup.user.uid,
+          projects: data.projects
         })
         const profileResult = yield call(
           get,

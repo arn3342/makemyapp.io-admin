@@ -7,17 +7,28 @@ import Logo from '../../logo-trans.png'
 import LoginAnim from '../../assets/gifs/login-anim.json'
 import { Spacer } from '../../components/global'
 import { SiteRoutes } from '../../misc/routes'
+import { useSelector } from 'react-redux'
+import { getDatabase, get, child, ref } from 'firebase/database'
 
 export default ({}) => {
-  const navigate = useNavigate()
   const [stepType, setStepType] = useState('signUp')
-  const { type } = useParams()
+  const [projectMeta, setProjectMeta] = useState()
+  const firebaseApp = useSelector(state => state.firebaseApp.instance)
+  const params = useParams()
   useEffect(() => {
-    // navigate(SiteRoutes.Onboarding.Login.path)
-    // if(type === 'welcome'){
-    //   setStepType('signUp')
-    // }
+    if (params.projectId) {
+      const database = getDatabase(firebaseApp)
+      get(child(ref(database), `projectMeta/${params.projectId}`)).then(
+        result => {
+          if (result.exists()) {
+            const data = result.val()
+            setProjectMeta(data)
+          }
+        }
+      )
+    }
   }, [])
+
   return (
     <div className='main onboarding_main'>
       <div className='container_main shadow_dark'>
@@ -32,11 +43,13 @@ export default ({}) => {
           </div>
           <Spacer />
           <div className='col col-lg-5 d-flex form_container'>
-            {/* <SignUpBanner /> */}
             {stepType === 'signIn' ? (
               <LoginScreen onSwitchRequest={() => setStepType('signUp')} />
             ) : (
-              <SignUpScreen onSwitchRequest={() => setStepType('signIn')} />
+              <SignUpScreen
+                projectMetaData={projectMeta}
+                onSwitchRequest={() => setStepType('signIn')}
+              />
             )}
           </div>
         </div>

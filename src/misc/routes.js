@@ -7,13 +7,26 @@ import TeamScreen from '../screens/Team'
 import FeatureScreen from '../screens/Feature'
 import LoginScreen from '../screens/Onboarding/screens/login'
 import OnboardingScreen from '../screens/Onboarding'
+import { Navigate } from 'react-router-dom'
 
 export const SiteRoutes = {
   Onboarding: {
+    NotFound: {
+      id: 100,
+      label: '404',
+      path: '*',
+      element: <Navigate to={'/'} />
+    },
     Init: {
       id: 101,
       label: 'Onboarding',
       path: '/',
+      element: <OnboardingScreen />
+    },
+    InitWithParams: {
+      id: 102,
+      label: 'Onboarding',
+      path: '/welcomeProject/:projectId',
       element: <OnboardingScreen />
     }
   },
