@@ -16,6 +16,7 @@ import {
   createUserWithEmailAndPassword
 } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
+import { StorageHelper } from '../storage'
 
 function * performGetTeam (payload) {
   // console.log('Data is:', data)
@@ -49,6 +50,7 @@ function * performSignUp (payload) {
           child(ref(database), 'users/' + signup.user.uid)
         )
         yield put(setProfile(profileResult.val()))
+        yield call(StorageHelper.SaveItem, profileResult.val(), 'session')
       } catch (ex) {
         console.log('Something went wrong while creating profile.', ex)
       }
@@ -80,6 +82,7 @@ function * performSignIn (payload) {
         child(ref(database), 'users/' + signIn.user.uid)
       )
       yield put(setProfile(profileResult.val()))
+      yield call(StorageHelper.SaveItem, profileResult.val(), 'session')
     }
   } catch (ex) {
     let error = new FirebaseError()
