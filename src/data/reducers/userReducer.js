@@ -1,4 +1,5 @@
 import { ProfileActions } from '../actions/userActions'
+import { Constants } from '../constants'
 
 export const setTeamData = data => ({
   type: ProfileActions.SET_TEAM,
@@ -15,15 +16,15 @@ export const setProfile = data => ({
   data
 })
 
-export const setToken = data => ({
-  type: ProfileActions.SET_TOKEN,
+export const setLoadingState = data => ({
+  type: ProfileActions.SET_LOADING_STATE,
   data
 })
 
 const initialState = {
   profile: {},
   team: [],
-  token: 'token'
+  loadingState: Constants.LoadingState.LOADING
 }
 
 export default (state = initialState, action) => {
@@ -47,10 +48,9 @@ export default (state = initialState, action) => {
       profile = data
       return { ...state, profile } || state
 
-    case ProfileActions.SET_TOKEN:
-      let token = data
-      console.log('Setting token...', {...state, token})
-      return { ...state, token } || state
+    case ProfileActions.SET_LOADING_STATE:
+      let loadingState = data
+      return { ...state, loadingState } || state
     default:
       return state
   }

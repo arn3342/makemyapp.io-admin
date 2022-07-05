@@ -13,6 +13,8 @@ import { useEffect } from 'react'
 import { Constants } from './data/constants'
 import { FirebaseActions } from './data/actions'
 import { initializeApp } from 'firebase/app'
+import { AuthActions, ProfileActions } from './data/actions/userActions'
+import { StorageHelper } from './data/storage'
 
 function App () {
   //#region Setting site metadata
@@ -33,7 +35,7 @@ function App () {
 export default App
 
 function ScreenRenderer () {
-  const userProfile = useSelector(state => state.user.profile)
+  const userState = useSelector(state => state.user)
   const firebaseApp = useSelector(state => state.firebaseApp)
   const navigate = useNavigate()
   const routes = getRoutes()
@@ -45,53 +47,77 @@ function ScreenRenderer () {
       data: {}
     })
     // console.log('User profile:', userProfile)
-    if (userProfile.userId) {
+    if (userState.profile.userId) {
       navigate(SiteRoutes.Engine.Dashboard.path, true)
     }
     // console.log('Routes:', routes.Engine)
-  }, [userProfile])
+  }, [userState.profile])
 
-  if (userProfile.userId) {
-    return (
-      <div className='main row cols-2'>
-        <div className='col-sm-2 shadow_light menu_container'>
-          <Spacer size='medium' />
-          <img src={Logo} className='site_logo_main' alt='site-logo' />
-          <Spacer size='large' />
-          <Menu data={routes.Engine} />
+  useEffect(() => {
+    dispatch({
+      type: AuthActions.PERFORM_SIGNIN_LOCAL,
+      data: {}
+    })
+    console.log(StorageHelper.GetItem('appData'))
+  }, [firebaseApp.instance])
+
+  if (firebaseApp.instance) {
+    if (userState.loadingState == Constants.LoadingState.LOADING) {
+      return (
+        <>
+          <div className='main spinner-fullScreen'>
+            <div className='spinner-border text-primary' role='status'>
+              <span className='visually-hidden'>Loading...</span>
+            </div>
+          </div>
+        </>
+      )
+    } else if (
+      (userState.loadingState == Constants.LoadingState.SUCCESS ||
+        userState.loadingState == Constants.LoadingState.ERROR) &&
+      userState.profile.userId
+    ) {
+      return (
+        <div className='main row cols-2'>
+          <div className='col-sm-2 shadow_light menu_container'>
+            <Spacer size='medium' />
+            <img src={Logo} className='site_logo_main' alt='site-logo' />
+            <Spacer size='large' />
+            <Menu data={routes.Engine} />
+          </div>
+          <div
+            id='route_container'
+            className='col'
+            style={{ overflow: 'scroll' }}
+          >
+            <Routes>
+              {routes.Engine.map((route, index) => {
+                return !route.screens ? (
+                  <Route index={index == 0} {...route} key={route.id} />
+                ) : (
+                  route.screens.map(subRoute => {
+                    return <Route {...subRoute} key={subRoute.id} />
+                  })
+                )
+              })}
+            </Routes>
+          </div>
         </div>
-        <div
-          id='route_container'
-          className='col'
-          style={{ overflow: 'scroll' }}
-        >
-          <Routes>
-            {routes.Engine.map((route, index) => {
-              return !route.screens ? (
-                <Route index={index == 0} {...route} key={route.id} />
-              ) : (
-                route.screens.map(subRoute => {
-                  return <Route {...subRoute} key={subRoute.id} />
-                })
-              )
-            })}
-          </Routes>
-        </div>
-      </div>
-    )
-  } else {
-    return (
-      <Routes>
-        {routes.Onboarding.map(route => {
-          return !route.screens ? (
-            <Route {...route} key={route.id} />
-          ) : (
-            route.screens.map(subRoute => {
-              return <Route {...subRoute} key={subRoute.id} />
-            })
-          )
-        })}
-      </Routes>
-    )
+      )
+    } else {
+      return (
+        <Routes>
+          {routes.Onboarding.map(route => {
+            return !route.screens ? (
+              <Route {...route} key={route.id} />
+            ) : (
+              route.screens.map(subRoute => {
+                return <Route {...subRoute} key={subRoute.id} />
+              })
+            )
+          })}
+        </Routes>
+      )
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { ProfileActions, AuthActions } from '../actions/userActions'
-import { setProfile, setTeamData, setToken } from '../reducers/userReducer'
+import { setLoadingState, setProfile, setTeamData } from '../reducers/userReducer'
 import {
   ref,
   getDatabase,
@@ -19,6 +19,7 @@ import {
 } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
 import { StorageHelper } from '../storage'
+import {Constants} from '../constants'
 
 function * performGetTeam (payload) {
   // console.log('Data is:', data)
@@ -90,6 +91,7 @@ function * performSignIn (payload) {
         { email: data.email, password: data.password },
         'auth'
       )
+      // yield put(setToken(signIn.user.refreshToken))
     }
   } catch (ex) {
     let error = new FirebaseError()
@@ -123,16 +125,17 @@ function * performLocalSignIn (payload) {
           { email: localAuth.email, password: localAuth.password },
           'auth'
         )
+        yield put(setLoadingState(Constants.LoadingState.SUCCESS))
       }
     } else {
-      yield put(setToken(''))
+      yield put(setLoadingState(Constants.LoadingState.ERROR))
     }
   } catch (ex) {
     let error = new FirebaseError()
     error = { ...ex }
     console.log('Error is:', ex)
     yield call(StorageHelper.Remove, 'auth')
-    yield put(setToken(''))
+    yield put(setLoadingState(Constants.LoadingState.ERROR))
   }
 }
 

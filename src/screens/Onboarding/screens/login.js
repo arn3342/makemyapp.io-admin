@@ -10,6 +10,7 @@ import { SignUpBanner } from '../components'
 import { Formik } from 'formik'
 import { StringHelper } from '../../../data/extensions/stringHelper'
 import { StorageHelper } from '../../../data/storage'
+import { Constants } from '../../../data/constants'
 
 export default ({ onSwitchRequest = () => {} }) => {
   const [submitting, setSubmitting] = useState(false)
@@ -29,8 +30,8 @@ export default ({ onSwitchRequest = () => {} }) => {
   }
 
   useEffect(() => {
-    console.log(user.token)
-    if (!StringHelper.isEmpty(user.token)) {
+    const { loadingState } = user
+    if (loadingState == Constants.LoadingState.LOADING) {
       setGlobalLoading(true)
       dispatch({
         type: AuthActions.PERFORM_SIGNIN_LOCAL,
@@ -39,7 +40,7 @@ export default ({ onSwitchRequest = () => {} }) => {
     } else {
       setGlobalLoading(false)
     }
-  }, [user.token])
+  }, [user.loadingState])
 
   return (
     <div>

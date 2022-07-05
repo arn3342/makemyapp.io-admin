@@ -24,5 +24,10 @@ export const Constants = {
     { id: 2, title: 'iOS' },
     { id: 3, title: 'watchOS' },
     { id: 2, title: 'tvOS' }
-  ]
+  ],
+  LoadingState: {
+    LOADING: 0,
+    SUCCESS: 1,
+    ERROR: -1
+  }
 }

@@ -7,7 +7,7 @@ export const ProfileActions = {
   UPDATE_PROFILE: 'profile/update',
   GET_PROFILE: 'profile',
   SET_PROFILE: 'profile/set',
-  SET_TOKEN: 'profile/token/set',
+  SET_LOADING_STATE: 'profile/loading/set',
 }
 
 export const AuthActions = {
