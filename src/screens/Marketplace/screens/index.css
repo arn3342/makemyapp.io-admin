@@ -1,0 +1,29 @@
+@import url('../../../components/global/global.css');
+code {
+  font-family: monospace;
+}
+p > code,
+li > code,
+dd > code,
+td > code {
+  background: #ffeff0;
+  word-wrap: break-word;
+  box-decoration-break: clone;
+  padding: 0.1rem 0.3rem 0.2rem;
+  border-radius: 0.2rem;
+}
+.font_roboto{
+    font-family: "Roboto", sans-serif !important;
+}
+.exm_image{
+  height: 140px;
+  width: 100%;
+  border-radius: var(--radius);
+  border: solid 2px var(--blueLight);
+  cursor: pointer;
+  transition: all 300ms;
+}
+.exm_image:hover {
+  border: solid 2px var(--blue);
+  transform: scale(1.04);
+}
