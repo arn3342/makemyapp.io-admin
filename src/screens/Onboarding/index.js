@@ -1,6 +1,6 @@
 import { Player } from '@lottiefiles/react-lottie-player'
 import React, { useEffect, useState } from 'react'
-import { Link, Route, Routes, useNavigate } from 'react-router-dom'
+import { Link, Route, Routes, useNavigate, useParams } from 'react-router-dom'
 import LoginScreen from './screens/login'
 import SignUpScreen from './screens/signUp'
 import Logo from '../../logo-trans.png'
@@ -11,8 +11,12 @@ import { SiteRoutes } from '../../misc/routes'
 export default ({}) => {
   const navigate = useNavigate()
   const [stepType, setStepType] = useState('signUp')
+  const { type } = useParams()
   useEffect(() => {
     // navigate(SiteRoutes.Onboarding.Login.path)
+    // if(type === 'welcome'){
+    //   setStepType('signUp')
+    // }
   }, [])
   return (
     <div className='main onboarding_main'>

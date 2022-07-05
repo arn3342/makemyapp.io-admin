@@ -1,6 +1,6 @@
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { ProfileActions, AuthActions } from '../actions/userActions'
-import { setProfile, setTeamData } from '../reducers/userReducer'
+import { setProfile, setTeamData, setToken } from '../reducers/userReducer'
 import {
   ref,
   getDatabase,
@@ -13,7 +13,9 @@ import {
 import {
   getAuth,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  getIdToken,
+  signInWithCustomToken
 } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
 import { StorageHelper } from '../storage'
@@ -50,7 +52,7 @@ function * performSignUp (payload) {
           child(ref(database), 'users/' + signup.user.uid)
         )
         yield put(setProfile(profileResult.val()))
-        yield call(StorageHelper.SaveItem, profileResult.val(), 'session')
+        yield call(StorageHelper.SaveItem, signup.user.accessToken, 'auth')
       } catch (ex) {
         console.log('Something went wrong while creating profile.', ex)
       }
@@ -75,14 +77,19 @@ function * performSignIn (payload) {
       data.password
     )
     if (signIn.user) {
-      console.log('SignIn Result:', signIn.user)
       const database = yield call(getDatabase, firebaseApp)
+      const token = yield call(getIdToken, signIn.user)
+      console.log('ID Token:', token)
       const profileResult = yield call(
         get,
         child(ref(database), 'users/' + signIn.user.uid)
       )
       yield put(setProfile(profileResult.val()))
-      yield call(StorageHelper.SaveItem, profileResult.val(), 'session')
+      yield call(
+        StorageHelper.SaveItem,
+        { email: data.email, password: data.password },
+        'auth'
+      )
     }
   } catch (ex) {
     let error = new FirebaseError()
@@ -91,8 +98,47 @@ function * performSignIn (payload) {
   }
 }
 
+function * performLocalSignIn (payload) {
+  const firebaseApp = yield select(state => state.firebaseApp.instance)
+  const auth = getAuth(firebaseApp)
+  try {
+    const localAuth = yield call(StorageHelper.GetItem, 'auth')
+    if (localAuth) {
+      const signIn = yield call(
+        signInWithEmailAndPassword,
+        auth,
+        localAuth.email,
+        localAuth.password
+      )
+      if (signIn.user) {
+        console.log('SignIn Result:', signIn.user)
+        const database = yield call(getDatabase, firebaseApp)
+        const profileResult = yield call(
+          get,
+          child(ref(database), 'users/' + signIn.user.uid)
+        )
+        yield put(setProfile(profileResult.val()))
+        yield call(
+          StorageHelper.SaveItem,
+          { email: localAuth.email, password: localAuth.password },
+          'auth'
+        )
+      }
+    } else {
+      yield put(setToken(''))
+    }
+  } catch (ex) {
+    let error = new FirebaseError()
+    error = { ...ex }
+    console.log('Error is:', ex)
+    yield call(StorageHelper.Remove, 'auth')
+    yield put(setToken(''))
+  }
+}
+
 export default function * userSaga () {
   yield takeEvery(ProfileActions.GET_TEAM, performGetTeam)
   yield takeLatest(AuthActions.PERFORM_SIGNUP, performSignUp)
   yield takeLatest(AuthActions.PERFORM_SIGNIN, performSignIn)
+  yield takeLatest(AuthActions.PERFORM_SIGNIN_LOCAL, performLocalSignIn)
 }

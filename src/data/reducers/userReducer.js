@@ -15,9 +15,15 @@ export const setProfile = data => ({
   data
 })
 
+export const setToken = data => ({
+  type: ProfileActions.SET_TOKEN,
+  data
+})
+
 const initialState = {
   profile: {},
-  team: []
+  team: [],
+  token: 'token'
 }
 
 export default (state = initialState, action) => {
@@ -40,6 +46,11 @@ export default (state = initialState, action) => {
     case ProfileActions.SET_PROFILE:
       profile = data
       return { ...state, profile } || state
+
+    case ProfileActions.SET_TOKEN:
+      let token = data
+      console.log('Setting token...', {...state, token})
+      return { ...state, token } || state
     default:
       return state
   }

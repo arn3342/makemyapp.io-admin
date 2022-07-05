@@ -35,22 +35,35 @@
   opacity: 0;
 }
 .welcome_container {
-    transition: all 500ms;
+  transition: all 500ms;
 }
 .welcome_container_hidden {
   transform: translateX(100%);
   opacity: 0;
 }
 
-.signup_banner{
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    align-items: center;
-    display: flex;
-    align-items: center;
-    align-content: center;
+.signup_banner {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  align-items: center;
+  display: flex;
+  align-items: center;
+  align-content: center;
 }
 .signUp_btn {
-    padding: 5px 20px;
+  padding: 5px 20px;
+}
+.spinner-fullScreen {
+  position: absolute;
+  align-self: center;
+  justify-self: center;
+  background: red;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  z-index: 99;
+  background: rgba(255, 255, 255, 0.502);
 }

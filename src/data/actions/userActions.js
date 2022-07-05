@@ -6,10 +6,12 @@ export const ProfileActions = {
 
   UPDATE_PROFILE: 'profile/update',
   GET_PROFILE: 'profile',
-  SET_PROFILE: 'profile/set'
+  SET_PROFILE: 'profile/set',
+  SET_TOKEN: 'profile/token/set',
 }
 
 export const AuthActions = {
   PERFORM_SIGNUP: 'user/signup',
-  PERFORM_SIGNIN: 'user/signin'
+  PERFORM_SIGNIN: 'user/signin',
+  PERFORM_SIGNIN_LOCAL: 'user/signin/local'
 }

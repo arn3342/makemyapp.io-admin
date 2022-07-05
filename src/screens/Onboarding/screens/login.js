@@ -4,14 +4,17 @@ import { Spacer, SubTitle, Title } from '../../../components/global'
 import '../components/index.css'
 import { Button, Input } from '../../../components/form'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AuthActions, ProfileActions } from '../../../data/actions/userActions'
 import { SignUpBanner } from '../components'
 import { Formik } from 'formik'
 import { StringHelper } from '../../../data/extensions/stringHelper'
+import { StorageHelper } from '../../../data/storage'
 
 export default ({ onSwitchRequest = () => {} }) => {
   const [submitting, setSubmitting] = useState(false)
+  const [globalLoading, setGlobalLoading] = useState(false)
+  const user = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   function performLogin (values) {
@@ -25,10 +28,28 @@ export default ({ onSwitchRequest = () => {} }) => {
     })
   }
 
+  useEffect(() => {
+    console.log(user.token)
+    if (!StringHelper.isEmpty(user.token)) {
+      setGlobalLoading(true)
+      dispatch({
+        type: AuthActions.PERFORM_SIGNIN_LOCAL,
+        data: {}
+      })
+    } else {
+      setGlobalLoading(false)
+    }
+  }, [user.token])
+
   return (
     <div>
       <SignUpBanner onClick={onSwitchRequest} />
-      <div className='form_container'>
+      <div
+        className='form_container'
+        style={{
+          position: 'relative'
+        }}
+      >
         <Formik
           initialValues={{
             email: '',
@@ -58,6 +79,13 @@ export default ({ onSwitchRequest = () => {} }) => {
             errors
           }) => (
             <>
+              {globalLoading && (
+                <div className='spinner-fullScreen'>
+                  <div className='spinner-border text-primary' role='status'>
+                    <span className='visually-hidden'>Loading...</span>
+                  </div>
+                </div>
+              )}
               <Title
                 className='font_gradient no_margin'
                 content="Let's Make Your App!"

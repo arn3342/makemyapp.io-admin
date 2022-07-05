@@ -23,5 +23,7 @@ export const StorageHelper = {
   },
 
   GetItem: (uKey = '') =>
-    JSON.parse(localStorage.getItem(`${StorageInitial}${uKey}`))
+    JSON.parse(localStorage.getItem(`${StorageInitial}${uKey}`)),
+
+  Remove: (uKey = '') => localStorage.removeItem(`${StorageInitial}${uKey}`)
 }
