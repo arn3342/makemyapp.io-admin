@@ -1,6 +1,10 @@
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { ProfileActions, AuthActions } from '../actions/userActions'
-import { setLoadingState, setProfile, setTeamData } from '../reducers/userReducer'
+import {
+  setLoadingState,
+  setProfile,
+  setTeamData
+} from '../reducers/userReducer'
 import {
   ref,
   getDatabase,
@@ -19,7 +23,7 @@ import {
 } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
 import { StorageHelper } from '../storage'
-import {Constants} from '../constants'
+import { Constants } from '../constants'
 
 function * performGetTeam (payload) {
   // console.log('Data is:', data)
@@ -140,9 +144,31 @@ function * performLocalSignIn (payload) {
   }
 }
 
+function * performProfileUpdate (payload) {
+  const { data } = payload
+  const { userId } = yield select(state => state.user.profile)
+  const firebaseApp = yield select(state => state.firebaseApp.instance)
+  try {
+    const database = yield call(getDatabase, firebaseApp)
+    const updatedProfile = yield call(
+      update,
+      child(ref(database), `users/${userId}`),
+      data
+    )
+    yield put(setProfile(data))
+  } catch (ex) {
+    let error = new FirebaseError()
+    error = { ...ex }
+    console.log('Error is:', ex)
+    yield call(StorageHelper.Remove, 'auth')
+    yield put(setLoadingState(Constants.LoadingState.ERROR))
+  }
+}
+
 export default function * userSaga () {
   yield takeEvery(ProfileActions.GET_TEAM, performGetTeam)
   yield takeLatest(AuthActions.PERFORM_SIGNUP, performSignUp)
   yield takeLatest(AuthActions.PERFORM_SIGNIN, performSignIn)
   yield takeLatest(AuthActions.PERFORM_SIGNIN_LOCAL, performLocalSignIn)
+  yield takeEvery(ProfileActions.UPDATE_PROFILE, performProfileUpdate)
 }

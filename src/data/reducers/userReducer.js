@@ -16,10 +16,10 @@ export const setProfile = data => ({
   data
 })
 
-export const updateProfile = data => ({
-  type: ProfileActions.UPDATE_PROFILE,
-  data
-})
+// export const updateProfile = data => ({
+//   type: ProfileActions.UPDATE_PROFILE,
+//   data
+// })
 
 export const setLoadingState = data => ({
   type: ProfileActions.SET_LOADING_STATE,
@@ -52,9 +52,9 @@ export default (state = initialState, action) => {
     case ProfileActions.SET_PROFILE:
       profile = data
       return { ...state, profile } || state
-    case ProfileActions.UPDATE_PROFILE:
-      profile = data
-      return { ...state, profile } || state
+    // case ProfileActions.UPDATE_PROFILE:
+    //   profile = data
+    //   return { ...state, profile } || state
 
     case ProfileActions.SET_LOADING_STATE:
       let loadingState = data
