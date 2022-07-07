@@ -46,14 +46,25 @@ export const Title = ({
   link,
   fontType,
   className,
-  animate
+  animate,
+  isLoading
 }) => {
   return (
-    <a href={link}>
+    <a
+      href={link}
+      style={{
+        position: 'relative'
+      }}
+    >
+      {isLoading && <div className='main spinner-fullScreen'>
+        <div className='spinner-border text-primary' role='status'>
+          <span className='visually-hidden'>Loading...</span>
+        </div>
+      </div>}
       {size === 'small' ? (
         <h6
           className={`title theme_${theme} font_${fontType} ${className} ${animate &&
-            'focus-in-expand'}`}
+            'focus-in-expand'} ${isLoading && 'opacity_hidden'}`}
           style={style}
         >
           {content}
@@ -61,7 +72,7 @@ export const Title = ({
       ) : size === 'large' ? (
         <h4
           className={`title theme_${theme} font_${fontType} ${className} ${animate &&
-            'focus-in-expand'}`}
+            'focus-in-expand'} ${isLoading && 'opacity_hidden'}`}
           style={style}
         >
           {content}
@@ -69,7 +80,7 @@ export const Title = ({
       ) : size === 'large-2' ? (
         <h2
           className={`title theme_${theme} font_${fontType} ${className} ${animate &&
-            'focus-in-expand'}`}
+            'focus-in-expand'} ${isLoading && 'opacity_hidden'}`}
           style={style}
         >
           {content}
@@ -77,7 +88,7 @@ export const Title = ({
       ) : size === 'large-3' ? (
         <h1
           className={`title theme_${theme} font_${fontType} ${className}  ${animate &&
-            'focus-in-expand'} large_3`}
+            'focus-in-expand'} large_3 ${isLoading && 'opacity_hidden'}`}
           style={style}
         >
           {content}
@@ -85,7 +96,7 @@ export const Title = ({
       ) : (
         <h5
           className={`title theme_${theme} font_${fontType} ${className}  ${animate &&
-            'focus-in-expand'}`}
+            'focus-in-expand'} ${isLoading && 'opacity_hidden'}`}
           style={style}
         >
           {content}

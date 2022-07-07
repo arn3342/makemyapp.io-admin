@@ -1,6 +1,7 @@
 import { faAngleDown, faClose } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
+import { StringHelper } from '../../data/extensions/stringHelper'
 import IconParser from '../../misc/iconParser'
 import { getRandomInteger } from '../../misc/logics'
 import { Card, Spacer, SubTitle, Title } from '../global'
@@ -77,7 +78,8 @@ export const Input = ({
   const [isFocused, setFocused] = useState(false)
   return (
     <div
-      className={`input ${className} d-flex ${isFocused && 'input_focused'} ${isError && 'input_error'}`}
+      className={`input ${className} d-flex ${isFocused &&
+        'input_focused'} ${isError && 'input_error'}`}
     >
       {fontAwesomeIcon && (
         <div className='col col-sm-1'>
@@ -119,7 +121,7 @@ export const DropDown = ({
   icon,
   placeholder,
   className,
-  onValueChange,
+  onValueChange = (val = '', index = 0) => {},
   options,
   enableClear,
   defaultValue,
@@ -127,20 +129,26 @@ export const DropDown = ({
   theme
 }) => {
   const [isFocused, setFocused] = useState(false)
-  const [currentValue, setCurrentValue] = useState(
-    defaultValue || options[0] || placeholder
-  )
+  const [currentValue, setCurrentValue] = useState()
   function handleBlur (event) {
     if (!event.currentTarget.contains(event.relatedTarget)) {
       setFocused(false)
     }
   }
-  function handleValueChange (value) {
+  function handleValueChange (value, index) {
     setCurrentValue(value)
     setFocused(false)
-    onValueChange &&
-      onValueChange(value.title || value.label || value.description || value)
+    onValueChange(
+      value?.title || value?.label || value?.description || value,
+      index
+    )
   }
+
+  useEffect(() => {
+    if (!currentValue) {
+      handleValueChange((options && options[0]) || placeholder, 0)
+    }
+  })
   return (
     <div
       className={`dropdown ${isFocused && 'dropdown_focused'} ${className}`}
@@ -165,9 +173,9 @@ export const DropDown = ({
             className={'no_margin'}
             fontType='bold'
             content={
-              currentValue.title ||
-              currentValue.label ||
-              currentValue.description ||
+              currentValue?.title ||
+              currentValue?.label ||
+              currentValue?.description ||
               currentValue
             }
           ></SubTitle>
@@ -198,11 +206,11 @@ export const DropDown = ({
                     value.title || value.label || value.description || value
                   }
                   className={`input item ${isExtraSmall && 'item_small'}`}
-                  onClick={() => handleValueChange(value)}
+                  onClick={() => handleValueChange(value, index)}
                   // key={index}
                   type='button'
-                  id={getRandomInteger(9991, 878890)}
-                  key={value.id || getRandomInteger(10, 400)}
+                  id={index}
+                  key={value.id || index}
                 >
                   <SubTitle
                     className={`no_margin`}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Spacer, SubTitle, Title } from '../../components/global'
 import { ExtendedButton } from '../../components/form'
 import { Player } from '@lottiefiles/react-lottie-player'
@@ -6,8 +6,24 @@ import RocketAnim from '../../assets/gifs/rocket-anim.json'
 import IconParser from '../../misc/iconParser'
 import { ScreenSelector } from './components'
 import { getRandomInteger } from '../../misc/logics'
+import { useSelector } from 'react-redux'
+import { extractFeature } from '../../misc/featureExtractor'
 
 const DashboardScreen = ({}) => {
+  const projectData = useSelector(state => state.user.profile.projects[0])
+
+  useEffect(() => {
+    // console.log('Current project:', projectData)
+    console.log('Feature deets:', getEstimations())
+  }, [])
+
+  function getEstimations () {
+    let devTime = 0
+    projectData.features?.map(featureId => {
+      devTime += extractFeature(featureId).estDevTime
+    })
+    return devTime
+  }
   return (
     <div className='container'>
       <Spacer size='large' />
@@ -20,9 +36,9 @@ const DashboardScreen = ({}) => {
           <Card animateScale={false} theme={'light'}>
             <div className='row'>
               <div className='col col-xxl-8'>
-                <Title content='Facebook.io' fontType='bold' />
+                <Title content={projectData.appName} fontType='bold' />
                 <SubTitle
-                  content='A new social media platform that will make a massive difference in the world. We plan to aim to reach 10M users in just 4 months.'
+                  content={projectData.appDesc}
                   fontType='light'
                   size='regular'
                 />

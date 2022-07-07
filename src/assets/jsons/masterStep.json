@@ -72,13 +72,13 @@
         "options": [
           {
             "id": 100301,
-            "title": "via Email",
+            "title": "Email & Password",
             "description": "Allow users to sign-up or sign-in to your platform using their email",
             "estDevTime": 2
           },
           {
             "id": 100302,
-            "title": "via Phone",
+            "title": "Phone Number",
             "description": "Allow users to sign-up or sign-in to your platform using their phone",
             "estDevTime": 2
           },
@@ -102,7 +102,7 @@
           },
           {
             "id": 100306,
-            "title": "Username",
+            "title": "Username & Password",
             "description": "Allow users to create their unique username",
             "estDevTime": 2
           },
@@ -114,13 +114,13 @@
           },
           {
             "id": 100308,
-            "title": "Password",
+            "title": "Generate Password",
             "description": "Generate strong password that adheres to the platform's requirement",
             "estDevTime": 2
           },
           {
             "id": 100309,
-            "title": "Password reset",
+            "title": "Password Reset",
             "description": "Allow users to recover their password in case they forget",
             "estDevTime": 2
           },
@@ -132,8 +132,8 @@
           },
           {
             "id": 1003011,
-            "title": "Country selection drop-down list",
-            "description": "Allow users to select their country",
+            "title": "Country Selection",
+            "description": "Allow users to select their country from a list.",
             "estDevTime": 2
           },
           {
