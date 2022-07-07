@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import ReactFlow, { addEdge, applyEdgeChanges } from 'react-flow-renderer'
+import ReactFlow, { applyEdgeChanges } from 'react-flow-renderer'
 import './index.css'
-import {
-  Slider,
-  SliderFeatureSelector,
-  Spacer,
-  SubTitle,
-  Title
-} from '../../components/global'
+import { Slider, Spacer, SubTitle, Title } from '../../components/global'
 import {
   FeatureSelector,
   FlowToolbox,
@@ -18,7 +12,6 @@ import { DropDown } from '../../components/form'
 import { extractFeaturesAsIs } from '../../misc/featureExtractor'
 import { useDispatch, useSelector } from 'react-redux'
 import { RoadmapActions } from '../../data/actions/roadmapActions'
-import { getRandomInteger } from '../../misc/logics'
 import { Constants } from '../../data/constants'
 
 export default ({}) => {
@@ -152,7 +145,12 @@ export default ({}) => {
             currentNodes={mvpScreens}
           />
         </div>
-        <div className='col flow_container'>
+        <div
+          className='col flow_container'
+          style={{
+            position: 'relative'
+          }}
+        >
           {mvpScreens?.length <= 0 && (
             <Title
               size='large'
@@ -161,8 +159,7 @@ export default ({}) => {
               content='Add screens to start building the roadmap'
               style={{
                 position: 'absolute',
-                marginTop: '20px',
-                marginLeft: '15px',
+                top: '10px',
                 color: 'var(--bs-gray-500)'
               }}
             />
@@ -179,7 +176,6 @@ export default ({}) => {
               stroke: 'blue',
               strokeWidth: '2px'
             }}
-            zoomOnScroll={false}
             defaultEdgeOptions={{
               animated: true,
               style: {
@@ -188,6 +184,33 @@ export default ({}) => {
               }
             }}
           />
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '50px'
+            }}
+          >
+            <SubTitle
+              size='small'
+              theme='dark'
+              fontType='light'
+              content='• Scroll or pinch to zoom'
+              className={'margin_xs'}
+              style={{
+                color: 'var(--bs-gray-700)'
+              }}
+            />
+            <SubTitle
+              size='small'
+              theme='dark'
+              fontType='light'
+              className={'margin_xs'}
+              content='• Click and hold on any empty gray space to drag the canvas.'
+              style={{
+                color: 'var(--bs-gray-700)'
+              }}
+            />
+          </div>
           {/* <FlowToolbox/> */}
         </div>
       </div>
