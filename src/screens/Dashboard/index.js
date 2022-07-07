@@ -14,7 +14,7 @@ const DashboardScreen = ({}) => {
 
   useEffect(() => {
     // console.log('Current project:', projectData)
-    console.log('Feature deets:', getEstimations())
+    // console.log('Feature deets:', getEstimations())
   }, [])
 
   function getEstimations () {
@@ -92,6 +92,7 @@ export default DashboardScreen
 
 const DashboardDetail = ({}) => {
   const [selectItem, setSelectedItem] = useState(188)
+  // console.log('Selec:', selectItem)
   const dummyData = [
     {
       id: 188,

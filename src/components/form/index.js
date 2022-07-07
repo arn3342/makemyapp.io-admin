@@ -454,7 +454,7 @@ export const ExtendedButton = ({
   theme,
   cardProps,
   extraLabel,
-  onClick,
+  onClick = () => {},
   className
 }) => {
   // const [selected, setSelected] = useState(isSelected)
@@ -517,7 +517,7 @@ export const ExtendedButton = ({
 
   const Button_Compact = () => {
     return (
-      <div className={className} onClick={() => onClick()}>
+      <div className={className} onClick={onClick}>
         <Card
           {...cardProps}
           theme={`${isSelected ? 'dark' : theme} `}

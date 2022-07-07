@@ -81,3 +81,14 @@ export const colorCodes = [
 export function randomColorSelector () {
   return colorCodes[(Math.random() * colorCodes.length) | 0]
 }
+
+/**
+ * Convert hours to weeks.
+ * @param {*} hours Total hours to be converted to week(s)
+ * @param {*} maxHrPerWeek Maximum hour(s) to be considered for a week. Defaults to `40` as full-time.
+ * @returns An `int` value representing the weeks count
+ */
+export function getWeeksFromHours (hours, maxHrPerWeek = 40) {
+  if (hours) return Math.round(hours / maxHrPerWeek)
+  return 0
+}

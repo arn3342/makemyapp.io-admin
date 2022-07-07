@@ -39,28 +39,6 @@
     ]
   },
   {
-    "id": 1212,
-    "title": "Choose Client Facing Interface type",
-    "description": "Describe the interface type of your application",
-    "options": [
-      {
-        "id": 1212001,
-        "title": "Single-Page App (Recommended",
-        "description": "dynamically rewriting the current web page with new data from the web server instead of loading"
-      },
-      {
-        "id": 1212002,
-        "title": "Multi-Page App",
-        "description": "Multi-page Application is a web application consisting of a large number of pages completely refreshed every time when data changes on them"
-      },
-      {
-        "id": 1212003,
-        "title": "Progressive Web App",
-        "description": "Progressive Web Apps combine many of the advantages of native apps and the Web"
-      }
-    ]
-  },
-  {
     "id": 1213,
     "title": "Choose Client Facing Interface features",
     "description": "Describe the details about features",

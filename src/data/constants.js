@@ -18,6 +18,10 @@ export const Constants = {
   ActivityStatus: ['Active', 'Pending Invite'],
   ApplicationFormats: ['Client App', 'Admin App', 'Super Admin App'],
   BuildPhases: ['MVP', 'V1'],
+  BuildPhase: {
+    MVP: 'MVP',
+    V1: 'V1'
+  },
   PlatformTypes: [
     { id: 0, title: 'Web' },
     { id: 1, title: 'Android' },

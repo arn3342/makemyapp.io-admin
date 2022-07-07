@@ -6,10 +6,12 @@ import { getNumberKMBT } from '../../misc/logics'
 import { DropDown } from '../../components/form'
 import { child, get, getDatabase, ref } from 'firebase/database'
 import { useSelector } from 'react-redux'
+import {getDevelopmentCost, getCostRateData} from '../../data/featureHelper'
 const CostScreen = () => {
   const [mvpPrice, setMvpPrice] = useState()
   const [v1Price, setV1Price] = useState()
   const firebaseApp = useSelector(state => state.firebaseApp.instance)
+  const userProfile = useSelector(state => state.user.profile)
   const [costData, setCostData] = useState([
     {
       currency: '',
@@ -20,37 +22,17 @@ const CostScreen = () => {
   ])
 
   useEffect(() => {
-    getCostRateData().then(result => setCostData(result))
+    getCostRateData(firebaseApp).then(result => setCostData(result))
   }, [])
 
   function handleRegionChange (type, stateIndex) {
     switch (type) {
       case 'mvp':
-        setMvpPrice(getCost(costData[stateIndex].rate))
+        setMvpPrice(getDevelopmentCost(costData[stateIndex].rate))
         return
       case 'v1':
-        setV1Price(getCost(costData[stateIndex].rate))
+        setV1Price(getDevelopmentCost(costData[stateIndex].rate))
         return
-    }
-  }
-
-  const getCostRateData = () => {
-    const database = getDatabase(firebaseApp)
-    return get(child(ref(database), `devRates/`)).then(result => {
-      if (result.exists()) {
-        const rateObj = result.val()
-        let rateList = []
-        Object.keys(rateObj).map(parent => {
-          rateList.push(rateObj[parent])
-        })
-        return rateList
-      }
-    })
-  }
-
-  function getCost (rate) {
-    if (rate > 0) {
-      return rate * 10
     }
   }
 
