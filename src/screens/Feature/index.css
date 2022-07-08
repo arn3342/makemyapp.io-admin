@@ -5,3 +5,7 @@
 .table_row:hover .market_clip{
     opacity: 1;
 }
+.row_disabled{
+    opacity: 0.6 !important;
+    pointer-events: none !important;
+}

@@ -40,11 +40,11 @@ table {
 th {
   user-select: none;
   padding: 10px 15px;
-  max-width: 300px;
+  max-width: 240px;
 }
 td {
   padding: 10px 15px;
-  max-width: 300px;
+  max-width: 240px;
 }
 table,
 tr {

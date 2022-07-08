@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Spacer, SubTitle, Title } from '../../components/global'
-import { FcCancel, FcCheckmark } from 'react-icons/fc'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { filterData, getRandomInteger } from '../../misc/logics'
 import {
-  DropDown,
   Input,
   SimpleChoiceList,
   Button
@@ -16,9 +14,11 @@ import './index.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { ProjectActions } from '../../data/actions/userActions'
 import { AssignButton } from './components'
+import {useNavigate } from 'react-router-dom'
 
 const FeatureScreen = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [featureList, setFeatureList] = useState()
   const [initFeatureList, setInitFeatureList] = useState()
   const [parentFeatureList, setParentFeatureList] = useState([])
@@ -52,7 +52,7 @@ const FeatureScreen = () => {
     )
   }
 
-  function updateFeature (featureId, phase) {
+  function updateFeature (featureId, phase, rowIndex) {
     const data = {
       action: isFeatureInPhase(featureId, phase) ? 'remove' : 'add',
       assignPhase: phase,
@@ -63,6 +63,10 @@ const FeatureScreen = () => {
       type: ProjectActions.PERFORM_FEATURE_CHANGE,
       data
     })
+  }
+
+  function navigateToMarketplace(featureId){
+    // navigate()
   }
 
   return (
@@ -100,17 +104,17 @@ const FeatureScreen = () => {
             <tr>
               <th>Feature</th>
               <th>Description</th>
-              <th>In MVP</th>
-              <th>In V1</th>
-              <th>Assign To</th>
-              <th>{`${featureList?.length} Results`}</th>
-              <th />
+              <th style={{textAlign: 'center'}}>In MVP</th>
+              <th style={{textAlign: 'center'}}>In V1</th>
+              <th>Code Marketplace</th>
+              {/* <th>{`${featureList?.length} Results`}</th> */}
+              {/* <th /> */}
             </tr>
           </thead>
           <tbody>
             {featureList?.map((feature, index) => {
               return (
-                <tr className='table_row' key={index}>
+                <tr className={`table_row`} key={index}>
                   <td>
                     <div>
                       <SubTitle
@@ -142,7 +146,9 @@ const FeatureScreen = () => {
                       </div>
                     </div>
                   </td>
-                  <td>
+                  <td style={{
+                    maxWidth: '220px'
+                  }}>
                     <SubTitle
                       content={feature.description}
                       className='margin_xs'
@@ -161,30 +167,6 @@ const FeatureScreen = () => {
                         className='font_link no_margin'
                       />
                     </div>
-                    <div
-                      className='d-flex market_clip'
-                      style={{
-                        alignItems: 'center'
-                      }}
-                    >
-                      <FcShop
-                        size={18}
-                        style={{
-                          marginRight: 5
-                        }}
-                      />
-                      <SubTitle
-                        content={`${getRandomInteger(2, 20) -
-                          1}+ snippets available in Marketplace.`}
-                        fontType='bold'
-                        className='link_dashed font_xs no_margin'
-                        style={{
-                          maxWidth: 'max-content'
-                        }}
-                        link
-                        // onLinkClick={}
-                      />
-                    </div>
                   </td>
                   <td>
                     <AssignButton
@@ -193,7 +175,7 @@ const FeatureScreen = () => {
                         Constants.BuildPhase.MVP
                       )}
                       onClick={() =>
-                        updateFeature(feature.id, Constants.BuildPhase.MVP)
+                        updateFeature(feature.id, Constants.BuildPhase.MVP, index)
                       }
                     />
                   </td>
@@ -209,22 +191,31 @@ const FeatureScreen = () => {
                     />
                   </td>
                   <td>
-                    <DropDown
-                      options={Constants.BuildPhases}
-                      placeholder='Assign to...'
-                    />
+                    <div style={{
+                      maxWidth: '220px'
+                    }}>
+                      <SubTitle
+                        content={`${getRandomInteger(2, 20) -
+                          1}+ Snippets Available`}
+                        fontType='bold'
+                        className='font_xs margin_xs'
+                        style={{
+                          maxWidth: 'max-content'
+                        }}
+                        // onLinkClick={}
+                      />
+                      <Button
+                        label='Browse Marketplace'
+                        theme='dark'
+                        animateScale
+                        hasShadow
+                        isExtraSmall
+                        canBeBusy
+                        className='small_button'
+                        onClick={() => navigateToMarketplace(feature.id)}
+                      />
+                    </div>
                   </td>
-                  <td>
-                    <Button
-                      label='Approve'
-                      theme='dark'
-                      animateScale
-                      hasShadow
-                      isExtraSmall
-                      canBeBusy
-                    />
-                  </td>
-                  <td />
                 </tr>
               )
             })}

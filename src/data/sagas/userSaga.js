@@ -197,8 +197,6 @@ function * performUpdatePhaseFeature (payload) {
     child(ref(database), `users/${userId}/projects/0`),
     updatedProject
   )
-  // console.log('Featur list now:', features)
-  // console.log('Updated proj :', updatedProject)
   yield put(setProjectData(updatedProject))
 }
 

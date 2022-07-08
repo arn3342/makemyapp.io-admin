@@ -4,8 +4,8 @@ import './index.css'
 
 export const AssignButton = ({ assigned = false, onClick = () => {} }) => {
   return (
-    <div className='assign_btn_container tool_tip' onClick={onClick}>
-      <div className='assign_btn'>
+    <div className='assign_btn_container' onClick={onClick}>
+      <div className='assign_btn tool_tip'>
         {assigned ? <FcCheckmark size={20} /> : <FcCancel size={20} />}
         <span className="tooltiptext">Click to {assigned ? 'Un-Assign' : 'Assign'}</span>
       </div>

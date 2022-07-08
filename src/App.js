@@ -1,6 +1,6 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.css'
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import './components/global/global.css'
 import Logo from './logo-trans.png'
 import { Spacer } from './components/global'
@@ -12,9 +12,7 @@ import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { Constants } from './data/constants'
 import { FirebaseActions } from './data/actions'
-import { initializeApp } from 'firebase/app'
-import { AuthActions, ProfileActions } from './data/actions/userActions'
-import { StorageHelper } from './data/storage'
+import { AuthActions } from './data/actions/userActions'
 
 function App () {
   //#region Setting site metadata
