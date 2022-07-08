@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Spacer, SubTitle, Title } from '../../components/global'
-import FeatureList from '../../assets/jsons/masterStep.json'
 import { FcCancel, FcCheckmark } from 'react-icons/fc'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { filterData, getRandomInteger } from '../../misc/logics'
@@ -14,11 +13,14 @@ import { extractFeatures } from '../../misc/featureExtractor'
 import { Constants } from '../../data/constants'
 import { FcShop } from 'react-icons/fc'
 import './index.css'
+import { useSelector } from 'react-redux'
 
 const FeatureScreen = () => {
   const [featureList, setFeatureList] = useState()
   const [initFeatureList, setInitFeatureList] = useState()
   const [parentFeatureList, setParentFeatureList] = useState([])
+  const currentProject = useSelector(state => state.user.profile.projects[0])
+
   useEffect(() => {
     const features = extractFeatures()
     setParentFeatureList(features.parentFeatures)
@@ -39,6 +41,12 @@ const FeatureScreen = () => {
         ? initFeatureList.filter(x => categoryIDs.some(id => x.parent.id == id))
         : initFeatureList
     setFeatureList(filteredFeatures)
+  }
+
+  const isFeatureInPhase = (featureId, phase) => {
+    return currentProject.buildPhases[phase.toLowerCase()].features?.some(
+      id => id == featureId
+    )
   }
 
   return (
@@ -137,17 +145,21 @@ const FeatureScreen = () => {
                         className='font_link no_margin'
                       />
                     </div>
-                    <div className='d-flex market_clip' style={{
-                      alignItems: 'center'
-                    }}>
-                      <FcShop size={18} style={{
-                        marginRight: 5
-                      }}/>
+                    <div
+                      className='d-flex market_clip'
+                      style={{
+                        alignItems: 'center'
+                      }}
+                    >
+                      <FcShop
+                        size={18}
+                        style={{
+                          marginRight: 5
+                        }}
+                      />
                       <SubTitle
-                        content={`${getRandomInteger(
-                          2,
-                          20
-                        ) - 1}+ snippets available in Marketplace.`}
+                        content={`${getRandomInteger(2, 20) -
+                          1}+ snippets available in Marketplace.`}
                         fontType='bold'
                         className='link_dashed font_xs no_margin'
                         style={{
@@ -159,10 +171,20 @@ const FeatureScreen = () => {
                     </div>
                   </td>
                   <td>
-                    <FcCancel size={20} />
+                    {isFeatureInPhase(feature.id, Constants.BuildPhase.MVP) ? (
+                      <FcCheckmark size={20} />
+                    ) : (
+                      <FcCancel size={20} />
+                    )}
+                    {/* <FcCancel size={20} /> */}
                   </td>
                   <td>
-                    <FcCheckmark size={20} />
+                    {/* <FcCheckmark size={20} /> */}
+                    {isFeatureInPhase(feature.id, Constants.BuildPhase.V1) ? (
+                      <FcCheckmark size={20} />
+                    ) : (
+                      <FcCancel size={20} />
+                    )}
                   </td>
                   <td>
                     <DropDown
@@ -180,6 +202,7 @@ const FeatureScreen = () => {
                       canBeBusy
                     />
                   </td>
+                  <td/>
                 </tr>
               )
             })}

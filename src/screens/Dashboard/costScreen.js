@@ -6,12 +6,18 @@ import { getNumberKMBT } from '../../misc/logics'
 import { DropDown } from '../../components/form'
 import { child, get, getDatabase, ref } from 'firebase/database'
 import { useSelector } from 'react-redux'
-import {getDevelopmentCost, getCostRateData} from '../../data/featureHelper'
+import { getDevelopmentCost, getCostRateData } from '../../data/featureHelper'
+import { extractFeature } from '../../misc/featureExtractor'
 const CostScreen = () => {
   const [mvpPrice, setMvpPrice] = useState()
   const [v1Price, setV1Price] = useState()
   const firebaseApp = useSelector(state => state.firebaseApp.instance)
+  const currentProject = useSelector(state => state.user.profile.projects[0])
   const userProfile = useSelector(state => state.user.profile)
+  const [timeData, setTimeData] = useState({
+    mvpTime: 0,
+    v1Time: 0
+  })
   const [costData, setCostData] = useState([
     {
       currency: '',
@@ -23,15 +29,42 @@ const CostScreen = () => {
 
   useEffect(() => {
     getCostRateData(firebaseApp).then(result => setCostData(result))
+
+    let mvpFeatureIDs = currentProject.buildPhases.mvp.features
+    let v1FeatureIDs = currentProject.buildPhases.v1?.features
+
+    const mvpFeatures = mvpFeatureIDs?.map(id => {
+      return extractFeature(id)
+    })
+    const v1Features = v1FeatureIDs?.map(id => {
+      return extractFeature(id)
+    })
+
+    setTimeData({
+      mvpTime: mvpFeatures?.reduce((a, b) => {
+        return a + b.estDevTime
+      }, 0),
+      v1Time: v1Features?.reduce((a, b) => {
+        return a + b.estDevTime
+      }, 0)
+    })
   }, [])
+
+  useEffect(() => {
+   console.log('Time data for cost is:', timeData) 
+  })
 
   function handleRegionChange (type, stateIndex) {
     switch (type) {
       case 'mvp':
-        setMvpPrice(getDevelopmentCost(costData[stateIndex].rate))
+        setMvpPrice(
+          getDevelopmentCost(costData[stateIndex].rate, timeData.mvpTime)
+        )
         return
       case 'v1':
-        setV1Price(getDevelopmentCost(costData[stateIndex].rate))
+        setV1Price(
+          getDevelopmentCost(costData[stateIndex].rate, timeData.v1Time)
+        )
         return
     }
   }

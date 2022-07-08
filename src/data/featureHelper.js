@@ -16,10 +16,11 @@ export async function getCostRateData (firebaseInstance) {
     }
   })
 }
-export function getDevelopmentCost (rate) {
-  if (rate > 0) {
-    return rate * 10
+export function getDevelopmentCost (rate, totalHrs) {
+  if (rate > 0 && totalHrs > 0) {
+    return Math.round(rate * totalHrs)
   }
+  return 0
 }
 /**
  *
