@@ -2,19 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { Spacer, SubTitle, Title } from '../../components/global'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { filterData, getRandomInteger } from '../../misc/logics'
-import {
-  Input,
-  SimpleChoiceList,
-  Button
-} from '../../components/form'
+import { Input, SimpleChoiceList, Button } from '../../components/form'
 import { extractFeatures } from '../../misc/featureExtractor'
 import { Constants } from '../../data/constants'
-import { FcShop } from 'react-icons/fc'
-import './index.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { ProjectActions } from '../../data/actions/userActions'
 import { AssignButton } from './components'
-import {useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { SiteRoutes } from '../../misc/routes'
+import './index.css'
 
 const FeatureScreen = () => {
   const dispatch = useDispatch()
@@ -65,8 +61,10 @@ const FeatureScreen = () => {
     })
   }
 
-  function navigateToMarketplace(featureId){
-    // navigate()
+  function navigateToMarketplace (featureId) {
+    navigate(SiteRoutes.Engine.Resources.Screens().Marketplace.path, {
+      state: { featureId }
+    })
   }
 
   return (
@@ -104,8 +102,8 @@ const FeatureScreen = () => {
             <tr>
               <th>Feature</th>
               <th>Description</th>
-              <th style={{textAlign: 'center'}}>In MVP</th>
-              <th style={{textAlign: 'center'}}>In V1</th>
+              <th style={{ textAlign: 'center' }}>In MVP</th>
+              <th style={{ textAlign: 'center' }}>In V1</th>
               <th>Code Marketplace</th>
               {/* <th>{`${featureList?.length} Results`}</th> */}
               {/* <th /> */}
@@ -146,9 +144,11 @@ const FeatureScreen = () => {
                       </div>
                     </div>
                   </td>
-                  <td style={{
-                    maxWidth: '220px'
-                  }}>
+                  <td
+                    style={{
+                      maxWidth: '220px'
+                    }}
+                  >
                     <SubTitle
                       content={feature.description}
                       className='margin_xs'
@@ -175,7 +175,11 @@ const FeatureScreen = () => {
                         Constants.BuildPhase.MVP
                       )}
                       onClick={() =>
-                        updateFeature(feature.id, Constants.BuildPhase.MVP, index)
+                        updateFeature(
+                          feature.id,
+                          Constants.BuildPhase.MVP,
+                          index
+                        )
                       }
                     />
                   </td>
@@ -191,9 +195,11 @@ const FeatureScreen = () => {
                     />
                   </td>
                   <td>
-                    <div style={{
-                      maxWidth: '220px'
-                    }}>
+                    <div
+                      style={{
+                        maxWidth: '220px'
+                      }}
+                    >
                       <SubTitle
                         content={`${getRandomInteger(2, 20) -
                           1}+ Snippets Available`}

@@ -51,13 +51,15 @@ function * performSignUp (payload) {
       const database = yield call(getDatabase, firebaseApp)
       try {
         const profileRef = ref(database, 'users/' + signup.user.uid)
-        yield call(set, profileRef, {
+        const profileData = {
           email: data.email,
           firstName: 'Your',
           lastName: 'Name',
           userId: signup.user.uid,
           projects: data.projects
-        })
+        }
+        console.log('Profile:', profileData)
+        yield call(set, profileRef, profileData)
         const profileResult = yield call(
           get,
           child(ref(database), 'users/' + signup.user.uid)
@@ -190,7 +192,7 @@ function * performUpdatePhaseFeature (payload) {
   }
   let updatedProject = { ...currentProject }
   updatedProject.buildPhases[assignPhase?.toLowerCase()].features = features
-  
+
   const database = yield call(getDatabase, firebaseApp)
   yield call(
     update,
