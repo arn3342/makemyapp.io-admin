@@ -14,7 +14,6 @@ import {
   ref,
   getDatabase,
   set,
-  push,
   update,
   get,
   child
@@ -23,9 +22,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  getIdToken,
-  signInWithCustomToken
-} from 'firebase/auth'
+  getIdToken} from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
 import { StorageHelper } from '../storage'
 import { Constants } from '../constants'
@@ -80,7 +77,6 @@ function * performSignUp (payload) {
 function * performSignIn (payload) {
   const { data } = payload
   const firebaseApp = yield select(state => state.firebaseApp.instance)
-  const userProfile = yield select(state => state.user.profile)
   const auth = getAuth(firebaseApp)
   try {
     const signIn = yield call(
@@ -157,7 +153,7 @@ function * performProfileUpdate (payload) {
   const firebaseApp = yield select(state => state.firebaseApp.instance)
   try {
     const database = yield call(getDatabase, firebaseApp)
-    const updatedProfile = yield call(
+    yield call(
       update,
       child(ref(database), `users/${userId}`),
       data

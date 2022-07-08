@@ -13,7 +13,6 @@ import { useEffect } from 'react'
 import { Constants } from './data/constants'
 import { FirebaseActions } from './data/actions'
 import { AuthActions } from './data/actions/userActions'
-import { StorageHelper } from './data/storage'
 
 function App () {
   //#region Setting site metadata

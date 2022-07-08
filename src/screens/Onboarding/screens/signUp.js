@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Spacer, SubTitle, Title } from '../../../components/global'
 import '../components/index.css'
 import { Button, Input } from '../../../components/form'
-import { faArrowRight, faL } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
-import { AuthActions, ProfileActions } from '../../../data/actions/userActions'
+import { AuthActions } from '../../../data/actions/userActions'
 import { SignInBanner } from '../components'
 import { Formik } from 'formik'
 import { StringHelper } from '../../../data/extensions/stringHelper'
-import { useList } from 'react-firebase-hooks/database'
-import { ref, getDatabase, set, push, update } from 'firebase/database'
-import { initializeApp } from 'firebase/app'
-import { FirebaseActions } from '../../../data/actions'
 
 export default ({ onSwitchRequest = () => {}, projectMetaData }) => {
   const [submitting, setSubmitting] = useState(false)
