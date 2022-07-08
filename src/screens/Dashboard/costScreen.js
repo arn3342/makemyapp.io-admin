@@ -50,10 +50,6 @@ const CostScreen = () => {
     })
   }, [])
 
-  useEffect(() => {
-   console.log('Time data for cost is:', timeData) 
-  })
-
   function handleRegionChange (type, stateIndex) {
     switch (type) {
       case 'mvp':

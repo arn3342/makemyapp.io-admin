@@ -15,3 +15,8 @@ export const AuthActions = {
   PERFORM_SIGNIN: 'user/signin',
   PERFORM_SIGNIN_LOCAL: 'user/signin/local'
 }
+
+export const ProjectActions = {
+  PERFORM_FEATURE_CHANGE: 'project/current/feature/modify',
+  SET_PROJECT: 'project/current/set'
+}

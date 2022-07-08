@@ -13,9 +13,12 @@ import { extractFeatures } from '../../misc/featureExtractor'
 import { Constants } from '../../data/constants'
 import { FcShop } from 'react-icons/fc'
 import './index.css'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { ProjectActions } from '../../data/actions/userActions'
+import { AssignButton } from './components'
 
 const FeatureScreen = () => {
+  const dispatch = useDispatch()
   const [featureList, setFeatureList] = useState()
   const [initFeatureList, setInitFeatureList] = useState()
   const [parentFeatureList, setParentFeatureList] = useState([])
@@ -47,6 +50,19 @@ const FeatureScreen = () => {
     return currentProject.buildPhases[phase.toLowerCase()].features?.some(
       id => id == featureId
     )
+  }
+
+  function updateFeature (featureId, phase) {
+    const data = {
+      action: isFeatureInPhase(featureId, phase) ? 'remove' : 'add',
+      assignPhase: phase,
+      featureId
+    }
+
+    dispatch({
+      type: ProjectActions.PERFORM_FEATURE_CHANGE,
+      data
+    })
   }
 
   return (
@@ -171,20 +187,26 @@ const FeatureScreen = () => {
                     </div>
                   </td>
                   <td>
-                    {isFeatureInPhase(feature.id, Constants.BuildPhase.MVP) ? (
-                      <FcCheckmark size={20} />
-                    ) : (
-                      <FcCancel size={20} />
-                    )}
-                    {/* <FcCancel size={20} /> */}
+                    <AssignButton
+                      assigned={isFeatureInPhase(
+                        feature.id,
+                        Constants.BuildPhase.MVP
+                      )}
+                      onClick={() =>
+                        updateFeature(feature.id, Constants.BuildPhase.MVP)
+                      }
+                    />
                   </td>
                   <td>
-                    {/* <FcCheckmark size={20} /> */}
-                    {isFeatureInPhase(feature.id, Constants.BuildPhase.V1) ? (
-                      <FcCheckmark size={20} />
-                    ) : (
-                      <FcCancel size={20} />
-                    )}
+                    <AssignButton
+                      assigned={isFeatureInPhase(
+                        feature.id,
+                        Constants.BuildPhase.V1
+                      )}
+                      onClick={() =>
+                        updateFeature(feature.id, Constants.BuildPhase.V1)
+                      }
+                    />
                   </td>
                   <td>
                     <DropDown
@@ -202,7 +224,7 @@ const FeatureScreen = () => {
                       canBeBusy
                     />
                   </td>
-                  <td/>
+                  <td />
                 </tr>
               )
             })}

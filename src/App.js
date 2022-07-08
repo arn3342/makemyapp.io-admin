@@ -51,7 +51,7 @@ function ScreenRenderer () {
       navigate(SiteRoutes.Engine.Dashboard.path, true)
     }
     // console.log('Routes:', routes.Engine)
-  }, [userState.profile])
+  }, [userState.profile?.userId])
 
   useEffect(() => {
     dispatch({

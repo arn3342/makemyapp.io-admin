@@ -1,4 +1,4 @@
-import { ProfileActions } from '../actions/userActions'
+import { ProfileActions, ProjectActions } from '../actions/userActions'
 import { Constants } from '../constants'
 
 export const setTeamData = data => ({
@@ -13,6 +13,11 @@ export const getTeamData = data => ({
 
 export const setProfile = data => ({
   type: ProfileActions.SET_PROFILE,
+  data
+})
+
+export const setProjectData = data => ({
+  type: ProjectActions.SET_PROJECT,
   data
 })
 
@@ -52,9 +57,11 @@ export default (state = initialState, action) => {
     case ProfileActions.SET_PROFILE:
       profile = data
       return { ...state, profile } || state
-    // case ProfileActions.UPDATE_PROFILE:
-    //   profile = data
-    //   return { ...state, profile } || state
+
+    case ProjectActions.SET_PROJECT:
+      // console.log('Updated project is:', {...state.profile.projects[0], ...data})
+      profile.projects[0] = {...data}
+      return { ...state, profile } || state
 
     case ProfileActions.SET_LOADING_STATE:
       let loadingState = data

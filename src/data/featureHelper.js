@@ -27,9 +27,9 @@ export function getDevelopmentCost (rate, totalHrs) {
  * @param {*} feature The feature
  * @param {Constants.BuildPhase} buildPhase
  */
-export function addFeatureToPhase (feature, buildPhase) {
-  switch (buildPhase) {
-    case Constants.BuildPhase.MVP:
-      break
-  }
-}
+// export function addFeatureToPhase (feature, buildPhase) {
+//   switch (buildPhase) {
+//     case Constants.BuildPhase.MVP:
+//       break
+//   }
+// }

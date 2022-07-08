@@ -1,8 +1,13 @@
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
-import { ProfileActions, AuthActions } from '../actions/userActions'
+import {
+  ProfileActions,
+  AuthActions,
+  ProjectActions
+} from '../actions/userActions'
 import {
   setLoadingState,
   setProfile,
+  setProjectData,
   setTeamData
 } from '../reducers/userReducer'
 import {
@@ -165,10 +170,47 @@ function * performProfileUpdate (payload) {
   }
 }
 
+function * performUpdatePhaseFeature (payload) {
+  const { data } = payload
+  const { assignPhase, featureId, action } = data
+  const firebaseApp = yield select(state => state.firebaseApp.instance)
+  const { userId } = yield select(state => state.user.profile)
+  const currentProject = yield select(state => state.user.profile.projects[0])
+
+  let features = [
+    ...currentProject.buildPhases[assignPhase?.toLowerCase()].features
+  ]
+  switch (action) {
+    case 'add':
+      !features.some(id => id == featureId) && features.push(featureId)
+      break
+    case 'remove':
+      features = features.filter(id => id != featureId)
+      break
+  }
+  let updatedProject = { ...currentProject }
+  updatedProject.buildPhases[assignPhase?.toLowerCase()].features = features
+  
+  const database = yield call(getDatabase, firebaseApp)
+  yield call(
+    update,
+    child(ref(database), `users/${userId}/projects/0`),
+    updatedProject
+  )
+  // console.log('Featur list now:', features)
+  // console.log('Updated proj :', updatedProject)
+  yield put(setProjectData(updatedProject))
+}
+
 export default function * userSaga () {
   yield takeEvery(ProfileActions.GET_TEAM, performGetTeam)
   yield takeLatest(AuthActions.PERFORM_SIGNUP, performSignUp)
   yield takeLatest(AuthActions.PERFORM_SIGNIN, performSignIn)
   yield takeLatest(AuthActions.PERFORM_SIGNIN_LOCAL, performLocalSignIn)
   yield takeEvery(ProfileActions.UPDATE_PROFILE, performProfileUpdate)
+
+  yield takeEvery(
+    ProjectActions.PERFORM_FEATURE_CHANGE,
+    performUpdatePhaseFeature
+  )
 }

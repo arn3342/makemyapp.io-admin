@@ -1,0 +1,13 @@
+@import url('../../../components/global/global.css');
+.assign_btn_container{
+    justify-content: center;
+    display: flex;
+}
+.assign_btn{
+    background: #fff;
+    padding: 5px;
+    padding-bottom: 7px;
+    border: 1px solid var(--blueLight);
+    cursor: pointer;
+    border-radius: var(--radius);
+}
