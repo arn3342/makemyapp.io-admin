@@ -198,11 +198,17 @@ function * performUpdatePhaseFeature (payload) {
   yield put(setProjectData(updatedProject))
 }
 
+function * performSignOut(){
+  yield call(StorageHelper.Remove, 'auth')
+  yield put(setProfile())
+}
+
 export default function * userSaga () {
   yield takeEvery(ProfileActions.GET_TEAM, performGetTeam)
   yield takeLatest(AuthActions.PERFORM_SIGNUP, performSignUp)
   yield takeLatest(AuthActions.PERFORM_SIGNIN, performSignIn)
   yield takeLatest(AuthActions.PERFORM_SIGNIN_LOCAL, performLocalSignIn)
+  yield takeLatest(AuthActions.PERFORM_SIGNOUT, performSignOut)
   yield takeEvery(ProfileActions.UPDATE_PROFILE, performProfileUpdate)
 
   yield takeEvery(

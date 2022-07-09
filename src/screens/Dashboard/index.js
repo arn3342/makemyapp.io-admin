@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Card, Spacer, SubTitle, Title } from '../../components/global'
 import { ExtendedButton } from '../../components/form'
 import { Player } from '@lottiefiles/react-lottie-player'
@@ -7,23 +7,16 @@ import IconParser from '../../misc/iconParser'
 import { ScreenSelector } from './components'
 import { getRandomInteger } from '../../misc/logics'
 import { useSelector } from 'react-redux'
-import { extractFeature } from '../../misc/featureExtractor'
 
 const DashboardScreen = ({}) => {
   const projectData = useSelector(state => state.user.profile.projects[0])
 
-  useEffect(() => {
-    // console.log('Current project:', projectData)
-    // console.log('Feature deets:', getEstimations())
-  }, [])
+  // useEffect(() => {
+  //   console.log('Current project:', projectData)
+  //   console.log('Feature deets:', getEstimations())
+  //   console.log(projectData)
+  // }, [])
 
-  function getEstimations () {
-    let devTime = 0
-    projectData.features?.map(featureId => {
-      devTime += extractFeature(featureId).estDevTime
-    })
-    return devTime
-  }
   return (
     <div className='container'>
       <Spacer size='large' />
@@ -67,9 +60,14 @@ const DashboardScreen = ({}) => {
             />
             <div className='row'>
               <Spacer />
-              <div className='col col-sm-2 icon_regular'>
-                <IconParser itemId={1212} />
-              </div>
+              {projectData.platformTypes?.map(platform => {
+                return (
+                  <div className='col col-sm-2 icon_regular'>
+                    <IconParser itemId={platform} />
+                  </div>
+                )
+              })}
+              {/* 
               <Spacer />
               <div className='col col-sm-2 icon_regular'>
                 <IconParser itemId={1511} />
@@ -77,7 +75,7 @@ const DashboardScreen = ({}) => {
               <Spacer />
               <div className='col col-sm-2 icon_regular'>
                 <IconParser itemId={1211} />
-              </div>
+              </div> */}
             </div>
           </Card>
         </div>

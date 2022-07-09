@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import IconParser from '../../misc/iconParser'
-import {
-  colorCodes,
-  getRandomInteger,
-  randomColorSelector
-} from '../../misc/logics'
+import { colorCodes } from '../../misc/logics'
 import { Spacer, SubTitle } from '../global'
 import './index.css'
-import Dummy from '../../data/dummyGenerator'
-import { DropDown } from '../form'
+import { Button, DropDown } from '../form'
 import { Constants } from '../../data/constants'
+import './index.css'
+import { useSelector } from 'react-redux'
+import { FaArrowDown } from 'react-icons/fa'
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
 const MenuItem = ({
   id,
@@ -45,7 +44,7 @@ const MenuItem = ({
   )
 }
 
-export const Menu = ({ data }) => {
+export const Menu = ({ data, onRequestLogOut = () => {} }) => {
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -59,16 +58,20 @@ export const Menu = ({ data }) => {
 
   return (
     <div className='menu_container'>
-      <div style={{
-        paddingLeft: '10px'
-      }}>
+      <div
+        style={{
+          paddingLeft: '10px'
+        }}
+      >
         <DropDown
           options={Constants.ApplicationFormats}
           isExtraSmall
           theme='dark'
         />
-        <Spacer size={'medium'}/>
+        <Spacer size={'medium'} />
       </div>
+      <ProfileMenu onRequestLogOut={onRequestLogOut}/>
+      <Spacer size={'medium'} />
       {data?.map(menuItem => {
         if (!menuItem.screens && !menuItem.ignoreRendering) {
           return (
@@ -110,7 +113,73 @@ export const Menu = ({ data }) => {
   )
 }
 
-export const MenuProfileBox = ({ selected, profile, id, onClick }) => {
+const ProfileMenu = ({onRequestLogOut}) => {
+  const userProfile = useSelector(state => state.user.profile)
+  const [isExpanded, setExpanded] = useState(false)
+  const containerRef = useRef()
+  function getProfileInitials (){
+    if(userProfile.firstName === 'Your' && userProfile.lastName === 'Name'){
+      return userProfile.email.charAt(0).toUpperCase()
+    } else {
+      return userProfile.firstName.charAt(0).toUpperCase()
+    }
+  }
+  useEffect(() => {
+    containerRef.current.focus();
+  }, [isExpanded])
+  return (
+    <div className={`menu_item_profile ${isExpanded && 'no_rad_bottom'}`}>
+      <div className='profile_container_main'>
+        <SubTitle
+          className='font_xs margin_xs'
+          content='Profile'
+          fontType='bold'
+        />
+        <div className='profile_name_container'>
+          <SubTitle
+            className='profile_img no_margin'
+            content={<>{getProfileInitials()}</>}
+          />
+          <Spacer size='small' />
+          <SubTitle
+            size='small'
+            className='no_margin'
+            content={`${userProfile.firstName} ${userProfile.lastName}`}
+            fontType='bold'
+          />
+          <div className='arrow_container' onClick={() => setExpanded(!isExpanded)}>
+            <MdOutlineKeyboardArrowDown size={20} className={`arrow ${isExpanded && 'arrow_up'}`} />
+          </div>
+        </div>
+      </div>
+      <div
+        className={`item_container ${!isExpanded && 'item_container_hidden'}`}
+        tabIndex={0}
+        onBlur={() => setExpanded(false)}
+        ref={containerRef}
+      >
+        <div className='item'>
+          <SubTitle
+            size='small'
+            className='no_margin'
+            content='Go To Profile'
+            fontType='bold'
+          />
+        </div>
+        <div className='item' onClick={onRequestLogOut}> 
+          <SubTitle
+            size='small'
+            className='no_margin'
+            content='Log Out'
+            fontType='bold'
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const MenuProfileBox = ({ selected, profile, onClick }) => {
   return (
     <div>
       <div

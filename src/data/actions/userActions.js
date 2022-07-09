@@ -7,13 +7,14 @@ export const ProfileActions = {
   UPDATE_PROFILE: 'profile/update',
   GET_PROFILE: 'profile',
   SET_PROFILE: 'profile/set',
-  SET_LOADING_STATE: 'profile/loading/set',
+  SET_LOADING_STATE: 'profile/loading/set'
 }
 
 export const AuthActions = {
   PERFORM_SIGNUP: 'user/signup',
   PERFORM_SIGNIN: 'user/signin',
-  PERFORM_SIGNIN_LOCAL: 'user/signin/local'
+  PERFORM_SIGNIN_LOCAL: 'user/signin/local',
+  PERFORM_SIGNOUT: 'user/signout'
 }
 
 export const ProjectActions = {

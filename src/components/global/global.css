@@ -18,6 +18,7 @@
   --shadow: -1px 1px 17px -1px rgb(0 110 255 / 14%);
   --shadowDark: -1px 7px 17px -4px rgba(0, 110, 255, 0.127);
   --darkTheme: #0d1d36;
+  --darkThemeLight: #2659ac;
   --darkBlue: #6565fe;
   --fontGradient: -webkit-linear-gradient(
     120deg,
