@@ -104,6 +104,7 @@ function * performSignIn (payload) {
   } catch (ex) {
     let error = new FirebaseError()
     error = { ...ex }
+    yield call(StorageHelper.Remove, 'auth')
     console.log('Error is:', ex)
   }
 }
