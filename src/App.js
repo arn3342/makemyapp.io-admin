@@ -127,17 +127,20 @@ const ProfileScreen = ({ onHideRequest = () => {} }) => {
           validateOnChange={false}
           onSubmit={(values, { setSubmitting }) => {
             if (StringHelper.isEmpty(values.errMessage)) {
+              setSubmitting(true)
               console.log('Should try updating profile now...')
               const val = {...values}
               delete val.errMessage
               performUpdate(val)
+              setTimeout(() => {
+                setSubmitting(false)
+              }, 1200)
             }
           }}
         >
           {({
             values,
             handleChange,
-            handleBlur,
             handleSubmit,
             isSubmitting,
             errors
@@ -175,6 +178,7 @@ const ProfileScreen = ({ onHideRequest = () => {} }) => {
                     values.lastName === userProfile.lastName
                   }
                   onClick={handleSubmit}
+                  isBusy={isSubmitting}
                 />
               </div>
               <Spacer size={'medium'} />
