@@ -41,6 +41,7 @@ const LogOutScreen = ({ onHideRequest = () => {} }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   function performLogOut () {
+    onHideRequest();
     setTimeout(() => {
       dispatch({
         type: AuthActions.PERFORM_SIGNOUT
