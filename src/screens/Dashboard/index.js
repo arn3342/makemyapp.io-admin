@@ -67,15 +67,6 @@ const DashboardScreen = ({}) => {
                   </div>
                 )
               })}
-              {/* 
-              <Spacer />
-              <div className='col col-sm-2 icon_regular'>
-                <IconParser itemId={1511} />
-              </div>
-              <Spacer />
-              <div className='col col-sm-2 icon_regular'>
-                <IconParser itemId={1211} />
-              </div> */}
             </div>
           </Card>
         </div>
