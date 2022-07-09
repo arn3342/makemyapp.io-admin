@@ -42,6 +42,16 @@ const FeatureScreen = () => {
     setFeatureList(filteredFeatures)
   }
 
+  function performPhaseFilter (phases = []) {
+    let filteredFeatures =
+      phases.length > 0
+        ? initFeatureList.filter(x => {
+            return phases.some(phase => isFeatureInPhase(x.id, phase))
+          })
+        : initFeatureList
+    setFeatureList(filteredFeatures)
+  }
+
   const isFeatureInPhase = (featureId, phase) => {
     return currentProject.buildPhases[phase.toLowerCase()].features?.some(
       id => id == featureId
@@ -100,12 +110,12 @@ const FeatureScreen = () => {
         <SimpleChoiceList
           data={Constants.BuildPhases.map((phase, index) => {
             return {
-              id: index + 1,
+              id: phase,
               title: phase
             }
           })}
           title='Filter By Build Phase :'
-          // onChoiceChange={val => performParentFilter(val)}
+          onChoiceChange={val => performPhaseFilter(val)}
         />
       </div>
       <div className='table_container shadow_light'>
