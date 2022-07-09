@@ -56,11 +56,13 @@ export const Title = ({
         position: 'relative'
       }}
     >
-      {isLoading && <div className='main spinner-fullScreen'>
-        <div className='spinner-border text-primary' role='status'>
-          <span className='visually-hidden'>Loading...</span>
+      {isLoading && (
+        <div className='main spinner-fullScreen'>
+          <div className='spinner-border text-primary' role='status'>
+            <span className='visually-hidden'>Loading...</span>
+          </div>
         </div>
-      </div>}
+      )}
       {size === 'small' ? (
         <h6
           className={`title theme_${theme} font_${fontType} ${className} ${animate &&
@@ -180,7 +182,15 @@ export const Spacer = ({ size, multiplier }) => {
   return <div className={`spacer_${size ? size : 'small'}`} />
 }
 
-export function Slider ({ children, onClose, isOpen }) {
+export function Slider ({
+  children,
+  onClose = () => {},
+  onOpen = () => {},
+  isOpen
+}) {
+  useEffect(() => {
+    !isOpen ? onClose() : onOpen()
+  }, [isOpen])
   return (
     <div className={`modal_slider ${!isOpen && 'modal_hidden'}`}>
       <div className='row cols-3 bg_dim modal_main' style={{ height: '100%' }}>

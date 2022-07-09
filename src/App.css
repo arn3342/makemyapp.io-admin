@@ -1,4 +1,6 @@
-html, body {
+@import url("./components/global/global.css");
+html,
+body {
   height: 100%;
 }
 #root {
@@ -56,4 +58,27 @@ html, body {
   display: flex;
   z-index: 99;
   background: rgba(255, 255, 255, 0.502);
+}
+.slider_profile_header{
+  height: 120px;
+  background: linear-gradient(22deg, rgb(29 107 253 / 8%) 50%, rgb(72 69 252 / 33%) 100%);
+  border-radius: var(--radius);
+  position: relative;
+}
+.slider_profile {
+  display: flex;
+  position: absolute;
+  bottom: -17px;
+  left: 20px;
+}
+.slider_profile .profile_img {
+  background: #fff;
+  /* border: 1px solid var(--blueLight); */
+  padding: 30px !important;
+  color: var(--darkBlue);
+}
+
+.slider_profile .profile_name {
+  display: grid;
+  /* padding-top: 10px; */
 }

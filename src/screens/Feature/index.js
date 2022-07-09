@@ -96,6 +96,18 @@ const FeatureScreen = () => {
           onChoiceChange={val => performParentFilter(val)}
         />
       </div>
+      <div className='container row d-flex'>
+        <SimpleChoiceList
+          data={Constants.BuildPhases.map((phase, index) => {
+            return {
+              id: index + 1,
+              title: phase
+            }
+          })}
+          title='Filter By Build Phase :'
+          // onChoiceChange={val => performParentFilter(val)}
+        />
+      </div>
       <div className='table_container shadow_light'>
         <table>
           <thead className='shadow_light'>

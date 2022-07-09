@@ -92,3 +92,11 @@ export function getWeeksFromHours (hours, maxHrPerWeek = 40) {
   if (hours) return Math.round(hours / maxHrPerWeek)
   return 0
 }
+
+export function getProfileInitials (userProfile) {
+  if (userProfile.firstName === 'Your' && userProfile.lastName === 'Name') {
+    return userProfile.email.charAt(0).toUpperCase()
+  } else {
+    return userProfile.firstName.charAt(0).toUpperCase()
+  }
+}

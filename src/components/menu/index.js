@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import IconParser from '../../misc/iconParser'
-import { colorCodes } from '../../misc/logics'
+import { colorCodes, getProfileInitials } from '../../misc/logics'
 import { Spacer, SubTitle } from '../global'
 import './index.css'
 import { Button, DropDown } from '../form'
@@ -44,7 +44,7 @@ const MenuItem = ({
   )
 }
 
-export const Menu = ({ data, onRequestLogOut = () => {} }) => {
+export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -70,7 +70,7 @@ export const Menu = ({ data, onRequestLogOut = () => {} }) => {
         />
         <Spacer size={'medium'} />
       </div>
-      <ProfileMenu onRequestLogOut={onRequestLogOut}/>
+      <ProfileMenu onItemClick={item => onItemClick(item)} />
       <Spacer size={'medium'} />
       {data?.map(menuItem => {
         if (!menuItem.screens && !menuItem.ignoreRendering) {
@@ -113,19 +113,13 @@ export const Menu = ({ data, onRequestLogOut = () => {} }) => {
   )
 }
 
-const ProfileMenu = ({onRequestLogOut}) => {
+const ProfileMenu = ({ onItemClick = ({ item = '' }) => {} }) => {
   const userProfile = useSelector(state => state.user.profile)
   const [isExpanded, setExpanded] = useState(false)
   const containerRef = useRef()
-  function getProfileInitials (){
-    if(userProfile.firstName === 'Your' && userProfile.lastName === 'Name'){
-      return userProfile.email.charAt(0).toUpperCase()
-    } else {
-      return userProfile.firstName.charAt(0).toUpperCase()
-    }
-  }
+  
   useEffect(() => {
-    containerRef.current.focus();
+    containerRef.current.focus()
   }, [isExpanded])
   return (
     <div className={`menu_item_profile ${isExpanded && 'no_rad_bottom'}`}>
@@ -138,17 +132,23 @@ const ProfileMenu = ({onRequestLogOut}) => {
         <div className='profile_name_container'>
           <SubTitle
             className='profile_img no_margin'
-            content={<>{getProfileInitials()}</>}
+            content={<>{getProfileInitials(userProfile)}</>}
           />
           <Spacer size='small' />
           <SubTitle
             size='small'
             className='no_margin'
-            content={`${userProfile.firstName} ${userProfile.lastName}`}
+            content={`${userProfile.firstName}`}
             fontType='bold'
           />
-          <div className='arrow_container' onClick={() => setExpanded(!isExpanded)}>
-            <MdOutlineKeyboardArrowDown size={20} className={`arrow ${isExpanded && 'arrow_up'}`} />
+          <div
+            className='arrow_container'
+            onClick={() => setExpanded(!isExpanded)}
+          >
+            <MdOutlineKeyboardArrowDown
+              size={20}
+              className={`arrow ${isExpanded && 'arrow_up'}`}
+            />
           </div>
         </div>
       </div>
@@ -158,7 +158,7 @@ const ProfileMenu = ({onRequestLogOut}) => {
         onBlur={() => setExpanded(false)}
         ref={containerRef}
       >
-        <div className='item'>
+        <div className='item' onClick={() => onItemClick('profile')}>
           <SubTitle
             size='small'
             className='no_margin'
@@ -166,7 +166,7 @@ const ProfileMenu = ({onRequestLogOut}) => {
             fontType='bold'
           />
         </div>
-        <div className='item' onClick={onRequestLogOut}> 
+        <div className='item' onClick={() => onItemClick('logout')}>
           <SubTitle
             size='small'
             className='no_margin'

@@ -455,7 +455,8 @@ export const ExtendedButton = ({
   cardProps,
   extraLabel,
   onClick = () => {},
-  className
+  className,
+  icon
 }) => {
   // const [selected, setSelected] = useState(isSelected)
 
@@ -471,7 +472,7 @@ export const ExtendedButton = ({
           <div className='row cols-3'>
             <div className='col col-sm-2 d-flex'>
               <div className='icon_regular d-flex'>
-                <IconParser itemId={id} />
+              {!icon ? <IconParser itemId={id} /> : icon}
               </div>
             </div>
           </div>
@@ -526,7 +527,7 @@ export const ExtendedButton = ({
           <div className='row cols-3'>
             <div className='col col-sm-2 d-flex'>
               <div className='icon_regular d-flex icon_small'>
-                <IconParser itemId={id} />
+                {!icon ? <IconParser itemId={id} /> : icon}
               </div>
             </div>
             <div className='col m-auto'>

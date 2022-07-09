@@ -58,7 +58,8 @@ export const SiteRoutes = {
             id: 1232,
             label: 'Cloud & Hosting',
             path: '/engine/cloud-config',
-            element: <ComingSoonScreen />
+            element: <ComingSoonScreen />,
+            ignoreRendering: true
           }
         }
       }
@@ -68,17 +69,17 @@ export const SiteRoutes = {
       id: 124,
       Screens: () => {
         return {
-          Team: {
-            id: 1241,
-            label: 'Team',
-            path: '/engine/team',
-            element: <TeamScreen />
-          },
           Marketplace: {
             id: 1242,
             label: 'Marketplace',
             path: '/engine/marketplace',
             element: <MarketplaceScreen />
+          },
+          Team: {
+            id: 1241,
+            label: 'Team',
+            path: '/engine/team',
+            element: <TeamScreen />
           },
           CodeSnippet: {
             id: 1243,

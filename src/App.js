@@ -1,7 +1,6 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import { Route, Routes, useNavigate } from 'react-router-dom'
-import './components/global/global.css'
 import Logo from './logo-trans.png'
 import { Slider, Spacer, SubTitle, Title } from './components/global'
 import { getRoutes, SiteRoutes } from './misc/routes'
@@ -13,7 +12,12 @@ import { useEffect, useState } from 'react'
 import { Constants } from './data/constants'
 import { FirebaseActions } from './data/actions'
 import { AuthActions, ProfileActions } from './data/actions/userActions'
-import { Button } from './components/form'
+import { Button, ExtendedButton, Input } from './components/form'
+import { Formik } from 'formik'
+import { StringHelper } from './data/extensions/stringHelper'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FcVip } from 'react-icons/fc'
+import { getProfileInitials } from './misc/logics'
 
 function App () {
   //#region Setting site metadata
@@ -33,24 +37,187 @@ function App () {
 
 export default App
 
+const LogOutScreen = ({ onHideRequest = () => {} }) => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  function performLogOut () {
+    setTimeout(() => {
+      dispatch({
+        type: AuthActions.PERFORM_SIGNOUT
+      })
+    }, 200)
+    navigate(SiteRoutes.Onboarding.Init.path)
+  }
+  return (
+    <>
+      <Title content='You will be logged out' />
+      <SubTitle
+        content={
+          <>
+            Are you sure you want to log out? This will remove any pre-saved
+            cookies from your browser
+          </>
+        }
+      />
+      <div className='row'>
+        <div className='col'>
+          <Button
+            label='Log Out'
+            theme='dark'
+            isExtraSmall
+            onClick={() => performLogOut()}
+          />
+        </div>
+        <div className='col'>
+          <Button label='Cancel' isExtraSmall onClick={onHideRequest} />
+        </div>
+      </div>
+    </>
+  )
+}
+
+const ProfileScreen = ({ onHideRequest = () => {} }) => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const userProfile = useSelector(state => state.user.profile)
+  function performUpdate (values) {
+    console.log('Values:', values)
+    dispatch({
+      type: ProfileActions.UPDATE_PROFILE,
+      data: {...userProfile, ...values}
+    })
+  }
+  return (
+    <>
+      {/* <Title content='Profile' />
+      <Spacer size='small' /> */}
+      <div className='slider_profile_header'>
+        <div className='slider_profile'>
+          <div className='profile_img shadow_light'>
+            <Title
+              content={getProfileInitials(userProfile)}
+              className='no_margin'
+              size='large-2'
+            />
+          </div>
+          <Spacer size='small' />
+          <div className='profile_name'>
+            <SubTitle
+              className={'font_gradient no_margin'}
+              content={`${userProfile.firstName} ${userProfile.lastName}`}
+              size='large'
+            />
+          </div>
+        </div>
+      </div>
+      <Spacer size='large' />
+      <div>
+        <Formik
+          initialValues={{
+            firstName: userProfile.firstName,
+            lastName: userProfile.lastName,
+            errMessage: ''
+          }}
+          validate={values => {
+            const errors = {}
+            if (StringHelper.isPropsEmpty(values, 'errMessage'))
+              errors.errMessage = 'Please fill in all details.'
+            return errors
+          }}
+          validateOnChange={false}
+          onSubmit={(values, { setSubmitting }) => {
+            if (StringHelper.isEmpty(values.errMessage)) {
+              console.log('Should try updating profile now...')
+              const val = {...values}
+              delete val.errMessage
+              performUpdate(val)
+            }
+          }}
+        >
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            errors
+          }) => (
+            <>
+              <div className='container'>
+                <div className='row'>
+                  <Input
+                    className={`col margin_xs ${isSubmitting && 'disabled'}`}
+                    placeholder='First Name'
+                    onValueChange={handleChange('firstName')}
+                    value={values.firstName}
+                  />
+                  <Spacer size='small' />
+                  <Input
+                    className={`col margin_xs ${isSubmitting && 'disabled'}`}
+                    placeholder='Last Name'
+                    onValueChange={handleChange('lastName')}
+                    value={values.lastName}
+                  />
+                </div>
+              </div>
+              <Spacer size='small' />
+              <div className='col col-sm-3'>
+                <Button
+                  label='Update Profile'
+                  theme='dark'
+                  isExtraSmall
+                  animateIcon
+                  animateScale
+                  icon={faCheck}
+                  hasShadow
+                  disabled={
+                    values.firstName === userProfile.firstName &&
+                    values.lastName === userProfile.lastName
+                  }
+                  onClick={handleSubmit}
+                />
+              </div>
+              <Spacer size={'medium'} />
+              <SubTitle size={'medium'} content='Subscription' />
+              <ExtendedButton
+                className='col col-sm-6'
+                title='Plus Plan'
+                description='You have unlimited access to all features.'
+                theme='light'
+                itemSize={'compact'}
+                extraLabel='Browse Other Plans'
+                icon={<FcVip size={20} />}
+                isSelected
+                // onClick={() => onItemClick(item.id)}
+              />
+              <Button label='Close' onClick={onHideRequest}/>
+            </>
+          )}
+        </Formik>
+      </div>
+    </>
+  )
+}
+
 function ScreenRenderer () {
   const userState = useSelector(state => state.user)
   const firebaseApp = useSelector(state => state.firebaseApp)
   const navigate = useNavigate()
   const routes = getRoutes()
   const dispatch = useDispatch()
-  const [showLogOut, setShowLogOut] = useState(false)
+  const [sliderProps, setSliderProps] = useState({
+    screen: ({ onHideRequest }) => <></>,
+    isOpen: false
+  })
 
   useEffect(() => {
     dispatch({
       type: FirebaseActions.INIT,
       data: {}
     })
-    // console.log('User profile:', userProfile)
     if (userState.profile?.userId) {
       navigate(SiteRoutes.Engine.Dashboard.path, true)
     }
-    // console.log('Routes:', routes.Engine)
   }, [userState.profile?.userId])
 
   useEffect(() => {
@@ -60,14 +227,9 @@ function ScreenRenderer () {
     })
   }, [firebaseApp.instance])
 
-  function performLogOut(){
-    setShowLogOut(false);
-    setTimeout(() => {
-      dispatch({
-        type: AuthActions.PERFORM_SIGNOUT
-      })
-    }, 200)
-    navigate(SiteRoutes.Onboarding.Init.path)
+  function switchParentScroll (type) {
+    document.getElementById('site_parent').style.overflow =
+      type === 'hide' ? 'hidden' : 'auto'
   }
 
   if (firebaseApp.instance) {
@@ -87,25 +249,19 @@ function ScreenRenderer () {
       userState.profile?.userId
     ) {
       return (
-        <div className='main row cols-2'>
-          <Slider isOpen={showLogOut}>
-            <Title content='You will be logged out' />
-            <SubTitle
-              content={
-                <>
-                  Are you sure you want to log out? This will remove any
-                  pre-saved cookies from your browser
-                </>
-              }
-            />
-            <div className='row'>
-              <div className='col'>
-                <Button label='Log Out' theme='dark' isExtraSmall onClick={() => performLogOut()}/>
-              </div>
-              <div className='col'>
-                <Button label='Cancel' isExtraSmall onClick={() => setShowLogOut(false)}/>
-              </div>
-            </div>
+        <div id='site_parent' className='main row cols-2'>
+          <Slider
+            isOpen={sliderProps.isOpen}
+            onOpen={() => switchParentScroll('hide')}
+            onClose={() => switchParentScroll()}
+          >
+            {sliderProps.screen({
+              onHideRequest: () =>
+                setSliderProps(prevState => ({
+                  ...prevState,
+                  isOpen: false
+                }))
+            })}
           </Slider>
           <div className='col-sm-2 shadow_light menu_container'>
             <Spacer size='medium' />
@@ -113,7 +269,19 @@ function ScreenRenderer () {
             <Spacer size='large' />
             <Menu
               data={routes.Engine}
-              onRequestLogOut={() => setShowLogOut(true)}
+              onItemClick={item =>
+                setSliderProps({
+                  screen: ({ onHideRequest }) =>
+                    item === 'logout' ? (
+                      <LogOutScreen onHideRequest={onHideRequest} />
+                    ) : item === 'profile' ? (
+                      <ProfileScreen onHideRequest={onHideRequest} />
+                    ) : (
+                      <></>
+                    ),
+                  isOpen: true
+                })
+              }
             />
           </div>
           <div
