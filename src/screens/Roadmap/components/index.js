@@ -37,9 +37,6 @@ import {
 export const ScreenNode = ({ data }) => {
   const mvpScreens = useSelector(state => state.roadmap.mvp.screens)
   const [isHoverActive, setIsHoverActive] = useState(false)
-  const onChange = useCallback(evt => {
-    console.log(evt.target.value)
-  }, [])
 
   const onAddFeatureClick = useCallback(screenId => {
     data.onAddFeatureClick(screenId)
@@ -50,7 +47,7 @@ export const ScreenNode = ({ data }) => {
   }, [])
 
   const getScreenFeatures = () => {
-    return mvpScreens.find(screen => screen.id === data.screenId).features
+    return mvpScreens?.find(screen => screen.id === data.screenId)?.features
   }
 
   return (

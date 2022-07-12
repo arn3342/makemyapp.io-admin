@@ -28,15 +28,18 @@ export default (state = initialState, action) => {
       return { ...state, mvp } || state
     case RoadmapActions.MVP.ADD_EDGE:
       // console.log('Got to edge')
-      // data.key = getRandomInteger(99, 9090909) 
+      // data.key = getRandomInteger(99, 9090909)
       edges.push(data)
       return { ...state, mvp } || state
     case RoadmapActions.MVP.UPDATE_SCREEN:
-      console.log('Update with:', data)
       let currentIndex = screens.findIndex(x => x.id === data.id)
       let currentScreen = { ...screens.find(x => x.id === data.id), ...data }
       screens[currentIndex] = currentScreen
-      mvp.screens = screens;
+      mvp.screens = screens
+      return { ...state, mvp } || state
+
+    case RoadmapActions.MVP.REMOVE_SCREEN:
+      mvp.screens = screens.filter(x => x.id !== data.id)
       return { ...state, mvp } || state
     default:
       return state

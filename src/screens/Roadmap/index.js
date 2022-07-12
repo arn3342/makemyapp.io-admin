@@ -66,7 +66,8 @@ export default ({}) => {
   function addNewNode (node) {
     node.data = {
       ...node.data,
-      onAddFeatureClick: openModal
+      onAddFeatureClick: openModal,
+      onDeleteClick: deleteNode
     }
     dispatch({
       type: RoadmapActions.MVP.ADD_SCREEN,
@@ -81,6 +82,15 @@ export default ({}) => {
     setModalProps({
       open: true,
       screenId: screenId
+    })
+  }
+
+  function deleteNode (screenId) {
+    dispatch({
+      type: RoadmapActions.MVP.REMOVE_SCREEN,
+      data: {
+        id: screenId
+      }
     })
   }
 
@@ -117,7 +127,7 @@ export default ({}) => {
     >
       <Slider isOpen={modalProps.open}>
         <FeatureSelector
-        key={modalProps.screenId}
+          key={modalProps.screenId}
           onSubmit={features => {
             updateScreenFeatures(features)
           }}
