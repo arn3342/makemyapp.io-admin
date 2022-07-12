@@ -2,7 +2,7 @@ import FeatureList from '../assets/jsons/masterStep.json'
 
 export function extractFeatures () {
   const parentFeatures = FeatureList[2].options
-  let subFeatureList = []
+  let subFeatures = []
 
   parentFeatures.map(parent => {
     // if (parent.options) {
@@ -11,7 +11,7 @@ export function extractFeatures () {
         const subFeature = { ...sub }
         subFeature.parent = {...parent}
         delete subFeature.parent.options
-        subFeatureList.push(subFeature)
+        subFeatures.push(subFeature)
       })
     // } else {
     //   subFeatureList.push(parent)
@@ -32,7 +32,7 @@ export function extractFeatures () {
   // }
   return {
     parentFeatures,
-    subFeatures: subFeatureList
+    subFeatures
   }
 }
 

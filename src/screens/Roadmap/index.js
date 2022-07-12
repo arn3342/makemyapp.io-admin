@@ -134,6 +134,7 @@ export default ({}) => {
           options={extractFeaturesAsIs()}
           prevOptions={getScreenFeatures(modalProps.screenId)}
           btnSubmitLabel='Assign Features'
+          screenFeatures={getScreenFeatures(modalProps.screenId)}
         />
       </Slider>
       <Spacer size='large' />

@@ -87,7 +87,7 @@ const FeatureScreen = () => {
         <Spacer />
         <SubTitle
           size='medium'
-          content='List of 200+ indusrty standard features. Select the required 
+          content='List of 100+ indusrty standard features. Select the required 
           features and assign them to your MVP or Initial Public Release (V1).'
         />
       </div>

@@ -79,9 +79,9 @@ export const ScreenNode = ({ data }) => {
           <div className='button_container shadow_light'>
             <div className='row'>
               <div className='col'></div>
-              <div className='col col-sm-5'>
+              <div className={`col col-sm-${getScreenFeatures()?.length > 0 ? '6' : '5'}`}>
                 <Button
-                  label='Add Feature'
+                  label={`${getScreenFeatures()?.length > 0 ? 'Modify' : 'Add'} Features`}
                   size='small'
                   hasShadow
                   className='small_button font_xs'
@@ -302,7 +302,7 @@ export const ScreenBuilderWidget = ({ currentNodes = [], onAddScreenNode }) => {
   )
 }
 
-export const FeatureSelector = ({ onSubmit, options, btnSubmitLabel }) => {
+export const FeatureSelector = ({ onSubmit, options, btnSubmitLabel, screenFeatures }) => {
   const [selectedChoices, setSelectedChoices] = useState([])
   function handleSubmit () {
     const features = selectedChoices.map(id => {
@@ -310,6 +310,7 @@ export const FeatureSelector = ({ onSubmit, options, btnSubmitLabel }) => {
     })
     onSubmit && onSubmit(features)
   }
+  
   return (
     <>
       {options.map(opt => {
@@ -326,7 +327,7 @@ export const FeatureSelector = ({ onSubmit, options, btnSubmitLabel }) => {
               itemProps={{
                 className: 'font_xs'
               }}
-              // comparingData={comparingOptions}
+              comparingData={screenFeatures}
             />
           </div>
         ) : (
