@@ -50,8 +50,10 @@
     border: 1px solid var(--blue);
     color: var(--blue);
 }
-.screen_details_container_single > .details_conatiner{
+.details_conatiner{
+    user-select: none;
     color: #000 !important;
+    transition: all 200ms;
 }
 .details_conatiner > p {
     line-height: 15px !important;

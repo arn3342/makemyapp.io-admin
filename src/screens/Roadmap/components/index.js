@@ -208,7 +208,7 @@ export const ScreenBuilderWidget = ({ currentNodes = [], onAddScreenNode }) => {
         onClick={performAddScreen}
       />
       <Spacer size='medium' />
-      <SubTitle
+      {/* <SubTitle
         className='margin_xs'
         fontType='bold'
         content='Copy Roadmap To'
@@ -249,7 +249,7 @@ export const ScreenBuilderWidget = ({ currentNodes = [], onAddScreenNode }) => {
         animateIcon
         onClick={performAddScreen}
         isExtraSmall
-      />
+      /> */}
       <div className='screen_details_container'>
         {mvpScreens.map(screen => {
           return (
@@ -279,7 +279,7 @@ export const ScreenBuilderWidget = ({ currentNodes = [], onAddScreenNode }) => {
                 </div>
               </div>
               {selectedScreenId === screen.id && (
-                <div className='row details_conatiner'>
+                <div className={`row details_conatiner`}>
                   <SubTitle
                     className='font_xs'
                     content={screen.description || 'This is a new screen'}

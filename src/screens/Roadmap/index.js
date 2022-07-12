@@ -198,15 +198,16 @@ export default ({}) => {
           <div
             style={{
               position: 'absolute',
-              bottom: '50px'
+              bottom: '50px',
+              zIndex: 999
             }}
           >
             <SubTitle
               size='small'
               theme='dark'
-              fontType='light'
+              fontType='bold'
               content='• Scroll or pinch to zoom'
-              className={'margin_xs'}
+              className={'no_margin font_xs'}
               style={{
                 color: 'var(--bs-gray-700)'
               }}
@@ -214,8 +215,8 @@ export default ({}) => {
             <SubTitle
               size='small'
               theme='dark'
-              fontType='light'
-              className={'margin_xs'}
+              fontType='bold'
+              className={'no_margin font_xs'}
               content='• Click and hold on any empty gray space to drag the canvas.'
               style={{
                 color: 'var(--bs-gray-700)'
