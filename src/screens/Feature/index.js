@@ -89,7 +89,7 @@ const FeatureScreen = () => {
           features and assign them to your MVP or Initial Public Release (V1).'
         />
       </div>
-      <Spacer size='medium' />
+      {/* <Spacer size='small' /> */}
       <div className='container row'>
         <Input
           className='col col-sm-4'
@@ -106,7 +106,12 @@ const FeatureScreen = () => {
           onChoiceChange={val => performParentFilter(val)}
         />
       </div>
-      <div className='container row d-flex'>
+      <div
+        className='container row d-flex'
+        style={{
+          position: 'relative'
+        }}
+      >
         <SimpleChoiceList
           data={Constants.BuildPhases.map((phase, index) => {
             return {
@@ -122,13 +127,11 @@ const FeatureScreen = () => {
         <table>
           <thead className='shadow_light'>
             <tr>
-              <th>Feature</th>
+              <th className='font_link'>{featureList?.length} Feature</th>
               <th>Description</th>
               <th style={{ textAlign: 'center' }}>In MVP</th>
               <th style={{ textAlign: 'center' }}>In V1</th>
               <th>Code Marketplace</th>
-              {/* <th>{`${featureList?.length} Results`}</th> */}
-              {/* <th /> */}
             </tr>
           </thead>
           <tbody>

@@ -188,6 +188,7 @@ export function Slider ({
   onOpen = () => {},
   isOpen
 }) {
+  const containerRef = useRef()
   useEffect(() => {
     !isOpen ? onClose() : onOpen()
   }, [isOpen])
@@ -198,6 +199,7 @@ export function Slider ({
         <div className='col' />
         <div className='col col-sm-5 slider_container'>
           <div
+          ref={containerRef}
             className={`modal_container shadow_light ${isOpen &&
               'modal_container_visible'}`}
           >

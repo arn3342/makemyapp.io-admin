@@ -117,6 +117,7 @@ export default ({}) => {
     >
       <Slider isOpen={modalProps.open}>
         <FeatureSelector
+        key={modalProps.screenId}
           onSubmit={features => {
             updateScreenFeatures(features)
           }}

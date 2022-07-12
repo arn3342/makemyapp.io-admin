@@ -6,6 +6,7 @@ import RoadmapScreen from '../screens/Roadmap'
 import TeamScreen from '../screens/Team'
 import FeatureScreen from '../screens/Feature'
 import LoginScreen from '../screens/Onboarding/screens/login'
+import ProfileScreen from '../screens/Profile'
 import OnboardingScreen from '../screens/Onboarding'
 import { Navigate } from 'react-router-dom'
 
@@ -36,6 +37,13 @@ export const SiteRoutes = {
       label: 'Dashboard',
       path: '/engine',
       element: <DashboardScreen />
+    },
+    Profile: {
+      id: 122,
+      label: 'Profile',
+      path: '/profile',
+      element: <ProfileScreen/>,
+      ignoreRendering: true
     },
     Builder: {
       label: 'Builder',

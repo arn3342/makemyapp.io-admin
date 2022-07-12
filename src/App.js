@@ -82,7 +82,6 @@ const ProfileScreen = ({ onHideRequest = () => {} }) => {
   const navigate = useNavigate()
   const userProfile = useSelector(state => state.user.profile)
   function performUpdate (values) {
-    console.log('Values:', values)
     dispatch({
       type: ProfileActions.UPDATE_PROFILE,
       data: {...userProfile, ...values}

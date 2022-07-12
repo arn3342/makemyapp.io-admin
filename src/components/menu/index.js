@@ -86,25 +86,30 @@ export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
         } else {
           return (
             <div key={menuItem.id}>
-              <Spacer />
-              <SubTitle
-                content={menuItem.label}
-                fontType='bold'
-                className={'menu_item_title'}
-              />
-              {menuItem.screens.map(subMenu => {
-                return (
-                  !subMenu.ignoreRendering && (
-                    <MenuItem
-                      key={subMenu.id}
-                      onClick={() => performNavigation(subMenu.path)}
-                      selected={location.pathname === subMenu.path}
-                      label={subMenu.label}
-                      id={subMenu.id}
-                    />
+              {!menuItem.ignoreRendering && (
+                <>
+                  <Spacer />
+                  <SubTitle
+                    content={menuItem.label}
+                    fontType='bold'
+                    className={'menu_item_title'}
+                  />
+                </>
+              )}
+              {menuItem.screens &&
+                menuItem.screens.map(subMenu => {
+                  return (
+                    !subMenu.ignoreRendering && (
+                      <MenuItem
+                        key={subMenu.id}
+                        onClick={() => performNavigation(subMenu.path)}
+                        selected={location.pathname === subMenu.path}
+                        label={subMenu.label}
+                        id={subMenu.id}
+                      />
+                    )
                   )
-                )
-              })}
+                })}
             </div>
           )
         }
@@ -117,7 +122,7 @@ const ProfileMenu = ({ onItemClick = ({ item = '' }) => {} }) => {
   const userProfile = useSelector(state => state.user.profile)
   const [isExpanded, setExpanded] = useState(false)
   const containerRef = useRef()
-  
+
   useEffect(() => {
     containerRef.current.focus()
   }, [isExpanded])
