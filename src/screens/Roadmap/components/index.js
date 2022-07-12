@@ -1,38 +1,27 @@
 import {
   faAngleDown,
-  faAngleUp,
-  faArrowUp,
-  faCopy,
   faPencilAlt,
   faPlus,
-  faTrash,
   faTrashAlt
 } from '@fortawesome/free-solid-svg-icons'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   Button,
-  DropDown,
   Input,
   SimpleChoice,
   SimpleChoiceList
 } from '../../../components/form'
-import { Slider, Spacer, SubTitle, Title } from '../../../components/global'
-import ReactFlow, {
+import { Spacer, SubTitle } from '../../../components/global'
+import {
   Handle,
-  Position,
-  addEdge,
-  applyEdgeChanges,
-  applyNodeChanges
-} from 'react-flow-renderer'
+  Position} from 'react-flow-renderer'
 import './index.css'
 import { getRandomInteger } from '../../../misc/logics'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Constants } from '../../../data/constants'
 import {
-  extractFeature,
-  extractFeaturesAsIs
-} from '../../../misc/featureExtractor'
+  extractFeature} from '../../../misc/featureExtractor'
 
 export const ScreenNode = ({ data }) => {
   const mvpScreens = useSelector(state => state.roadmap.mvp.screens)

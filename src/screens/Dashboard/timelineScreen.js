@@ -16,7 +16,7 @@ const TimelineScreen = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    let mvpFeatureIDs = currentProject.buildPhases.mvp.features
+    let mvpFeatureIDs = currentProject.buildPhases.mvp?.features
     let v1FeatureIDs = currentProject.buildPhases.v1?.features
       ? currentProject.buildPhases.v1.features
       : []
@@ -38,13 +38,10 @@ const TimelineScreen = () => {
       })
     }
 
-    const mvpFeatures = mvpFeatureIDs?.map(id => {
-      return extractFeature(id)
-    })
-    const v1Features = v1FeatureIDs?.map(id => {
-      return extractFeature(id)
-    })
+    const mvpFeatures = extractFeature(mvpFeatureIDs)
+    const v1Features = extractFeature(v1FeatureIDs)
 
+    // console.log("MVP ft:", mvpFeatureIDs)
     setTimeData({
       mvpTime: mvpFeatures?.reduce((a, b) => {
         return a + b.estDevTime
@@ -54,6 +51,10 @@ const TimelineScreen = () => {
       }, 0)
     })
   }, [])
+
+  useEffect(() => {
+    // console.log('Time dt:', timeData)
+  }, [timeData])
 
   function goToFeatureList(){
     navigate(SiteRoutes.Engine.Builder.Screens().FeatureList.path);

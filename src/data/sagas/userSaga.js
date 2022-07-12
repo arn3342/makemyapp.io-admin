@@ -122,7 +122,7 @@ function * performLocalSignIn (payload) {
         localAuth.password
       )
       if (signIn.user) {
-        console.log('SignIn Result:', signIn.user)
+        // console.log('SignIn Result:', signIn.user)
         const database = yield call(getDatabase, firebaseApp)
         const profileResult = yield call(
           get,

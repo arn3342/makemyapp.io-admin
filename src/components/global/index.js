@@ -1,27 +1,11 @@
-import React, { createRef, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './global.css'
 import Logo from '../../logo-trans.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faAngleDown,
-  faAngleRight,
   faCheck,
-  faClose,
-  faCross,
-  faExclamation,
-  faL,
-  faLaptopHouse
-} from '@fortawesome/free-solid-svg-icons'
-import { getRandomInteger } from '../../misc/logics'
+  faExclamation} from '@fortawesome/free-solid-svg-icons'
 import '../global/global.css'
-import IconParser from '../../misc/iconParser'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { Button, SimpleChoice, SimpleChoiceList } from '../form'
-import {
-  extractFeature,
-  extractFeatures,
-  extractFeaturesAsIs
-} from '../../misc/featureExtractor'
 
 export const Header = ({ spacing }) => {
   return (

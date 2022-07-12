@@ -35,6 +35,8 @@ const FeatureScreen = () => {
   }
 
   function performParentFilter (categoryIDs = []) {
+    // console.log('Cat:', categoryIDs)
+    console.log('Feat:', featureList)
     let filteredFeatures =
       categoryIDs.length > 0
         ? initFeatureList.filter(x => categoryIDs.some(id => x.parent.id == id))
