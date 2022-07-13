@@ -18,16 +18,16 @@ export default ({}) => {
   const [showModifySlider, setShowModifySlider] = useState(false)
   useEffect(() => {
     getSnippetData()
-    const parentContainer = document.getElementById('site_parent')
+    const parentContainer = document.getElementById('route_container')
     parentContainer.style.height = '100%'
     parentContainer.style.overflow = 'hidden'
   }, [])
 
   useEffect(() => {
     return () => {
-      const parentContainer = document.getElementById('site_parent')
-    parentContainer.style.height = 'auto'
-    parentContainer.style.overflow = 'scroll'
+      const parentContainer = document.getElementById('route_container')
+      parentContainer.style.height = '100%'
+      parentContainer.style.overflow = 'scroll'
     }
   }, [])
 
@@ -158,10 +158,13 @@ export default ({}) => {
               <div className='row'>
                 {currentSnippet.exampleImages.map(url => {
                   return (
-                    <div className='col col-sm-3' style={{
-                      marginTop: '10px'
-                    }}>
-                      <img src={url} alt='exm-img' className='exm_image'/>
+                    <div
+                      className='col col-sm-3'
+                      style={{
+                        marginTop: '10px'
+                      }}
+                    >
+                      <img src={url} alt='exm-img' className='exm_image' />
                     </div>
                   )
                 })}
