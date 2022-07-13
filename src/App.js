@@ -290,7 +290,7 @@ function ScreenRenderer () {
           <div
             className='col'
             id='route_container'
-            style={{ overflow: 'scroll', position: 'relative' }}
+            style={{ overflow: 'scroll', position: 'relative', height:'100%' }}
           >
             <Routes>
               {routes.Engine.map((route, index) => {
