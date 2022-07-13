@@ -11,7 +11,6 @@ const TeamOverview = ({
 }) => {
   const [showDescription, setShowDescription] = useState(false)
   const desc = `${roleCount} ${roleTitle} Engineer(s) suggested`
-  const extraDesc = `${roleCount} ${roleTitle} Engineer(s) suggested to complete the project within the projected timeline.`
   return (
     <div
       className={`team_overview shadow_light font_theme_dark ${className}`}

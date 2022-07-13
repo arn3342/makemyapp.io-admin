@@ -5,28 +5,25 @@ import {
   AiOutlineDesktop,
   AiOutlineCloudServer
 } from 'react-icons/ai'
-import { SiAppstore, SiIos, SiZapier } from 'react-icons/si'
-import { CgWebsite, CgFacebook, CgInstagram } from 'react-icons/cg'
-import { TiGroupOutline } from 'react-icons/ti'
+import { SiIos } from 'react-icons/si'
+import { CgWebsite } from 'react-icons/cg'
 import {
   MdSpaceDashboard,
   MdOutlineFeaturedPlayList,
   MdFeaturedPlayList
 } from 'react-icons/md'
-import { GoSettings } from 'react-icons/go'
 import { TbListDetails } from 'react-icons/tb'
 import {
   FcBusinessman,
   FcConferenceCall,
   FcMoneyTransfer,
   FcNews,
-  FcReading,
   FcTimeline,
   FcTodoList
 } from 'react-icons/fc'
 import { RiTeamLine } from 'react-icons/ri'
-import { BiGitRepoForked, BiCodeAlt, BiServer } from 'react-icons/bi'
-import { FaCode, FaReact } from 'react-icons/fa'
+import { BiCodeAlt } from 'react-icons/bi'
+import { FaReact } from 'react-icons/fa'
 import { VscDebugAlt } from 'react-icons/vsc'
 import { FiGitBranch, FiShoppingCart } from 'react-icons/fi'
 

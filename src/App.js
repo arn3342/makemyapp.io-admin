@@ -79,7 +79,6 @@ const LogOutScreen = ({ onHideRequest = () => {} }) => {
 
 const ProfileScreen = ({ onHideRequest = () => {} }) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const userProfile = useSelector(state => state.user.profile)
   function performUpdate (values) {
     dispatch({

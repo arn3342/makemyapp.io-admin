@@ -4,7 +4,6 @@ import { Card, Spacer, SubTitle, Title } from '../../components/global'
 import AppDevAnim from '../../assets/gifs/appDev-anim.json'
 import { getNumberKMBT } from '../../misc/logics'
 import { DropDown } from '../../components/form'
-import { child, get, getDatabase, ref } from 'firebase/database'
 import { useSelector } from 'react-redux'
 import { getDevelopmentCost, getCostRateData } from '../../data/featureHelper'
 import { extractFeature } from '../../misc/featureExtractor'
@@ -13,7 +12,6 @@ const CostScreen = () => {
   const [v1Price, setV1Price] = useState()
   const firebaseApp = useSelector(state => state.firebaseApp.instance)
   const currentProject = useSelector(state => state.user.profile.projects[0])
-  const userProfile = useSelector(state => state.user.profile)
   const [timeData, setTimeData] = useState({
     mvpTime: 0,
     v1Time: 0

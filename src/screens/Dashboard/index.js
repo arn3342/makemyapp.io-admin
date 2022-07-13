@@ -10,13 +10,6 @@ import { useSelector } from 'react-redux'
 
 const DashboardScreen = ({}) => {
   const projectData = useSelector(state => state.user.profile.projects[0])
-
-  // useEffect(() => {
-  //   console.log('Current project:', projectData)
-  //   console.log('Feature deets:', getEstimations())
-  //   console.log(projectData)
-  // }, [])
-
   return (
     <div className='container'>
       <Spacer size='large' />

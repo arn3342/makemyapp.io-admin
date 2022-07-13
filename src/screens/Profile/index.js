@@ -11,12 +11,12 @@ const ProfileScreen = ({}) => {
   const dispatch = useDispatch()
 
   const userProfile = useSelector(state => state.user.profile)
-  function performUpdate (values) {
-    dispatch({
-      type: ProfileActions.UPDATE_PROFILE,
-      data: {...userProfile, ...values}
-    })
-  }
+  // function performUpdate (values) {
+  //   dispatch({
+  //     type: ProfileActions.UPDATE_PROFILE,
+  //     data: {...userProfile, ...values}
+  //   })
+  // }
 
   return (
     <div className='container'>

@@ -1,4 +1,3 @@
-import { getRandomInteger } from '../../misc/logics'
 import { RoadmapActions } from '../actions/roadmapActions'
 
 export const mvpAddScreen = mvp => ({

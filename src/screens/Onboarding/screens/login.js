@@ -1,15 +1,13 @@
-import { Player } from '@lottiefiles/react-lottie-player'
 import React, { useEffect, useState } from 'react'
 import { Spacer, SubTitle, Title } from '../../../components/global'
 import '../components/index.css'
 import { Button, Input } from '../../../components/form'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { AuthActions, ProfileActions } from '../../../data/actions/userActions'
+import { AuthActions } from '../../../data/actions/userActions'
 import { SignUpBanner } from '../components'
 import { Formik } from 'formik'
 import { StringHelper } from '../../../data/extensions/stringHelper'
-import { StorageHelper } from '../../../data/storage'
 import { Constants } from '../../../data/constants'
 
 export default ({ onSwitchRequest = () => {} }) => {

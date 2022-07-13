@@ -135,10 +135,6 @@ export const ScreenNode = ({ data }) => {
 export const ScreenBuilderWidget = ({ currentNodes = [], onAddScreenNode }) => {
   const [screenName, setScreenName] = useState('')
   const [screenDetails, setScreenDetails] = useState('')
-  const [copyData, setCopyData] = useState({
-    parent: Constants.ApplicationFormats[0],
-    child: Constants.BuildPhases[0]
-  })
   const screenWidth = 300
   const mvpScreens = useSelector(state => state.roadmap.mvp.screens)
   const [selectedScreenId, setSelectedScreenId] = useState()

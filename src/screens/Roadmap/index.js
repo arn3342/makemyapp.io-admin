@@ -4,7 +4,6 @@ import './index.css'
 import { Slider, Spacer, SubTitle, Title } from '../../components/global'
 import {
   FeatureSelector,
-  FlowToolbox,
   ScreenBuilderWidget,
   ScreenNode
 } from './components'

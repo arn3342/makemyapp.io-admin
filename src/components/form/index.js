@@ -1,7 +1,6 @@
 import { faAngleDown, faClose } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
-import { StringHelper } from '../../data/extensions/stringHelper'
 import IconParser from '../../misc/iconParser'
 import { getRandomInteger } from '../../misc/logics'
 import { Card, Spacer, SubTitle, Title } from '../global'
@@ -458,12 +457,6 @@ export const ExtendedButton = ({
   className,
   icon
 }) => {
-  // const [selected, setSelected] = useState(isSelected)
-
-  function performSelection () {
-    // console.log('Called selected')
-    // setSelected(!selected)
-  }
 
   const Button_Regular = () => {
     return (

@@ -1,12 +1,11 @@
 import { Player } from '@lottiefiles/react-lottie-player'
 import React, { useEffect, useState } from 'react'
-import { Link, Route, Routes, useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import LoginScreen from './screens/login'
 import SignUpScreen from './screens/signUp'
 import Logo from '../../logo-trans.png'
 import LoginAnim from '../../assets/gifs/login-anim.json'
 import { Spacer } from '../../components/global'
-import { SiteRoutes } from '../../misc/routes'
 import { useSelector } from 'react-redux'
 import { getDatabase, get, child, ref } from 'firebase/database'
 

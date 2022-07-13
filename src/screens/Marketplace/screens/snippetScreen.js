@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Slider, Spacer, SubTitle, Title } from '../../../components/global'
-import { faker } from '@faker-js/faker'
 import './index.css'
 import {
   CodeMiscBox,
@@ -10,8 +9,6 @@ import {
   ModifyRequestBox,
   StepsContainer
 } from '../components'
-import { getRandomInteger } from '../../../misc/logics'
-import dummyGenerator from '../../../data/dummyGenerator'
 import { Button, Input } from '../../../components/form'
 
 export default ({}) => {

@@ -14,7 +14,7 @@ export const Header = ({ spacing }) => {
         <Spacer size='small' />
         <div className='row cols-2 menu_container'>
           <div className='col' style={{ textAlign: 'left' }}>
-            <img src={Logo} className='site_logo' />
+            <img src={Logo} className='site_logo' alt='site_logo'/>
           </div>
         </div>
       </div>

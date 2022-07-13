@@ -1,7 +1,7 @@
 import { Player } from '@lottiefiles/react-lottie-player'
 import React from 'react'
 import ComingSoonAnim from '../assets/gifs/anim-comingSoon.json'
-import { Spacer, SubTitle, Title } from '../components/global'
+import { Spacer, Title } from '../components/global'
 const ComingSoonScreen = () => {
   return (
     <div

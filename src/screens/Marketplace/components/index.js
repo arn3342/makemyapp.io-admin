@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { FiArrowRight, FiDownload } from 'react-icons/fi'
-import { Button, Input, SimpleChoiceList } from '../../../components/form'
-import { Slider, Spacer, SubTitle, Title } from '../../../components/global'
-import { HiExternalLink } from 'react-icons/hi'
+import { FiArrowRight } from 'react-icons/fi'
+import { Button } from '../../../components/form'
+import { Spacer, SubTitle } from '../../../components/global'
 import './index.css'
-import { faAngleRight, faDownload, faL } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight, faDownload } from '@fortawesome/free-solid-svg-icons'
 
 export const CodeOwnerBox = ({ size, data }) => {
   return size === 'compact' || size === 'small' ? (

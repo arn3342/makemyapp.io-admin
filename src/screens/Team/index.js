@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { DropDown, Button } from '../../components/form'
 import { Spacer, SubTitle, Title } from '../../components/global'
 import { randomColorSelector } from '../../misc/logics'

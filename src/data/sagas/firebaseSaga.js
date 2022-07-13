@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { put, takeEvery } from 'redux-saga/effects'
 import { FirebaseActions } from '../actions'
 import { setFirebaseApp } from '../reducers/firebaseReducer'
 

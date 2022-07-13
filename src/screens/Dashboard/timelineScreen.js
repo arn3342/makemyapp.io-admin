@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Routes, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { ExtendedButton } from '../../components/form'
 import { Card, Spacer, SubTitle, Title } from '../../components/global'
 import { ProfileActions } from '../../data/actions/userActions'
@@ -51,10 +51,6 @@ const TimelineScreen = () => {
       }, 0)
     })
   }, [])
-
-  useEffect(() => {
-    // console.log('Time dt:', timeData)
-  }, [timeData])
 
   function goToFeatureList(){
     navigate(SiteRoutes.Engine.Builder.Screens().FeatureList.path);

@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { Spacer, SubTitle, Title } from '../../components/global'
-import FeatureList from '../../assets/jsons/masterStep.json'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { filterData, getRandomInteger } from '../../misc/logics'
+import { getRandomInteger } from '../../misc/logics'
 import { CodeOwnerBox } from './components'
 import { AiFillStar, AiOutlineHeart } from 'react-icons/ai'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Input, SimpleChoiceList } from '../../components/form'
 import { constructRoute, SiteRoutes } from '../../misc/routes'
 import { extractFeatures } from '../../misc/featureExtractor'
 import dummyGenerator from '../../data/dummyGenerator'
 
 const MarketplaceScreen = () => {
-  const [snippetList, setSnippetList] = useState(dummyGenerator.codeSnippet(4))
-  const [parentFeatureList, setParentFeatureList] = useState(
-    extractFeatures().parentFeatures
-  )
-  const location = useLocation()
+  const [snippetList, setSnippetList] = useState()
+  const [parentFeatureList, setParentFeatureList] = useState()
   const navigate = useNavigate()
   useEffect(() => {
     // console.log('Snippets are:', snippetList)
+    setSnippetList(dummyGenerator.codeSnippet(4))
+    setParentFeatureList(extractFeatures().parentFeatures)
     const parentContainer = document.getElementById('route_container')
     parentContainer.style.height = 'auto'
     parentContainer.style.overflow = 'scroll'

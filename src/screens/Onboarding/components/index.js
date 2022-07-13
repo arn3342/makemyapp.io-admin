@@ -1,5 +1,5 @@
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Button } from '../../../components/form'
 import { Spacer, SubTitle } from '../../../components/global'
 import './index.css'

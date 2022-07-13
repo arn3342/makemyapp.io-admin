@@ -1,6 +1,4 @@
 import { child, get, getDatabase, ref } from 'firebase/database'
-import React from 'react'
-import { useSelector } from 'react-redux'
 import { Constants } from './constants'
 
 export async function getCostRateData (firebaseInstance) {

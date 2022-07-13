@@ -11,7 +11,6 @@ import { StringHelper } from '../../../data/extensions/stringHelper'
 
 export default ({ onSwitchRequest = () => {}, projectMetaData }) => {
   const [submitting, setSubmitting] = useState(false)
-  const [globalError, setGlobalError] = useState()
   const dispatch = useDispatch()
 
   function performSignUp (values) {
@@ -96,9 +95,9 @@ export default ({ onSwitchRequest = () => {}, projectMetaData }) => {
                 isPassword
                 onValueChange={handleChange('rePassword')}
               />
-              {errors.errMessage || globalError ? (
+              {errors.errMessage ? (
                 <SubTitle
-                  content={errors.errMessage || globalError}
+                  content={errors.errMessage}
                   className='font_xs no_margin'
                   fontType={'bold'}
                 />

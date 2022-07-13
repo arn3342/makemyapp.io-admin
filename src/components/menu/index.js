@@ -4,11 +4,10 @@ import IconParser from '../../misc/iconParser'
 import { colorCodes, getProfileInitials } from '../../misc/logics'
 import { Spacer, SubTitle } from '../global'
 import './index.css'
-import { Button, DropDown } from '../form'
+import { DropDown } from '../form'
 import { Constants } from '../../data/constants'
 import './index.css'
 import { useSelector } from 'react-redux'
-import { FaArrowDown } from 'react-icons/fa'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
 const MenuItem = ({
