@@ -55,11 +55,11 @@ const MarketplaceScreen = () => {
       </div>
       <Spacer size='medium' />
       <div className='container row d-flex'>
-        <SimpleChoiceList
+        {parentFeatureList && <SimpleChoiceList
           data={parentFeatureList}
           title='Filter By Category :'
           // onChoiceChange={val => performParentFilter(val)}
-        />
+        />}
       </div>
       <div className='table_container shadow_light'>
         <table>
