@@ -137,7 +137,7 @@ export default ({}) => {
           screenFeatures={getScreenFeatures(modalProps.screenId)}
         />
       </Slider>
-      <Spacer size='large' />
+      {/* <Spacer size='large' /> */}
       <div
         className='row'
         style={{
@@ -145,12 +145,13 @@ export default ({}) => {
         }}
       >
         <div className='col col-sm-3 option_container'>
+          <Spacer size='medium' />
           <SubTitle
             className='margin_xs'
             fontType='bold'
             content='Select Roadmap'
           />
-          <DropDown options={Constants.BuildPhases} />
+          <DropDown options={Constants.BuildPhases} isExtraSmall/>
           <Spacer size='medium' />
           <ScreenBuilderWidget
             onAddScreenNode={addNewNode}
@@ -164,17 +165,17 @@ export default ({}) => {
           }}
         >
           {mvpScreens?.length <= 0 && (
-            <Title
-              size='large'
-              theme='dark'
-              fontType='light'
-              content='Add screens to start building the roadmap'
-              style={{
-                position: 'absolute',
-                top: '10px',
-                color: 'var(--bs-gray-500)'
-              }}
-            />
+              <Title
+                size='large'
+                theme='dark'
+                fontType='light'
+                content='Add screens to start building the roadmap'
+                style={{
+                  position: 'absolute',
+                  top: '30px',
+                  color: 'var(--bs-gray-500)'
+                }}
+              />
           )}
           <ReactFlow
             nodeTypes={nodeTypes}
@@ -199,7 +200,7 @@ export default ({}) => {
           <div
             style={{
               position: 'absolute',
-              bottom: '50px',
+              bottom: '20px',
               zIndex: 999
             }}
           >
