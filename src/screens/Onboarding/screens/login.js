@@ -124,11 +124,14 @@ export default ({ onSwitchRequest = () => {} }) => {
                 onValueChange={handleChange('password')}
               />
               {errors.errMessage || user.error?.message ? (
-                <SubTitle
-                  content={errors.errMessage || user.error.message}
-                  className='font_xs no_margin'
-                  fontType={'bold'}
-                />
+                <>
+                  <SubTitle
+                    content={errors.errMessage || user.error.message}
+                    className='font_xs no_margin font_error margin_xs col col-lg-9'
+                    fontType={'bold'}
+                  />
+                  <Spacer size='small' />
+                </>
               ) : (
                 <Spacer size='medium' />
               )}

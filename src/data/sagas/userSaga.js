@@ -104,6 +104,7 @@ function * performSignIn (payload) {
     let error = new FirebaseError()
     error = { ...ex }
     yield call(StorageHelper.Remove, 'auth')
+    console.log('Password error is:', error)
     yield put(setProfileError(ParseError(error, 'FirebaseError')))
   }
 }

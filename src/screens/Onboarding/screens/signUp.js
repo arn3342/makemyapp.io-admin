@@ -108,12 +108,15 @@ export default ({ onSwitchRequest = () => {}, projectMetaData }) => {
                 isPassword
                 onValueChange={handleChange('rePassword')}
               />
-              {errors.errMessage ? (
-                <SubTitle
-                  content={errors.errMessage}
-                  className='font_xs no_margin'
-                  fontType={'bold'}
-                />
+              {errors.errMessage || user.error?.message ? (
+                <>
+                  <SubTitle
+                    content={errors.errMessage || user.error.message}
+                    className='font_xs no_margin font_error margin_xs col col-lg-9'
+                    fontType={'bold'}
+                  />
+                  <Spacer size='small' />
+                </>
               ) : (
                 <Spacer size='medium' />
               )}

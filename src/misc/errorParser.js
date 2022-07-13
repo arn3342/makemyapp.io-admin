@@ -26,6 +26,13 @@ export function ParseError (exception, type = 'other') {
       case 'auth/email-already-exists':
         error.message = 'Email already in use. Maybe try logging in?'
         break
+      case 'auth/wrong-password':
+        error.message = 'Please re-check your email/password combination.'
+        break
+
+      default:
+        error.message = 'Something went wrong. Please try again.'
+        break
     }
   }
 

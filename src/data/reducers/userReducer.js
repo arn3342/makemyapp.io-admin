@@ -79,7 +79,6 @@ export default (state = initialState, action) => {
 
     case AuthActions.SET_ERROR:
       let error = data
-      console.log('Err profile is:', { ...state, error })
       return { ...state, error }
 
     default:

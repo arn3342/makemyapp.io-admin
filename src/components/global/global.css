@@ -25,6 +25,7 @@
     rgba(24, 13, 217, 1) 0%,
     rgba(139, 0, 255, 1) 100%
   );
+  --error: #ff5447;
 }
 /*#region Menu, Site CSS */
 table {
@@ -246,6 +247,13 @@ i {
 .font_theme_light {
   color: #fff;
 }
+.font_error {
+  padding: 3px 10px;
+  background: var(--error);
+  color: #fff;
+  border-radius: 3px;
+  border-left: 5px solid #c40e00;
+}
 .font_theme_dark {
   color: var(--darkTheme) !important;
 }
@@ -366,7 +374,6 @@ i {
 .tool_tip:hover .tooltiptext {
   opacity: 1;
   transform: translateY(0px);
-
 }
 /*#endregion */
 
