@@ -125,7 +125,8 @@ export const DropDown = ({
   enableClear,
   defaultValue,
   isExtraSmall,
-  theme
+  theme,
+  label
 }) => {
   const [isFocused, setFocused] = useState(false)
   const [currentValue, setCurrentValue] = useState()
@@ -163,11 +164,21 @@ export const DropDown = ({
           'dropdown_compact'} dropdown_theme_${theme}`}
       >
         {icon && (
-          <div className='col col-sm-1'>
+          <div className='col col-sm-1' style={{
+            marginRight: '10px'
+          }}>
             <FontAwesomeIcon icon={icon} fontSize={15} className='m-auto' />
           </div>
         )}
-        <div className='col left-align'>
+        <div
+          className='col left-align'
+          style={{
+            display: 'fex'
+          }}
+        >
+          {label && (
+            <SubTitle content={label} className={'no_margin'} fontType='bold' />
+          )}
           <SubTitle
             className={'no_margin'}
             fontType='bold'
@@ -184,7 +195,9 @@ export const DropDown = ({
             <FontAwesomeIcon icon={faClose} fontSize={15} className='m-auto' />
           </div>
         )}
-        <div className='col col-sm-1'>
+        <div className='col col-sm-1' style={{
+          display: 'flex'
+        }}>
           <FontAwesomeIcon
             icon={faAngleDown}
             fontSize={15}
@@ -457,7 +470,6 @@ export const ExtendedButton = ({
   className,
   icon
 }) => {
-
   const Button_Regular = () => {
     return (
       <div className={className} onClick={() => onClick()}>
@@ -465,7 +477,7 @@ export const ExtendedButton = ({
           <div className='row cols-3'>
             <div className='col col-sm-2 d-flex'>
               <div className='icon_regular d-flex'>
-              {!icon ? <IconParser itemId={id} /> : icon}
+                {!icon ? <IconParser itemId={id} /> : icon}
               </div>
             </div>
           </div>

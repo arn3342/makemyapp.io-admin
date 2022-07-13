@@ -57,7 +57,7 @@ export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
 
   return (
     <div className='menu_container'>
-      <div
+      {/* <div
         style={{
           paddingLeft: '10px'
         }}
@@ -68,7 +68,7 @@ export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
           theme='dark'
         />
         <Spacer size={'medium'} />
-      </div>
+      </div> */}
       <ProfileMenu onItemClick={item => onItemClick(item)} />
       <Spacer size={'medium'} />
       {data?.map(menuItem => {

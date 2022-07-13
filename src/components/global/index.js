@@ -148,14 +148,17 @@ export function Card ({
   id,
   className,
   animateScale = true,
-  fontTheme,
-  style
+  style,
+  clickable = true
 }) {
   return (
     <div
       className={`card card_${theme} card_${size} ${className} ${animateScale &&
         'card_animate_scale'}`}
-      style={style}
+      style={{
+        ...style,
+        cursor: clickable ? 'pointer' : 'default'
+      }}
     >
       {children}
     </div>

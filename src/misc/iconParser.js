@@ -26,6 +26,8 @@ import { BiCodeAlt } from 'react-icons/bi'
 import { FaReact } from 'react-icons/fa'
 import { VscDebugAlt } from 'react-icons/vsc'
 import { FiGitBranch, FiShoppingCart } from 'react-icons/fi'
+import { IoIosGlobe } from 'react-icons/io'
+import { HiOutlineDesktopComputer, HiOutlineDeviceMobile } from 'react-icons/hi'
 
 const IconParser = ({ itemId, size }) => {
   let icon = <BsQuestion fontSize={size || 20} />
@@ -57,6 +59,19 @@ const IconParser = ({ itemId, size }) => {
       icon = <FiShoppingCart fontSize={size || 20} />
       break
     //#endregion
+
+    //#region Platform Icons
+    case 12101:
+      icon = <IoIosGlobe fontSize={size || 20} />
+      break
+    case 12102:
+      icon = <HiOutlineDeviceMobile fontSize={size || 20} />
+      break
+    case 12103:
+      icon = <HiOutlineDesktopComputer fontSize={size || 20} />
+      break
+    //#endregion
+
     case 2121:
       icon = <FcBusinessman fontSize={size || 20} />
       break

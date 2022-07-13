@@ -73,11 +73,6 @@ const TeamScreen = () => {
                   zIndex: 10
                 }}
               />
-
-              {/* <SubTitle
-                size='medium'
-                content='Hire the top developers for your project, in one click, from our talented team of engineers!'
-              /> */}
               <div className='container row'>
                 <Card theme='dark' className='col col-lg-6' style={{
                   zIndex: 999
