@@ -21,9 +21,7 @@ const MarketplaceScreen = () => {
     setSnippetList(list)
     setInitList(list)
     setParentFeatureList(extractFeatures().parentFeatures)
-    const parentContainer = document.getElementById('route_container')
-    parentContainer.style.height = 'auto'
-    parentContainer.style.overflow = 'scroll'
+    
   }, [])
 
   function performNavigate (code) {

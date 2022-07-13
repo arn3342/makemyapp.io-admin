@@ -288,7 +288,6 @@ function ScreenRenderer () {
             />
           </div>
           <div
-            id='route_container'
             className='col'
             style={{ overflow: 'scroll', position: 'relative' }}
           >

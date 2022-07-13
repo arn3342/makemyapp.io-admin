@@ -18,9 +18,17 @@ export default ({}) => {
   const [showModifySlider, setShowModifySlider] = useState(false)
   useEffect(() => {
     getSnippetData()
-    const parentContainer = document.getElementById('route_container')
+    const parentContainer = document.getElementById('site_parent')
     parentContainer.style.height = '100%'
     parentContainer.style.overflow = 'hidden'
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      const parentContainer = document.getElementById('site_parent')
+    parentContainer.style.height = 'auto'
+    parentContainer.style.overflow = 'scroll'
+    }
   }, [])
 
   function getSnippetData () {
