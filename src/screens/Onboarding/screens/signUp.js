@@ -3,18 +3,17 @@ import { Spacer, SubTitle, Title } from '../../../components/global'
 import '../components/index.css'
 import { Button, Input } from '../../../components/form'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AuthActions } from '../../../data/actions/userActions'
 import { SignInBanner } from '../components'
 import { Formik } from 'formik'
 import { StringHelper } from '../../../data/extensions/stringHelper'
 
 export default ({ onSwitchRequest = () => {}, projectMetaData }) => {
-  const [submitting, setSubmitting] = useState(false)
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
 
   function performSignUp (values) {
-    setSubmitting(true)
     dispatch({
       type: AuthActions.PERFORM_SIGNUP,
       data: {
@@ -23,6 +22,16 @@ export default ({ onSwitchRequest = () => {}, projectMetaData }) => {
         projects: [projectMetaData]
       }
     })
+  }
+
+  function isBusy (isSubmitting) {
+    if (isSubmitting) {
+      if (user.error?.message) {
+        return false
+      }
+      return true
+    }
+    return isSubmitting
   }
 
   return (
@@ -48,6 +57,7 @@ export default ({ onSwitchRequest = () => {}, projectMetaData }) => {
           onSubmit={(values, { setSubmitting }) => {
             if (StringHelper.isEmpty(values.errMessage)) {
               console.log('Should try signup now...')
+              setSubmitting(true)
               performSignUp(values)
             }
           }}
@@ -77,20 +87,23 @@ export default ({ onSwitchRequest = () => {}, projectMetaData }) => {
               />
               <Spacer size='medium' />
               <Input
-                className={`col col-lg-9 margin_xs ${submitting && 'disabled'}`}
+                className={`col col-lg-9 margin_xs ${isBusy(isSubmitting) &&
+                  'disabled'}`}
                 placeholder='Email Address'
                 onValueChange={handleChange('email')}
               />
               <Spacer />
               <Input
-                className={`col col-lg-9 margin_xs ${submitting && 'disabled'}`}
+                className={`col col-lg-9 margin_xs ${isBusy(isSubmitting) &&
+                  'disabled'}`}
                 placeholder='Password'
                 isPassword
                 onValueChange={handleChange('password')}
               />
               <Spacer />
               <Input
-                className={`col col-lg-9 margin_xs ${submitting && 'disabled'}`}
+                className={`col col-lg-9 margin_xs ${isBusy(isSubmitting) &&
+                  'disabled'}`}
                 placeholder='Confirm Password'
                 isPassword
                 onValueChange={handleChange('rePassword')}
@@ -114,7 +127,7 @@ export default ({ onSwitchRequest = () => {}, projectMetaData }) => {
                     icon={faArrowRight}
                     animateIcon
                     onClick={handleSubmit}
-                    isBusy={submitting}
+                    isBusy={isBusy(isSubmitting)}
                     animateScale
                   />
                 </div>

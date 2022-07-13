@@ -7,25 +7,21 @@ import {
 import {
   setLoadingState,
   setProfile,
+  setProfileError,
   setProjectData,
   setTeamData
 } from '../reducers/userReducer'
-import {
-  ref,
-  getDatabase,
-  set,
-  update,
-  get,
-  child
-} from 'firebase/database'
+import { ref, getDatabase, set, update, get, child } from 'firebase/database'
 import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  getIdToken} from 'firebase/auth'
+  getIdToken
+} from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
 import { StorageHelper } from '../storage'
 import { Constants } from '../constants'
+import { ParseError } from '../../misc/errorParser'
 
 function * performGetTeam (payload) {
   // console.log('Data is:', data)
@@ -37,6 +33,7 @@ function * performSignUp (payload) {
   const firebaseApp = yield select(state => state.firebaseApp.instance)
   const auth = getAuth(firebaseApp)
   try {
+    yield put(setProfileError())
     const signup = yield call(
       createUserWithEmailAndPassword,
       auth,
@@ -70,7 +67,8 @@ function * performSignUp (payload) {
   } catch (ex) {
     let error = new FirebaseError()
     error = { ...ex }
-    console.log('Error is:', error)
+    yield call(StorageHelper.Remove, 'auth')
+    yield put(setProfileError(ParseError(error, 'FirebaseError')))
   }
 }
 
@@ -79,6 +77,7 @@ function * performSignIn (payload) {
   const firebaseApp = yield select(state => state.firebaseApp.instance)
   const auth = getAuth(firebaseApp)
   try {
+    yield put(setProfileError())
     const signIn = yield call(
       signInWithEmailAndPassword,
       auth,
@@ -105,7 +104,7 @@ function * performSignIn (payload) {
     let error = new FirebaseError()
     error = { ...ex }
     yield call(StorageHelper.Remove, 'auth')
-    console.log('Error is:', ex)
+    yield put(setProfileError(ParseError(error, 'FirebaseError')))
   }
 }
 
@@ -113,6 +112,7 @@ function * performLocalSignIn (payload) {
   const firebaseApp = yield select(state => state.firebaseApp.instance)
   const auth = getAuth(firebaseApp)
   try {
+    yield put(setProfileError())
     const localAuth = yield call(StorageHelper.GetItem, 'auth')
     if (localAuth) {
       const signIn = yield call(
@@ -142,9 +142,9 @@ function * performLocalSignIn (payload) {
   } catch (ex) {
     let error = new FirebaseError()
     error = { ...ex }
-    console.log('Error is:', ex)
     yield call(StorageHelper.Remove, 'auth')
     yield put(setLoadingState(Constants.LoadingState.ERROR))
+    yield put(setProfileError(ParseError(error, 'FirebaseError')))
   }
 }
 
@@ -154,16 +154,12 @@ function * performProfileUpdate (payload) {
   const firebaseApp = yield select(state => state.firebaseApp.instance)
   try {
     const database = yield call(getDatabase, firebaseApp)
-    yield call(
-      update,
-      child(ref(database), `users/${userId}`),
-      data
-    )
+    yield call(update, child(ref(database), `users/${userId}`), data)
     yield put(setProfile(data))
   } catch (ex) {
     let error = new FirebaseError()
     error = { ...ex }
-    console.log('Error is:', ex)
+    console.log('Profile update error:', ex)
     yield call(StorageHelper.Remove, 'auth')
     yield put(setLoadingState(Constants.LoadingState.ERROR))
   }
@@ -199,7 +195,7 @@ function * performUpdatePhaseFeature (payload) {
   yield put(setProjectData(updatedProject))
 }
 
-function * performSignOut(){
+function * performSignOut () {
   yield call(StorageHelper.Remove, 'auth')
   yield put(setProfile())
 }

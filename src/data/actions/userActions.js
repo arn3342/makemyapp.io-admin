@@ -14,7 +14,8 @@ export const AuthActions = {
   PERFORM_SIGNUP: 'user/signup',
   PERFORM_SIGNIN: 'user/signin',
   PERFORM_SIGNIN_LOCAL: 'user/signin/local',
-  PERFORM_SIGNOUT: 'user/signout'
+  PERFORM_SIGNOUT: 'user/signout',
+  SET_ERROR: 'user/error'
 }
 
 export const ProjectActions = {

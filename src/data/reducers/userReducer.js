@@ -1,4 +1,8 @@
-import { ProfileActions, ProjectActions } from '../actions/userActions'
+import {
+  AuthActions,
+  ProfileActions,
+  ProjectActions
+} from '../actions/userActions'
 import { Constants } from '../constants'
 
 export const setTeamData = data => ({
@@ -31,10 +35,16 @@ export const setLoadingState = data => ({
   data
 })
 
+export const setProfileError = data => ({
+  type: AuthActions.SET_ERROR,
+  data
+})
+
 const initialState = {
   profile: {},
   team: [],
-  loadingState: Constants.LoadingState.LOADING
+  loadingState: Constants.LoadingState.LOADING,
+  error: {}
 }
 
 export default (state = initialState, action) => {
@@ -60,12 +70,17 @@ export default (state = initialState, action) => {
 
     case ProjectActions.SET_PROJECT:
       // console.log('Updated project is:', {...state.profile.projects[0], ...data})
-      profile.projects[0] = {...data}
+      profile.projects[0] = { ...data }
       return { ...state, profile } || state
 
     case ProfileActions.SET_LOADING_STATE:
       let loadingState = data
       return { ...state, loadingState } || state
+
+    case AuthActions.SET_ERROR:
+      let error = data
+      console.log('Err profile is:', { ...state, error })
+      return { ...state, error }
 
     default:
       return state

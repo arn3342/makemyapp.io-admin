@@ -11,13 +11,11 @@ import { StringHelper } from '../../../data/extensions/stringHelper'
 import { Constants } from '../../../data/constants'
 
 export default ({ onSwitchRequest = () => {} }) => {
-  const [submitting, setSubmitting] = useState(false)
   const [globalLoading, setGlobalLoading] = useState(false)
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   function performLogin (values) {
-    setSubmitting(true)
     dispatch({
       type: AuthActions.PERFORM_SIGNIN,
       data: {
@@ -39,6 +37,16 @@ export default ({ onSwitchRequest = () => {} }) => {
       setGlobalLoading(false)
     }
   }, [user.loadingState])
+
+  function isBusy (isSubmitting) {
+    if (isSubmitting) {
+      if (user.error?.message) {
+        return false
+      }
+      return true
+    }
+    return isSubmitting
+  }
 
   return (
     <div>
@@ -64,7 +72,8 @@ export default ({ onSwitchRequest = () => {} }) => {
           validateOnChange={false}
           onSubmit={(values, { setSubmitting }) => {
             if (StringHelper.isEmpty(values.errMessage)) {
-              console.log('Should try SignIn now...')
+              // console.log('Should try SignIn now...')
+              setSubmitting(true)
               performLogin(values)
             }
           }}
@@ -101,18 +110,28 @@ export default ({ onSwitchRequest = () => {} }) => {
               />
               <Spacer size='large' />
               <Input
-                className={`col col-lg-9 margin_xs ${submitting && 'disabled'}`}
+                className={`col col-lg-9 margin_xs ${isBusy(isSubmitting) &&
+                  'disabled'}`}
                 placeholder='Email Address'
                 onValueChange={handleChange('email')}
               />
               <Spacer />
               <Input
-                className={`col col-lg-9 margin_xs ${submitting && 'disabled'}`}
+                className={`col col-lg-9 margin_xs ${isBusy(isSubmitting) &&
+                  'disabled'}`}
                 placeholder='Password'
                 isPassword
                 onValueChange={handleChange('password')}
               />
-              <Spacer size='medium' />
+              {errors.errMessage || user.error?.message ? (
+                <SubTitle
+                  content={errors.errMessage || user.error.message}
+                  className='font_xs no_margin'
+                  fontType={'bold'}
+                />
+              ) : (
+                <Spacer size='medium' />
+              )}
               <div className='row'>
                 <div className='col col-sm-5'>
                   <Button
@@ -123,7 +142,7 @@ export default ({ onSwitchRequest = () => {} }) => {
                     icon={faArrowRight}
                     animateIcon
                     onClick={handleSubmit}
-                    isBusy={submitting}
+                    isBusy={isBusy(isSubmitting)}
                     animateScale
                   />
                 </div>

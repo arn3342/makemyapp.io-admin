@@ -6,7 +6,6 @@ export function extractFeatures () {
 
   parentFeatures.map(parent => {
     // if (parent.options) {
-      parent.options && console.log('Should add sub')
       parent.options?.map(sub => {
         const subFeature = { ...sub }
         subFeature.parent = {...parent}
