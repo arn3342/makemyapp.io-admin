@@ -13,10 +13,13 @@ import dummyGenerator from '../../data/dummyGenerator'
 const MarketplaceScreen = () => {
   const [snippetList, setSnippetList] = useState()
   const [parentFeatureList, setParentFeatureList] = useState()
+  const [initList, setInitList] = useState()
   const navigate = useNavigate()
   useEffect(() => {
     // console.log('Snippets are:', snippetList)
-    setSnippetList(dummyGenerator.codeSnippet(4))
+    const list = dummyGenerator.codeSnippet(4)
+    setSnippetList(list)
+    setInitList(list)
     setParentFeatureList(extractFeatures().parentFeatures)
     const parentContainer = document.getElementById('route_container')
     parentContainer.style.height = 'auto'
@@ -31,6 +34,14 @@ const MarketplaceScreen = () => {
     navigate(snippetRoute, {
       state: code
     })
+  }
+
+  function performParentFilter (categoryIDs = []) {
+    let filteredList =
+      categoryIDs.length > 0
+        ? initList.filter(x => categoryIDs.some(id => x.parentCategory.id == id))
+        : initList
+    setSnippetList(filteredList)
   }
 
   return (
@@ -58,7 +69,7 @@ const MarketplaceScreen = () => {
         {parentFeatureList && <SimpleChoiceList
           data={parentFeatureList}
           title='Filter By Category :'
-          // onChoiceChange={val => performParentFilter(val)}
+          onChoiceChange={val => performParentFilter(val)}
         />}
       </div>
       <div className='table_container shadow_light'>
