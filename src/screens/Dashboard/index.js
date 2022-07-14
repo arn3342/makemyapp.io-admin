@@ -60,9 +60,9 @@ const DashboardScreen = ({}) => {
                     display: 'flex'
                   }}
                 >
-                  {projectData.platformTypes?.map(platform => {
+                  {projectData.platformTypes?.map((platform, index) => {
                     return (
-                      <div className='icon_regular icon_platform'>
+                      <div key={index} className='icon_regular icon_platform'>
                         <IconParser itemId={platform} />
                       </div>
                     )
@@ -169,7 +169,7 @@ const DashboardDetail = ({}) => {
             theme='dark'
             label='Quick Overview:'
             icon={faListAlt}
-            onValueChange={handlePhaseChage}
+            onValueChange={(value) => handlePhaseChage(value)}
           />
         </div>
         {/* <ButtonGroup

@@ -6,7 +6,7 @@ import { getNumberKMBT } from '../../misc/logics'
 import { DropDown } from '../../components/form'
 import { useSelector } from 'react-redux'
 import { getDevelopmentCost, getCostRateData } from '../../data/featureHelper'
-import { extractFeature } from '../../misc/featureExtractor'
+import { extractFeature, getSuggestedTeam } from '../../misc/featureHelper'
 const CostScreen = () => {
   const [mvpPrice, setMvpPrice] = useState()
   const [v1Price, setV1Price] = useState()
@@ -46,6 +46,7 @@ const CostScreen = () => {
         return a + b.estDevTime
       }, 0)
     })
+
   }, [])
 
   function handleRegionChange (type, stateIndex) {

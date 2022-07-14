@@ -21,7 +21,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelector } from 'react-redux'
 import { Constants } from '../../../data/constants'
 import {
-  extractFeature} from '../../../misc/featureExtractor'
+  extractFeature} from '../../../misc/featureHelper'
 
 export const ScreenNode = ({ data }) => {
   const mvpScreens = useSelector(state => state.roadmap.mvp.screens)

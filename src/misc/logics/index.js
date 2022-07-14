@@ -89,7 +89,7 @@ export function randomColorSelector () {
  * @returns An `int` value representing the weeks count
  */
 export function getWeeksFromHours (hours, maxHrPerWeek = 40) {
-  if (hours) return Math.round(hours / maxHrPerWeek)
+  if (hours) return Math.ceil(hours / maxHrPerWeek)
   return 0
 }
 

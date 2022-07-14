@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { ExtendedButton } from '../../components/form'
 import { Card, Spacer, SubTitle, Title } from '../../components/global'
 import { ProfileActions } from '../../data/actions/userActions'
-import { extractFeature } from '../../misc/featureExtractor'
+import { extractFeature } from '../../misc/featureHelper'
 import { getWeeksFromHours } from '../../misc/logics'
 import { SiteRoutes } from '../../misc/routes'
 

@@ -1,22 +1,23 @@
 import { Player } from '@lottiefiles/react-lottie-player'
 import React, { useEffect, useState } from 'react'
-import { BsCodeSlash, BsHourglassSplit } from 'react-icons/bs'
 import { DropDown, SimpleChoiceList } from '../../../components/form'
 import { Card, Spacer, SubTitle, Title } from '../../../components/global'
-import CostScreen from '../costScreen'
-import TeamScreen from '../teamScreen'
-import TimelineScreen from '../timelineScreen'
 import DevPayAnim from '../../../assets/gifs/dev_payment-anim.json'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { extractFeature } from '../../../misc/featureExtractor'
+import { extractFeature, getSuggestedTeam } from '../../../misc/featureHelper'
 import { ProfileActions } from '../../../data/actions/userActions'
 import {
   getCostRateData,
   getDevelopmentCost
 } from '../../../data/featureHelper'
-import { Constants } from '../../../data/constants'
 import { getNumberKMBT, getWeeksFromHours } from '../../../misc/logics'
+import { HiOutlineClock, HiOutlineUserGroup } from 'react-icons/hi'
+import { DiReact } from 'react-icons/di'
+import './index.css'
+import { BsCodeSlash } from 'react-icons/bs'
+import { BiCodeCurly } from 'react-icons/bi'
+import { FaAws } from 'react-icons/fa'
 
 /**
  * Component to render build-phase details
@@ -63,34 +64,77 @@ export const PhaseDetails = ({ phase }) => {
       })
     }
 
-    const phaseFeatureIDs = currentProject.buildPhases[phase.toLowerCase()]?.features
+    const phaseFeatureIDs =
+      currentProject.buildPhases[phase.toLowerCase()]?.features
     const phaseFeatures = extractFeature(phaseFeatureIDs)
 
-    setPhaseData(prevState => ({
-      ...prevState,
-      devTime: phaseFeatures?.reduce((a, b) => {
-        return a + b.estDevTime
-      }, 0)
-    }))
+    const finalSuggestion = getSuggestedTeam(phaseFeatures)
+
+    getCostRateData(firebaseApp).then(result => {
+      setCostData(result)
+
+      setPhaseData(prevState => ({
+        ...prevState,
+        devTime: finalSuggestion.devTime,
+        team: finalSuggestion.team,
+        teamSize: finalSuggestion.team.reduce((a, b) => {
+          return a + b.devCount
+        }, 0),
+        devCost: getDevelopmentCost(
+          result[costStateIndex].rate,
+          finalSuggestion.devTime
+        )
+      }))
+    })
   }, [phase])
 
-  useEffect(() => {
-    getCostRateData(firebaseApp).then(result => setCostData(result))
-  }, [])
-
   function handleRegionChange (stateIndex) {
-    setCostStateIndex(stateIndex)
+    !costStateIndex && setCostStateIndex(stateIndex)
     if (costData && phaseData?.devTime) {
       setPhaseData(prevState => ({
         ...prevState,
-        devCost: getDevelopmentCost(costData[stateIndex].rate, prevState.devTime)
+        devCost: getDevelopmentCost(
+          costData[stateIndex].rate,
+          prevState.devTime
+        )
       }))
     }
   }
 
   useEffect(() => {
-    handleRegionChange(costStateIndex);
-  }, [phase])
+    // costStateIndex && handleRegionChange(costStateIndex)
+    // getSuggestedTeam()
+  }, [costData])
+
+  function constructTeamOptions () {
+    const teamOptions = []
+    if (phaseData?.team) {
+      phaseData?.team.map((tm, index) => {
+        const { role, devCount } = tm
+        teamOptions.push({
+          id: index,
+          title: `${devCount} ${role[0].toUpperCase() +
+            role.substring(1)} Engineers`,
+          icon: () => {
+            const roleName = role.toLowerCase()
+            switch (roleName) {
+              case 'front-end':
+                return <DiReact size={16} />
+              case 'back-end':
+                return <BiCodeCurly size={16} />
+              case 'full-stack':
+                return <BsCodeSlash size={16} />
+              case 'devops':
+                return <FaAws size={16} />
+              default:
+                return <HiOutlineUserGroup size={16} />
+            }
+          }
+        })
+      })
+    }
+    return teamOptions
+  }
 
   return (
     <div className='row'>
@@ -104,7 +148,7 @@ export const PhaseDetails = ({ phase }) => {
                 marginRight: '10px'
               }}
             >
-              <BsHourglassSplit size={20} />
+              <HiOutlineClock size={20} />
             </div>
             <div
               style={{
@@ -152,7 +196,7 @@ export const PhaseDetails = ({ phase }) => {
       <div className='col'>
         <div className='custom_card'>
           <div className='row'>
-            <div className='col col-sm-4'>
+            <div className='col col-sm-3'>
               <Title
                 content={
                   <>
@@ -177,7 +221,7 @@ export const PhaseDetails = ({ phase }) => {
               <SubTitle
                 content={
                   <>
-                    Development cost has been estimated based on{' '}
+                    Estimated based on{' '}
                     <b>
                       <i>Development Region</i>
                     </b>{' '}
@@ -199,20 +243,16 @@ export const PhaseDetails = ({ phase }) => {
               }}
             >
               <div className='d-flex'>
-                {/* <SubTitle
-              content='Suggestions'
-              fontType='bold'
-              className='font_xs no_padding margin_xs'
-            /> */}
                 <DropDown
                   label={'Suggested Team:'}
-                  options={['6 People']}
+                  options={[`${phaseData?.teamSize} Members`]}
                   labelProps={{
                     className: 'font_xs line_s no_margin'
                   }}
                   containerProps={{
                     className: 'col col-sm-5'
                   }}
+                  placeholder={`${phaseData?.teamSize} Members`}
                 />
                 <Spacer />
                 <DropDown
@@ -220,9 +260,7 @@ export const PhaseDetails = ({ phase }) => {
                   options={costData?.map(rate => {
                     return rate.name
                   })}
-                  onValueChange={(val, index) =>
-                    handleRegionChange(index)
-                  }
+                  onValueChange={(val, index) => handleRegionChange(index)}
                   containerProps={{
                     className: 'col col-sm-5'
                   }}
@@ -232,29 +270,19 @@ export const PhaseDetails = ({ phase }) => {
                 />
               </div>
               <Spacer />
-              <SimpleChoiceList
-                data={[
-                  {
-                    icon: <BsCodeSlash size={14} />,
-                    title: '2 Front-End Engineers'
-                  },
-                  {
-                    icon: <BsCodeSlash size={14} />,
-                    title: '2 Front-End Engineers'
-                  },
-                  {
-                    icon: <BsCodeSlash size={14} />,
-                    title: '2 Front-End Engineers'
-                  },
-                  {
-                    icon: <BsCodeSlash size={14} />,
-                    title: '2 Front-End Engineers'
-                  }
-                ]}
-                choiceProps={{
-                  className: 'shadow_light custom_choice'
-                }}
+              <SubTitle
+                content='Suggested Team Structure:'
+                className='font_xs margin_xs'
+                fontType='bold'
               />
+              {phaseData?.team && (
+                <SimpleChoiceList
+                  data={constructTeamOptions()}
+                  choiceProps={{
+                    className: 'shadow_light custom_choice'
+                  }}
+                />
+              )}
               <div
                 style={{
                   position: 'absolute',

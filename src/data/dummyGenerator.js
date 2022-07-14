@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker/locale/en'
-import { extractFeatures } from '../misc/featureExtractor'
+import { extractFeatures } from '../misc/featureHelper'
 import { getRandomInteger } from '../misc/logics'
 import { Constants } from './constants'
 

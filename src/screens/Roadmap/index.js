@@ -8,7 +8,7 @@ import {
   ScreenNode
 } from './components'
 import { DropDown } from '../../components/form'
-import { extractFeaturesAsIs } from '../../misc/featureExtractor'
+import { extractFeaturesAsIs } from '../../misc/featureHelper'
 import { useDispatch, useSelector } from 'react-redux'
 import { RoadmapActions } from '../../data/actions/roadmapActions'
 import { Constants } from '../../data/constants'

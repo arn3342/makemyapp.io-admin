@@ -7,7 +7,7 @@ import { AiFillStar, AiOutlineHeart } from 'react-icons/ai'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Input, SimpleChoiceList } from '../../components/form'
 import { constructRoute, SiteRoutes } from '../../misc/routes'
-import { extractFeatures } from '../../misc/featureExtractor'
+import { extractFeatures } from '../../misc/featureHelper'
 import dummyGenerator from '../../data/dummyGenerator'
 
 const MarketplaceScreen = () => {

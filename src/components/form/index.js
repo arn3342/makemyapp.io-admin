@@ -146,14 +146,16 @@ export const DropDown = ({
     )
   }
 
-  useEffect(() => {
-    if (!currentValue) {
-      handleValueChange((options && options[0]) || placeholder, 0)
-    }
-  })
+  // useEffect(() => {
+  //   if (!currentValue) {
+  //     handleValueChange((options && options[0]) || placeholder, 0)
+  //   }
+  // }, [options])
   return (
     <div
-      className={`dropdown ${isFocused && 'dropdown_focused'} ${className} ${containerProps?.className}`}
+      className={`dropdown ${isFocused && 'dropdown_focused'} ${className} ${
+        containerProps?.className
+      }`}
       tabIndex={1}
       onClick={() => setFocused(!isFocused)}
       onBlur={event => handleBlur(event)}
@@ -197,7 +199,8 @@ export const DropDown = ({
               currentValue?.title ||
               currentValue?.label ||
               currentValue?.description ||
-              currentValue
+              currentValue ||
+              options[0]
             }
           ></SubTitle>
         </div>
@@ -348,28 +351,54 @@ export const SimpleChoice = ({
     }
   }
   return (
-    <div
-      className={`choice_extra-small ${isSelected && 'choice_selected'} ${
-        data.icon ? 'd-flex' : ''
-      } ${choiceProps.className}`}
-      onClick={() => performSelection()}
-      style={{
-        alignItems: data.icon ? 'center' : 'inherit',
-        ...choiceProps.style
-      }}
-    >
-      {data.icon && <div className='d-flex' style={{
-        marginRight: '5px'
-      }}>{data.icon}</div>}
-      <SubTitle
-        className={'font_xs'}
-        fontType='bold'
-        content={data.title || data.value || data.description || data}
+    <>
+      <div
+        className={`choice_extra-small ${isSelected && 'choice_selected'} ${
+          choiceProps.className
+        }`}
+        onClick={() => performSelection()}
         style={{
-          marginBottom: 0
+          alignItems: data.icon ? 'center' : 'inherit',
+          ...choiceProps.style
         }}
-      />
-    </div>
+      >
+        <div className={`${data.icon ? 'd-flex' : ''}`}>
+          {data.icon && (
+            <div
+              style={{
+                marginRight: '5px',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              {data.icon instanceof Function ? data.icon() : data.icon}
+            </div>
+          )}
+          <div>
+            <SubTitle
+              className={'font_xs'}
+              fontType='bold'
+              content={data.title || data.value || data.description || data}
+              style={{
+                marginBottom: 0
+              }}
+            />
+            {data.description && (
+              <SubTitle
+                className={'font_xs'}
+                content={data.description || data}
+                style={{
+                  marginBottom: 0,
+                  display: 'block'
+                }}
+                fontType='bold'
+              />
+            )}
+          </div>
+        </div>
+        {data.extraComponent}
+      </div>
+    </>
   )
 }
 
