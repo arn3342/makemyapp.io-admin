@@ -101,11 +101,6 @@ export const PhaseDetails = ({ phase }) => {
     }
   }
 
-  useEffect(() => {
-    // costStateIndex && handleRegionChange(costStateIndex)
-    // getSuggestedTeam()
-  }, [costData])
-
   function constructTeamOptions () {
     const teamOptions = []
     if (phaseData?.team) {

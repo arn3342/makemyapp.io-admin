@@ -19,9 +19,9 @@ import { getRandomInteger } from '../../misc/logics'
 import { useSelector } from 'react-redux'
 import HiringAnim from '../../assets/gifs/hiring-anim.json'
 import './index.css'
-import { faAngleRight, faListAlt } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight, faListAlt, faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { Constants } from '../../data/constants'
-import {PhaseDetails} from './components'
+import { PhaseDetails } from './components'
 
 const DashboardScreen = ({}) => {
   const projectData = useSelector(state => state.user.profile.projects[0])
@@ -45,7 +45,14 @@ const DashboardScreen = ({}) => {
               <div className='col col-xxl-8'>
                 <Title content={projectData.appName} fontType='bold' />
                 <SubTitle
-                  content={projectData.appDesc}
+                  content={
+                    projectData.appDesc || (
+                      <>
+                        Write a few lines about your app/idea. This helps us
+                        make suggestions.
+                      </>
+                    )
+                  }
                   fontType='light'
                   size='regular'
                 />
@@ -125,7 +132,7 @@ const DashboardScreen = ({}) => {
                   }}
                 />
                 <SubTitle
-                  className='margin_xs'
+                  className='margin_xs line_m'
                   content={
                     <>
                       Hire our talented team of developers, with 10+ years of
@@ -136,7 +143,7 @@ const DashboardScreen = ({}) => {
                 <Button
                   label='Book A Session Now'
                   animateIcon
-                  icon={faAngleRight}
+                  icon={faPhoneAlt}
                   isExtraSmall
                   theme='dark'
                 />
@@ -155,7 +162,7 @@ export default DashboardScreen
 
 const DashboardDetail = ({}) => {
   const [currentPhase, setCurrentPhase] = useState(Constants.BuildPhases[0])
-  function handlePhaseChage(value){
+  function handlePhaseChage (value) {
     setCurrentPhase(value)
   }
 
@@ -169,7 +176,7 @@ const DashboardDetail = ({}) => {
             theme='dark'
             label='Quick Overview:'
             icon={faListAlt}
-            onValueChange={(value) => handlePhaseChage(value)}
+            onValueChange={value => handlePhaseChage(value)}
           />
         </div>
         {/* <ButtonGroup
@@ -180,7 +187,7 @@ const DashboardDetail = ({}) => {
       </div>
       <Spacer />
       <PhaseDetails phase={currentPhase} />
-      
+
       <Spacer size='large' />
     </div>
   )

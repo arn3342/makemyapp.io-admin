@@ -75,6 +75,7 @@ export default ({}) => {
           </thead>
           <tbody>
             {teamState?.map((member, index) => {
+              console.log('Member is:', member)
               return (
                 <tr className='table_row' key={index}>
                   <td>

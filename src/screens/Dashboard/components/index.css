@@ -4,7 +4,7 @@
     padding: 0px 7px;
     max-width: fit-content;
 }
-.option_container{
+.team_option_container{
     display: flex;
     flex-wrap: wrap;
 }

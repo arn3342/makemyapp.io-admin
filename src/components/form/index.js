@@ -200,6 +200,7 @@ export const DropDown = ({
               currentValue?.label ||
               currentValue?.description ||
               currentValue ||
+              options[0]?.title || 
               options[0]
             }
           ></SubTitle>
@@ -354,12 +355,12 @@ export const SimpleChoice = ({
     <>
       <div
         className={`choice_extra-small ${isSelected && 'choice_selected'} ${
-          choiceProps.className
+          choiceProps?.className
         }`}
         onClick={() => performSelection()}
         style={{
           alignItems: data.icon ? 'center' : 'inherit',
-          ...choiceProps.style
+          ...choiceProps?.style
         }}
       >
         <div className={`${data.icon ? 'd-flex' : ''}`}>

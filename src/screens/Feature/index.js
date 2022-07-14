@@ -22,7 +22,11 @@ const FeatureScreen = () => {
 
   useEffect(() => {
     const features = extractFeatures()
-    setParentFeatureList(features.parentFeatures)
+    let parent = features.parentFeatures.map(feature => {
+      delete feature.description;
+      return feature
+    })
+    setParentFeatureList(parent)
     setFeatureList(features.subFeatures)
     setInitFeatureList(features.subFeatures)
   }, [])
@@ -77,6 +81,11 @@ const FeatureScreen = () => {
     navigate(SiteRoutes.Engine.Resources.Screens().Marketplace.path, {
       state: { featureId }
     })
+  }
+
+  function getDevelopmentTime(devTimeArray){
+    const maxDevTime = Math.max(...devTimeArray.map(single => single.hours))
+    return maxDevTime;
   }
 
   return (
@@ -189,7 +198,7 @@ const FeatureScreen = () => {
                       />
                       <Spacer size='xs' />
                       <SubTitle
-                        content={`${feature.estDevTime} hour(s)`}
+                        content={`${getDevelopmentTime(feature.estDevTime)} hour(s)`}
                         fontType='bold'
                         className='font_link no_margin'
                       />

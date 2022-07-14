@@ -309,6 +309,9 @@ i {
 .line_s{
   line-height: 18px !important;
 }
+.line_m{
+  line-height: 20px !important;
+}
 .padding_s {
   padding: 10px !important;
 }
