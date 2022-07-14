@@ -11,11 +11,32 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { extractFeature } from '../../../misc/featureExtractor'
 import { ProfileActions } from '../../../data/actions/userActions'
+import {
+  getCostRateData,
+  getDevelopmentCost
+} from '../../../data/featureHelper'
+import { Constants } from '../../../data/constants'
+import { getNumberKMBT, getWeeksFromHours } from '../../../misc/logics'
 
-export const PhaseDetails = ({ screenId }) => {
+/**
+ * Component to render build-phase details
+ * @param {object} props Component props
+ * @param {'mvp' | 'v1'} props.phase Defines the size of the component, affecting `padding`, `border` etc. properties. Defaults to `small`.
+ */
+export const PhaseDetails = ({ phase }) => {
   const userProfile = useSelector(state => state.user.profile)
   const currentProject = useSelector(state => state.user.profile.projects[0])
-  const [timeData, setTimeData] = useState()
+  const firebaseApp = useSelector(state => state.firebaseApp.instance)
+  const [phaseData, setPhaseData] = useState()
+  const [costStateIndex, setCostStateIndex] = useState(0)
+  const [costData, setCostData] = useState([
+    {
+      currency: '',
+      currencySymbol: '',
+      name: '',
+      rate: 0
+    }
+  ])
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -31,30 +52,45 @@ export const PhaseDetails = ({ screenId }) => {
           return feature
         }
       })
-  
+
       let updatedProfile = { ...userProfile }
       userProfile.projects[0].buildPhases.mvp.features = mvpFeatureIDs
       userProfile.projects[0].buildPhases.v1 = { features: v1FeatureIDs }
-  
+
       dispatch({
         type: ProfileActions.UPDATE_PROFILE,
         data: updatedProfile
       })
     }
-  
-    const mvpFeatures = extractFeature(mvpFeatureIDs)
-    const v1Features = extractFeature(v1FeatureIDs)
-  
-    // console.log("MVP ft:", mvpFeatureIDs)
-    setTimeData({
-      mvpTime: mvpFeatures?.reduce((a, b) => {
-        return a + b.estDevTime
-      }, 0),
-      v1Time: v1Features?.reduce((a, b) => {
+
+    const phaseFeatureIDs = currentProject.buildPhases[phase.toLowerCase()]?.features
+    const phaseFeatures = extractFeature(phaseFeatureIDs)
+
+    setPhaseData(prevState => ({
+      ...prevState,
+      devTime: phaseFeatures?.reduce((a, b) => {
         return a + b.estDevTime
       }, 0)
-    })
+    }))
+  }, [phase])
+
+  useEffect(() => {
+    getCostRateData(firebaseApp).then(result => setCostData(result))
   }, [])
+
+  function handleRegionChange (stateIndex) {
+    setCostStateIndex(stateIndex)
+    if (costData && phaseData?.devTime) {
+      setPhaseData(prevState => ({
+        ...prevState,
+        devCost: getDevelopmentCost(costData[stateIndex].rate, prevState.devTime)
+      }))
+    }
+  }
+
+  useEffect(() => {
+    handleRegionChange(costStateIndex);
+  }, [phase])
 
   return (
     <div className='row'>
@@ -97,7 +133,8 @@ export const PhaseDetails = ({ screenId }) => {
             fontType='bold'
           />
           <Title
-            content={'4 Weeks'}
+            content={`${getWeeksFromHours(phaseData?.devTime)} Weeks`}
+            isLoading={!phaseData}
             size='large-2'
             style={{
               borderBottom: 'solid 1px #c4c4c4',
@@ -132,9 +169,10 @@ export const PhaseDetails = ({ screenId }) => {
                 className='font_gradient no_padding no_margin neg_margin'
               />
               <Title
-                content={'$40K'}
+                content={`$ ${getNumberKMBT(phaseData?.devCost)}`}
                 size='large-2'
                 className='font_gradient font_pad'
+                isLoading={!phaseData || phaseData?.devCost == 0}
               />
               <SubTitle
                 content={
@@ -160,7 +198,7 @@ export const PhaseDetails = ({ screenId }) => {
                 paddingRight: 0
               }}
             >
-              <div className='col col-sm-5'>
+              <div className='d-flex'>
                 {/* <SubTitle
               content='Suggestions'
               fontType='bold'
@@ -172,18 +210,24 @@ export const PhaseDetails = ({ screenId }) => {
                   labelProps={{
                     className: 'font_xs line_s no_margin'
                   }}
+                  containerProps={{
+                    className: 'col col-sm-5'
+                  }}
                 />
                 <Spacer />
                 <DropDown
-                  label={'Region:'}
-                  options={['6 People']}
-                  contentContainerProps={{
-                    className: 'd-flex col'
+                  label={'Development Region:'}
+                  options={costData?.map(rate => {
+                    return rate.name
+                  })}
+                  onValueChange={(val, index) =>
+                    handleRegionChange(index)
+                  }
+                  containerProps={{
+                    className: 'col col-sm-5'
                   }}
                   labelProps={{
-                    style: {
-                      paddingRight: '5px'
-                    }
+                    className: 'font_xs line_s no_margin'
                   }}
                 />
               </div>

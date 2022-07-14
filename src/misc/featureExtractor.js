@@ -37,7 +37,6 @@ export function extractFeatures () {
 
 export function extractFeature (featureId = []) {
   const features = extractFeatures().subFeatures
-  console.log('Features:', features.length)
   if (Array.isArray(featureId)) {
     return features.filter(x =>
       featureId.some(id => id == x.id)

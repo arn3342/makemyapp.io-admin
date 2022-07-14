@@ -154,48 +154,9 @@ const DashboardScreen = ({}) => {
 export default DashboardScreen
 
 const DashboardDetail = ({}) => {
-  const [selectItem, setSelectedItem] = useState(188)
-  // console.log('Selec:', selectItem)
-  const dummyData = [
-    {
-      id: 188,
-      title: 'Timeline Roadmap',
-      description: 'The timeline for your project, from MVP to V1.',
-      extraLabel: 'Click For Quick View'
-    },
-    {
-      id: 189,
-      title: 'Cost Estimates',
-      description:
-        'Cost estimation of your project, based on timeline and region.',
-      extraLabel: 'Click For Quick View'
-    },
-    ,
-    {
-      id: 190,
-      title: 'Get Your Team',
-      description: 'Manage or hire team members and track the development.',
-      extraLabel: 'Click For Quick View'
-    }
-  ]
-  const ButtonGroup = ({ data, selectItemId, onItemClick }) => {
-    return (
-      <>
-        {data.map(item => {
-          return (
-            <div className='col col-sm-3' key={getRandomInteger(10, 999)}>
-              <ExtendedButton
-                {...item}
-                theme='light'
-                itemSize={'compact'}
-                isSelected={item.id == selectItemId}
-                onClick={() => onItemClick(item.id)}
-              />
-            </div>
-          )
-        })}
-      </>
-    )
+  const [currentPhase, setCurrentPhase] = useState(Constants.BuildPhases[0])
+  function handlePhaseChage(value){
+    setCurrentPhase(value)
   }
 
   return (
@@ -208,6 +169,7 @@ const DashboardDetail = ({}) => {
             theme='dark'
             label='Quick Overview:'
             icon={faListAlt}
+            onValueChange={handlePhaseChage}
           />
         </div>
         {/* <ButtonGroup
@@ -217,7 +179,7 @@ const DashboardDetail = ({}) => {
         /> */}
       </div>
       <Spacer />
-      <PhaseDetails screenId={selectItem} />
+      <PhaseDetails phase={currentPhase} />
       
       <Spacer size='large' />
     </div>

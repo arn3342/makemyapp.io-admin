@@ -127,7 +127,8 @@ export const DropDown = ({
   theme,
   label,
   contentContainerProps,
-  labelProps
+  labelProps,
+  containerProps
 }) => {
   const [isFocused, setFocused] = useState(false)
   const [currentValue, setCurrentValue] = useState()
@@ -152,7 +153,7 @@ export const DropDown = ({
   })
   return (
     <div
-      className={`dropdown ${isFocused && 'dropdown_focused'} ${className}`}
+      className={`dropdown ${isFocused && 'dropdown_focused'} ${className} ${containerProps?.className}`}
       tabIndex={1}
       onClick={() => setFocused(!isFocused)}
       onBlur={event => handleBlur(event)}
