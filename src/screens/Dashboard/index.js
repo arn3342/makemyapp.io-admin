@@ -1,16 +1,27 @@
 import React, { useState } from 'react'
-import { Card, Spacer, SubTitle, Title } from '../../components/global'
-import { Button, DropDown, ExtendedButton } from '../../components/form'
+import {
+  Card,
+  ContentSwitcher,
+  Spacer,
+  SubTitle,
+  Title
+} from '../../components/global'
+import {
+  Button,
+  DropDown,
+  ExtendedButton,
+  SimpleChoiceList
+} from '../../components/form'
 import { Player } from '@lottiefiles/react-lottie-player'
 import RocketAnim from '../../assets/gifs/rocket-anim.json'
 import IconParser from '../../misc/iconParser'
-import { ScreenSelector } from './components'
 import { getRandomInteger } from '../../misc/logics'
 import { useSelector } from 'react-redux'
 import HiringAnim from '../../assets/gifs/hiring-anim.json'
 import './index.css'
 import { faAngleRight, faListAlt } from '@fortawesome/free-solid-svg-icons'
 import { Constants } from '../../data/constants'
+import {PhaseDetails} from './components'
 
 const DashboardScreen = ({}) => {
   const projectData = useSelector(state => state.user.profile.projects[0])
@@ -206,7 +217,8 @@ const DashboardDetail = ({}) => {
         /> */}
       </div>
       <Spacer />
-      <ScreenSelector screenId={selectItem} />
+      <PhaseDetails screenId={selectItem} />
+      
       <Spacer size='large' />
     </div>
   )

@@ -123,10 +123,11 @@ export const DropDown = ({
   onValueChange = (val = '', index = 0) => {},
   options,
   enableClear,
-  defaultValue,
   isExtraSmall,
   theme,
-  label
+  label,
+  contentContainerProps,
+  labelProps
 }) => {
   const [isFocused, setFocused] = useState(false)
   const [currentValue, setCurrentValue] = useState()
@@ -164,9 +165,12 @@ export const DropDown = ({
           'dropdown_compact'} dropdown_theme_${theme}`}
       >
         {icon && (
-          <div className='col col-sm-1' style={{
-            marginRight: '10px'
-          }}>
+          <div
+            className='col col-sm-1'
+            style={{
+              marginRight: '10px'
+            }}
+          >
             <FontAwesomeIcon icon={icon} fontSize={15} className='m-auto' />
           </div>
         )}
@@ -175,9 +179,15 @@ export const DropDown = ({
           style={{
             display: 'fex'
           }}
+          {...contentContainerProps}
         >
           {label && (
-            <SubTitle content={label} className={'no_margin'} fontType='bold' />
+            <SubTitle
+              content={label}
+              className={'no_margin'}
+              fontType='bold'
+              {...labelProps}
+            />
           )}
           <SubTitle
             className={'no_margin'}
@@ -195,9 +205,12 @@ export const DropDown = ({
             <FontAwesomeIcon icon={faClose} fontSize={15} className='m-auto' />
           </div>
         )}
-        <div className='col col-sm-1' style={{
-          display: 'flex'
-        }}>
+        <div
+          className='col col-sm-1'
+          style={{
+            display: 'flex'
+          }}
+        >
           <FontAwesomeIcon
             icon={faAngleDown}
             fontSize={15}
@@ -323,7 +336,8 @@ export const SimpleChoice = ({
   className,
   disableSelect,
   selected,
-  data
+  data,
+  choiceProps
 }) => {
   const [isSelected, setSelected] = useState(selected)
   function performSelection () {
@@ -334,9 +348,18 @@ export const SimpleChoice = ({
   }
   return (
     <div
-      className={`choice_extra-small ${isSelected && 'choice_selected'}`}
+      className={`choice_extra-small ${isSelected && 'choice_selected'} ${
+        data.icon ? 'd-flex' : ''
+      } ${choiceProps.className}`}
       onClick={() => performSelection()}
+      style={{
+        alignItems: data.icon ? 'center' : 'inherit',
+        ...choiceProps.style
+      }}
     >
+      {data.icon && <div className='d-flex' style={{
+        marginRight: '5px'
+      }}>{data.icon}</div>}
       <SubTitle
         className={'font_xs'}
         fontType='bold'
@@ -355,7 +378,8 @@ export const SimpleChoiceList = ({
   onChoiceChange,
   disableSelect,
   itemProps,
-  comparingData
+  comparingData,
+  choiceProps
 }) => {
   const [choiceIDs, setChoiceIDs] = useState([])
 
@@ -403,6 +427,7 @@ export const SimpleChoiceList = ({
         const isSelected = isDataSame(choice)
         return (
           <SimpleChoice
+            choiceProps={choiceProps}
             data={choice}
             {...itemProps}
             onSelect={selected => performOnChoiceChange(selected, choice.id)}
