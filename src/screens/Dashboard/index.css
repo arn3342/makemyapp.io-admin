@@ -31,9 +31,12 @@
 .neg_margin {
     margin-top: -4px !important;
 }
-.custom_card .choice_extra-small{
+.custom .choice_extra-small{
     border: none;
 }
-.custom_card .custom_choice {
+.custom .custom_choice {
     padding: 3px 15px;
+}
+.custom .custom_platform{
+    border: 1px solid var(--blueLight);
 }

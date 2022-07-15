@@ -189,7 +189,7 @@ export const PhaseDetails = ({ phase }) => {
         </Card>
       </div>
       <div className='col'>
-        <div className='custom_card'>
+        <div className='custom_card custom'>
           <div className='row'>
             <div className='col col-sm-3'>
               <Title

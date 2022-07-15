@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import {
   Card,
-  ContentSwitcher,
   Spacer,
   SubTitle,
   Title
@@ -9,22 +8,36 @@ import {
 import {
   Button,
   DropDown,
-  ExtendedButton,
   SimpleChoiceList
 } from '../../components/form'
 import { Player } from '@lottiefiles/react-lottie-player'
 import RocketAnim from '../../assets/gifs/rocket-anim.json'
 import IconParser from '../../misc/iconParser'
-import { getRandomInteger } from '../../misc/logics'
 import { useSelector } from 'react-redux'
 import HiringAnim from '../../assets/gifs/hiring-anim.json'
 import './index.css'
-import { faAngleRight, faListAlt, faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
+import {
+  faListAlt,
+  faPhoneAlt
+} from '@fortawesome/free-solid-svg-icons'
 import { Constants } from '../../data/constants'
 import { PhaseDetails } from './components'
 
 const DashboardScreen = ({}) => {
   const projectData = useSelector(state => state.user.profile.projects[0])
+
+  function constructPlatformOptions () {
+    const platformOptions = []
+    projectData.platformTypes?.map((id, index) => {
+      platformOptions.push({
+        id: index,
+        title: id == 12101 ? 'Web' : id == 12102 ? 'Mobile' : 'Desktop',
+        icon: <IconParser itemId={id} size={16}/>
+      })
+    })
+    return platformOptions
+  }
+
   return (
     <div className='container'>
       <Spacer size='large' />
@@ -63,17 +76,24 @@ const DashboardScreen = ({}) => {
                   className='margin_xs'
                 />
                 <div
+                className='custom'
                   style={{
                     display: 'flex'
                   }}
                 >
-                  {projectData.platformTypes?.map((platform, index) => {
+                  {/* {projectData.platformTypes?.map((platform, index) => {
                     return (
                       <div key={index} className='icon_regular icon_platform'>
                         <IconParser itemId={platform} />
                       </div>
                     )
-                  })}
+                  })} */}
+                  <SimpleChoiceList
+                    data={constructPlatformOptions()}
+                    choiceProps={{
+                      className: 'shadow_light custom_choice custom_platform'
+                    }}
+                  />
                 </div>
               </div>
               <div
