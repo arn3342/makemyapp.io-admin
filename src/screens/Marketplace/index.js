@@ -4,7 +4,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { getRandomInteger } from '../../misc/logics'
 import { CodeOwnerBox } from './components'
 import { AiFillStar, AiOutlineHeart } from 'react-icons/ai'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Input, SimpleChoiceList } from '../../components/form'
 import { constructRoute, SiteRoutes } from '../../misc/routes'
 import { extractFeatures } from '../../misc/featureHelper'
@@ -16,12 +16,14 @@ const MarketplaceScreen = () => {
   const [initList, setInitList] = useState()
   const navigate = useNavigate()
   useEffect(() => {
-    // console.log('Snippets are:', snippetList)
     const list = dummyGenerator.codeSnippet(4)
+    // .map(snippet => {
+    //   delete snippet.parent.description;
+    //   return snippet
+    // })
     setSnippetList(list)
     setInitList(list)
     setParentFeatureList(extractFeatures().parentFeatures)
-    
   }, [])
 
   function performNavigate (code) {
@@ -37,7 +39,9 @@ const MarketplaceScreen = () => {
   function performParentFilter (categoryIDs = []) {
     let filteredList =
       categoryIDs.length > 0
-        ? initList.filter(x => categoryIDs.some(id => x.parentCategory.id == id))
+        ? initList.filter(x =>
+            categoryIDs.some(id => x.parentCategory.id == id)
+          )
         : initList
     setSnippetList(filteredList)
   }
@@ -64,11 +68,14 @@ const MarketplaceScreen = () => {
       </div>
       <Spacer size='medium' />
       <div className='container row d-flex'>
-        {parentFeatureList && <SimpleChoiceList
-          data={parentFeatureList}
-          title='Filter By Category :'
-          onChoiceChange={val => performParentFilter(val)}
-        />}
+        {parentFeatureList && (
+          <SimpleChoiceList
+            data={parentFeatureList}
+            title='Filter By Category :'
+            onChoiceChange={val => performParentFilter(val)}
+            ignoreProps={['description']}
+          />
+        )}
       </div>
       <div className='table_container shadow_light'>
         <table>

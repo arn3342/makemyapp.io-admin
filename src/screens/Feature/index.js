@@ -22,11 +22,7 @@ const FeatureScreen = () => {
 
   useEffect(() => {
     const features = extractFeatures()
-    let parent = features.parentFeatures.map(feature => {
-      delete feature.description;
-      return feature
-    })
-    setParentFeatureList(parent)
+    setParentFeatureList(features.parentFeatures)
     setFeatureList(features.subFeatures)
     setInitFeatureList(features.subFeatures)
   }, [])
@@ -113,6 +109,7 @@ const FeatureScreen = () => {
           data={parentFeatureList}
           title='Filter By Category :'
           onChoiceChange={val => performParentFilter(val)}
+          ignoreProps={['description']}
         />
       </div>
       <div

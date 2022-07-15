@@ -200,7 +200,7 @@ export const DropDown = ({
               currentValue?.label ||
               currentValue?.description ||
               currentValue ||
-              options[0]?.title || 
+              options[0]?.title ||
               options[0]
             }
           ></SubTitle>
@@ -403,6 +403,17 @@ export const SimpleChoice = ({
   )
 }
 
+/**
+ * A simple component that works like a multi-checkbox container.
+ * @param {object} props Component props
+ * @param {[]} props.data The array of objects/data to render as option(s)
+ * @param {Function} props.onChoiceChange Callback fired when user changes the selection(s).
+ * @param {boolean} props.disableSelect If `false`, will prevent any selection & no callbacks will be fired.
+ * @param {{ className: string, style: React.CSSProperties }} props.itemProps If passed a value, will set the component's child element(in this case `<SimpleChoice/>`)'s properties.
+ * @param {[]} props.comparingData If passed an array of selected option IDs, this will make the list render with the choices as pre-selected.
+ * @param {{ className: string, style: React.CSSProperties }} props.choiceProps If passed a value, will set the component's properties.
+ * @param {[]} props.ignoreProps Will ignore rendering the passed property names. Only string values are accepted.
+ */
 export const SimpleChoiceList = ({
   data,
   title,
@@ -410,7 +421,8 @@ export const SimpleChoiceList = ({
   disableSelect,
   itemProps,
   comparingData,
-  choiceProps
+  choiceProps,
+  ignoreProps
 }) => {
   const [choiceIDs, setChoiceIDs] = useState([])
 
@@ -434,6 +446,23 @@ export const SimpleChoiceList = ({
     return false
   }
 
+  function constructData () {
+    if (data && ignoreProps) {
+      const formattedList = []
+      data.map(x => {
+        let formatted = {...x}
+        Object.keys(x).map(dataProp => {
+          if(ignoreProps.includes(dataProp)){
+            delete formatted[dataProp]
+          }
+        })
+        formattedList.push(formatted)
+      })
+      return formattedList
+    }
+    return data
+  }
+
   return (
     <div
       className='d-flex'
@@ -454,7 +483,7 @@ export const SimpleChoiceList = ({
           <Spacer />
         </>
       )}
-      {data.map(choice => {
+      {constructData().map(choice => {
         const isSelected = isDataSame(choice)
         return (
           <SimpleChoice
