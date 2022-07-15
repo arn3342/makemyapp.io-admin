@@ -101,92 +101,10 @@ export const PhaseDetails = ({ phase }) => {
     }
   }
 
-  function constructTeamOptions () {
-    const teamOptions = []
-    if (phaseData?.team) {
-      phaseData?.team.map((tm, index) => {
-        const { role, devCount } = tm
-        teamOptions.push({
-          id: index,
-          title: `${devCount} ${role[0].toUpperCase() +
-            role.substring(1)} Engineers`,
-          icon: () => {
-            const roleName = role.toLowerCase()
-            switch (roleName) {
-              case 'front-end':
-                return <DiReact size={16} />
-              case 'back-end':
-                return <BiCodeCurly size={16} />
-              case 'full-stack':
-                return <BsCodeSlash size={16} />
-              case 'devops':
-                return <FaAws size={16} />
-              default:
-                return <HiOutlineUserGroup size={16} />
-            }
-          }
-        })
-      })
-    }
-    return teamOptions
-  }
-
   return (
     <div className='row'>
       <div className='col col-sm-3'>
-        <Card theme='dark' clickable={false}>
-          <div className='d-flex'>
-            <div
-              className='icon_regular padding_s'
-              style={{
-                width: 'max-content',
-                marginRight: '10px'
-              }}
-            >
-              <HiOutlineClock size={20} />
-            </div>
-            <div
-              style={{
-                display: 'block'
-              }}
-            >
-              <SubTitle
-                className='no_margin font_xs line_xs'
-                fontType='bold'
-                content={'Estimated'}
-                style={{
-                  paddingTop: '8px'
-                }}
-              />
-              <SubTitle
-                className='no_margin'
-                fontType='bold'
-                content={'Development Time'}
-              />
-            </div>
-          </div>
-          <Spacer size='medium' />
-          <SubTitle
-            className='margin_xs'
-            content={'With 40hr/week contribution,'}
-            fontType='bold'
-          />
-          <Title
-            content={`${getWeeksFromHours(phaseData?.devTime)} Weeks`}
-            isLoading={!phaseData}
-            size='large-2'
-            style={{
-              borderBottom: 'solid 1px #c4c4c4',
-              paddingBottom: '20px'
-            }}
-          />
-          <SubTitle
-            className='margin_xs line_s'
-            content={
-              'Development time is estimated based on feature and team selection.'
-            }
-          />
-        </Card>
+        <TimeEstBanner totalTime={phaseData?.devTime} />
       </div>
       <div className='col'>
         <div className='custom_card custom'>
@@ -237,63 +155,166 @@ export const PhaseDetails = ({ phase }) => {
                 paddingRight: 0
               }}
             >
-              <div className='d-flex'>
-                <DropDown
-                  label={'Suggested Team:'}
-                  options={[`${phaseData?.teamSize} Members`]}
-                  labelProps={{
-                    className: 'font_xs line_s no_margin'
-                  }}
-                  containerProps={{
-                    className: 'col col-sm-5'
-                  }}
-                  placeholder={`${phaseData?.teamSize} Members`}
-                />
-                <Spacer />
-                <DropDown
-                  label={'Development Region:'}
-                  options={costData?.map(rate => {
-                    return rate.name
-                  })}
-                  onValueChange={(val, index) => handleRegionChange(index)}
-                  containerProps={{
-                    className: 'col col-sm-5'
-                  }}
-                  labelProps={{
-                    className: 'font_xs line_s no_margin'
-                  }}
-                />
-              </div>
-              <Spacer />
-              <SubTitle
-                content='Suggested Team Structure:'
-                className='font_xs margin_xs'
-                fontType='bold'
+              <TeamEstBanner
+                teamSize={phaseData?.teamSize}
+                globalCosts={costData}
+                teamData={phaseData?.team}
+                onCostRegionChange={handleRegionChange}
               />
-              {phaseData?.team && (
-                <SimpleChoiceList
-                  data={constructTeamOptions()}
-                  choiceProps={{
-                    className: 'shadow_light custom_choice'
-                  }}
-                />
-              )}
-              <div
-                style={{
-                  position: 'absolute',
-                  width: '50%',
-                  top: '-50px',
-                  right: '-30px',
-                  zIndex: -1,
-                  opacity: 0.5
-                }}
-              >
-                <Player src={DevPayAnim} autoplay loop />
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+const TimeEstBanner = ({ totalTime }) => {
+  return (
+    <Card theme='dark' clickable={false}>
+      <div className='d-flex'>
+        <div
+          className='icon_regular padding_s'
+          style={{
+            width: 'max-content',
+            marginRight: '10px'
+          }}
+        >
+          <HiOutlineClock size={20} />
+        </div>
+        <div
+          style={{
+            display: 'block'
+          }}
+        >
+          <SubTitle
+            className='no_margin font_xs line_xs'
+            fontType='bold'
+            content={'Estimated'}
+            style={{
+              paddingTop: '8px'
+            }}
+          />
+          <SubTitle
+            className='no_margin'
+            fontType='bold'
+            content={'Development Time'}
+          />
+        </div>
+      </div>
+      <Spacer size='medium' />
+      <SubTitle
+        className='margin_xs'
+        content={'With 40hr/week contribution,'}
+        fontType='bold'
+      />
+      <Title
+        content={`${getWeeksFromHours(totalTime)} Weeks`}
+        isLoading={!totalTime}
+        size='large-2'
+        style={{
+          borderBottom: 'solid 1px #c4c4c4',
+          paddingBottom: '20px'
+        }}
+      />
+      <SubTitle
+        className='margin_xs line_s'
+        content={
+          'Development time is estimated based on feature and team selection.'
+        }
+      />
+    </Card>
+  )
+}
+
+const TeamEstBanner = ({ teamData, teamSize, globalCosts, onCostRegionChange = () => {} }) => {
+
+  function constructTeamOptions () {
+    const teamOptions = []
+    if (teamData) {
+      teamData.map((tm, index) => {
+        const { role, devCount } = tm
+        teamOptions.push({
+          id: index,
+          title: `${devCount} ${role[0].toUpperCase() +
+            role.substring(1)} Engineers`,
+          icon: () => {
+            const roleName = role.toLowerCase()
+            switch (roleName) {
+              case 'front-end':
+                return <DiReact size={16} />
+              case 'back-end':
+                return <BiCodeCurly size={16} />
+              case 'full-stack':
+                return <BsCodeSlash size={16} />
+              case 'devops':
+                return <FaAws size={16} />
+              default:
+                return <HiOutlineUserGroup size={16} />
+            }
+          }
+        })
+      })
+    }
+    return teamOptions
+  }
+
+  return (
+    <>
+      <div className='d-flex'>
+        <DropDown
+          label={'Suggested Team:'}
+          options={[`${teamSize} Members`]}
+          labelProps={{
+            className: 'font_xs line_s no_margin'
+          }}
+          containerProps={{
+            className: 'col col-sm-5'
+          }}
+          placeholder={`${teamSize} Members`}
+        />
+        <Spacer />
+        <DropDown
+          label={'Development Region:'}
+          options={globalCosts?.map(rate => {
+            return rate.name
+          })}
+          onValueChange={(val, index) => onCostRegionChange(index)}
+          containerProps={{
+            className: 'col col-sm-5'
+          }}
+          labelProps={{
+            className: 'font_xs line_s no_margin'
+          }}
+        />
+      </div>
+      <Spacer />
+      <SubTitle
+        content='Suggested Team Structure:'
+        className='font_xs margin_xs'
+        fontType='bold'
+      />
+      {teamData && (
+        <SimpleChoiceList
+          data={constructTeamOptions()}
+          choiceProps={{
+            className: 'shadow_light custom_choice'
+          }}
+          disableSelect
+        />
+      )}
+      <div
+        style={{
+          position: 'absolute',
+          width: '50%',
+          top: '-50px',
+          right: '-30px',
+          zIndex: -1,
+          opacity: 0.5
+        }}
+      >
+        <Player src={DevPayAnim} autoplay loop />
+      </div>
+    </>
   )
 }

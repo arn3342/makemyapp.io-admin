@@ -93,6 +93,7 @@ const DashboardScreen = ({}) => {
                     choiceProps={{
                       className: 'shadow_light custom_choice custom_platform'
                     }}
+                    disableSelect
                   />
                 </div>
               </div>
