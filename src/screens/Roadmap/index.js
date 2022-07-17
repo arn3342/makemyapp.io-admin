@@ -4,6 +4,7 @@ import './index.css'
 import { Slider, Spacer, SubTitle, Title } from '../../components/global'
 import {
   FeatureSelector,
+  PlaceholderNode,
   ScreenBuilderWidget,
   ScreenNode
 } from './components'
@@ -150,7 +151,7 @@ export default ({}) => {
             fontType='bold'
             content='Select Roadmap'
           />
-          <DropDown options={Constants.BuildPhases} isExtraSmall/>
+          <DropDown options={Constants.BuildPhases} isExtraSmall />
           <Spacer size='medium' />
           <ScreenBuilderWidget
             onAddScreenNode={addNewNode}
@@ -163,19 +164,7 @@ export default ({}) => {
             position: 'relative'
           }}
         >
-          {mvpScreens?.length <= 0 && (
-              <Title
-                size='large'
-                theme='dark'
-                fontType='light'
-                content='Add screens to start building the roadmap'
-                style={{
-                  position: 'absolute',
-                  top: '30px',
-                  color: 'var(--bs-gray-500)'
-                }}
-              />
-          )}
+          {mvpScreens?.length <= 0 && <PlaceholderNode />}
           <ReactFlow
             nodeTypes={nodeTypes}
             nodes={mvpScreens}

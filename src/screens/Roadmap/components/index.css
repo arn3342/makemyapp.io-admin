@@ -78,3 +78,18 @@
 .icon_rotated{
     transform: rotateZ(180deg);
 }
+.placeholder_container {
+    position: absolute;
+    top: 20%;
+    left: 25%;
+    justify-content: center;
+    align-items: center;
+}
+.placeholder_container_node{
+    height: 340px;
+    width: 250px;
+    background: #fff;
+    border-radius: var(--radius);
+    position: absolute;
+    left: 13%;
+}

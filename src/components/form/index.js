@@ -116,9 +116,7 @@ export const Input = ({
 }
 
 export const DropDown = ({
-  name,
   icon,
-  placeholder,
   className,
   onValueChange = (val = '', index = 0) => {},
   options,
@@ -146,11 +144,6 @@ export const DropDown = ({
     )
   }
 
-  // useEffect(() => {
-  //   if (!currentValue) {
-  //     handleValueChange((options && options[0]) || placeholder, 0)
-  //   }
-  // }, [options])
   return (
     <div
       className={`dropdown ${isFocused && 'dropdown_focused'} ${className} ${
@@ -211,7 +204,7 @@ export const DropDown = ({
           </div>
         )}
         <div
-          className='col col-sm-1'
+          className={`col col-sm-1 dropdown_arrow ${isFocused ? 'dropdown_arrow_up' : ''}`}
           style={{
             display: 'flex'
           }}
@@ -227,7 +220,7 @@ export const DropDown = ({
         {options?.length > 0 && (
           <div
             className={`row dropdown_container ${isFocused &&
-              'container_visible'}`}
+              'dropdown_container_visible'}`}
           >
             {options?.map((value, index) => {
               return (

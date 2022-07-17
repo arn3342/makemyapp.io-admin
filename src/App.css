@@ -82,3 +82,7 @@ body {
   display: grid;
   /* padding-top: 10px; */
 }
+
+.react-flow__attribution{
+  display: none;
+}

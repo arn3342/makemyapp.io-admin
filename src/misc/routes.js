@@ -41,7 +41,7 @@ export const SiteRoutes = {
       id: 122,
       label: 'Profile',
       path: '/profile',
-      element: <ProfileScreen/>,
+      element: <ProfileScreen />,
       ignoreRendering: true
     },
     Builder: {
@@ -84,7 +84,7 @@ export const SiteRoutes = {
           },
           Team: {
             id: 1241,
-            label: 'Team',
+            label: 'My Team',
             path: '/engine/team',
             element: <TeamScreen />
           },
@@ -94,6 +94,20 @@ export const SiteRoutes = {
             path: '/engine/marketplace/code-snippet/:snippetId',
             element: <SnippetScreen />,
             ignoreRendering: true
+          }
+        }
+      }
+    },
+    Manage: {
+      label: 'Manage',
+      id: 125,
+      Screens: () => {
+        return {
+          Team: {
+            id: 1252,
+            label: 'Collaborators',
+            path: '/engine/collaborators',
+            element: <TeamScreen />
           }
         }
       }

@@ -11,17 +11,15 @@ import {
   SimpleChoice,
   SimpleChoiceList
 } from '../../../components/form'
-import { Spacer, SubTitle } from '../../../components/global'
-import {
-  Handle,
-  Position} from 'react-flow-renderer'
+import { Spacer, SubTitle, Title } from '../../../components/global'
+import { Handle, Position } from 'react-flow-renderer'
 import './index.css'
 import { getRandomInteger } from '../../../misc/logics'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useSelector } from 'react-redux'
-import { Constants } from '../../../data/constants'
-import {
-  extractFeature} from '../../../misc/featureHelper'
+import { extractFeature } from '../../../misc/featureHelper'
+import { Player } from '@lottiefiles/react-lottie-player'
+import PlaceholderAnim from '../../../assets/gifs/placeholder-anim.json'
 
 export const ScreenNode = ({ data }) => {
   const mvpScreens = useSelector(state => state.roadmap.mvp.screens)
@@ -79,9 +77,15 @@ export const ScreenNode = ({ data }) => {
           <div className='button_container shadow_light'>
             <div className='row'>
               <div className='col'></div>
-              <div className={`col col-sm-${getScreenFeatures()?.length > 0 ? '6' : '5'}`}>
+              <div
+                className={`col col-sm-${
+                  getScreenFeatures()?.length > 0 ? '6' : '5'
+                }`}
+              >
                 <Button
-                  label={`${getScreenFeatures()?.length > 0 ? 'Modify' : 'Add'} Features`}
+                  label={`${
+                    getScreenFeatures()?.length > 0 ? 'Modify' : 'Add'
+                  } Features`}
                   size='small'
                   hasShadow
                   className='small_button font_xs'
@@ -298,7 +302,12 @@ export const ScreenBuilderWidget = ({ currentNodes = [], onAddScreenNode }) => {
   )
 }
 
-export const FeatureSelector = ({ onSubmit, options, btnSubmitLabel, screenFeatures }) => {
+export const FeatureSelector = ({
+  onSubmit,
+  options,
+  btnSubmitLabel,
+  screenFeatures
+}) => {
   const [selectedChoices, setSelectedChoices] = useState([])
   function handleSubmit () {
     const features = selectedChoices.map(id => {
@@ -306,7 +315,7 @@ export const FeatureSelector = ({ onSubmit, options, btnSubmitLabel, screenFeatu
     })
     onSubmit && onSubmit(features)
   }
-  
+
   return (
     <>
       {options.map(opt => {
@@ -339,5 +348,24 @@ export const FeatureSelector = ({ onSubmit, options, btnSubmitLabel, screenFeatu
       <Spacer />
       <Button label='Close' onClick={onSubmit && onSubmit} />
     </>
+  )
+}
+
+export const PlaceholderNode = ({}) => {
+  return (
+    <div className='placeholder_container'>
+      <Title
+        content={'Add a screen and start building'}
+        size='large'
+        fontType='light'
+        style={{
+          opacity: 0.5
+        }}
+      />
+      <Spacer size='small'/>
+      <div className='placeholder_container_node shadow_light'>
+        <Player style={{ width: '100%' }} src={PlaceholderAnim} autoplay loop />
+      </div>
+    </div>
   )
 }

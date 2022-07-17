@@ -100,6 +100,7 @@ export default ({}) => {
                     <DropDown
                       options={Constants.TeamMemberTypes}
                       defaultValue={member.role}
+                      isExtraSmall
                     />
                   </td>
                   <td>
