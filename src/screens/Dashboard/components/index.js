@@ -15,9 +15,10 @@ import { getNumberKMBT, getWeeksFromHours } from '../../../misc/logics'
 import { HiOutlineClock, HiOutlineUserGroup } from 'react-icons/hi'
 import { DiReact } from 'react-icons/di'
 import './index.css'
-import { BsCodeSlash } from 'react-icons/bs'
+import { BsCodeSlash, BsQuestion } from 'react-icons/bs'
 import { BiCodeCurly } from 'react-icons/bi'
 import { FaAws } from 'react-icons/fa'
+import { AiFillQuestionCircle } from 'react-icons/ai'
 
 /**
  * Component to render build-phase details
@@ -125,27 +126,48 @@ export const PhaseDetails = ({ phase }) => {
                 fontType='bold'
                 className='font_gradient no_padding no_margin neg_margin'
               />
-              <Title
-                content={`$ ${getNumberKMBT(phaseData?.devCost)}`}
-                size='large-2'
-                className='font_gradient font_pad'
-                isLoading={!phaseData || phaseData?.devCost == 0}
-              />
+              <div
+                style={{
+                  display: 'flex',
+                  overflow: 'visible',
+                  maxWidth: 'max-content'
+                }}
+                className='tool_tip'
+              >
+                <Title
+                  content={`$ ${getNumberKMBT(phaseData?.devCost)}`}
+                  size='large-2'
+                  className='font_gradient font_pad link_dashed no_margin'
+                  isLoading={!phaseData || phaseData?.devCost == 0}
+                />
+                <BsQuestion size={16} />
+                <span
+                  className='tooltiptext font_xs'
+                  style={{
+                    maxWidth: '260px',
+                    flexWrap: 'wrap',
+                    bottom: '-80px'
+                    // left: 0
+                  }}
+                >
+                  Estimated based on{' '}
+                  <b>
+                    <i>Development Region</i>
+                  </b>{' '}
+                  and{' '}
+                  <b>
+                    <i>Team</i>
+                  </b>{' '}
+                  selection. Switch selections to see other results.
+                </span>
+                {/* <div>
+                  
+                </div> */}
+              </div>
               <SubTitle
-                content={
-                  <>
-                    Estimated based on{' '}
-                    <b>
-                      <i>Development Region</i>
-                    </b>{' '}
-                    and{' '}
-                    <b>
-                      <i>Team</i>
-                    </b>{' '}
-                    selection. Switch selections to see other results.
-                  </>
-                }
+                content={<>Hover for details.</>}
                 className='font_xs line_s margin_xs'
+                fontType='bold'
               />
             </div>
             <div
@@ -227,8 +249,12 @@ const TimeEstBanner = ({ totalTime }) => {
   )
 }
 
-const TeamEstBanner = ({ teamData, teamSize, globalCosts, onCostRegionChange = () => {} }) => {
-
+const TeamEstBanner = ({
+  teamData,
+  teamSize,
+  globalCosts,
+  onCostRegionChange = () => {}
+}) => {
   function constructTeamOptions () {
     const teamOptions = []
     if (teamData) {

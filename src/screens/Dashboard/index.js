@@ -1,30 +1,20 @@
 import React, { useState } from 'react'
-import {
-  Card,
-  Spacer,
-  SubTitle,
-  Title
-} from '../../components/global'
-import {
-  Button,
-  DropDown,
-  SimpleChoiceList
-} from '../../components/form'
+import { Card, Slider, Spacer, SubTitle, Title } from '../../components/global'
+import { Button, DropDown, SimpleChoiceList } from '../../components/form'
 import { Player } from '@lottiefiles/react-lottie-player'
 import RocketAnim from '../../assets/gifs/rocket-anim.json'
 import IconParser from '../../misc/iconParser'
 import { useSelector } from 'react-redux'
 import HiringAnim from '../../assets/gifs/hiring-anim.json'
 import './index.css'
-import {
-  faListAlt,
-  faPhoneAlt
-} from '@fortawesome/free-solid-svg-icons'
+import { faListAlt, faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { Constants } from '../../data/constants'
 import { PhaseDetails } from './components'
+import { InlineWidget } from 'react-calendly'
 
 const DashboardScreen = ({}) => {
   const projectData = useSelector(state => state.user.profile.projects[0])
+  const [showCalender, setShowCalender] = useState(false)
 
   function constructPlatformOptions () {
     const platformOptions = []
@@ -32,7 +22,7 @@ const DashboardScreen = ({}) => {
       platformOptions.push({
         id: index,
         title: id == 12101 ? 'Web' : id == 12102 ? 'Mobile' : 'Desktop',
-        icon: <IconParser itemId={id} size={16}/>
+        icon: <IconParser itemId={id} size={16} />
       })
     })
     return platformOptions
@@ -40,6 +30,16 @@ const DashboardScreen = ({}) => {
 
   return (
     <div className='container'>
+      <Slider isOpen={showCalender}>
+        <Title content='Sit with our talented team of engineers and collaborators.'/>
+        <InlineWidget url='https://calendly.com/byteslack/15minsession'/>
+        <Button
+          theme='light'
+          isExtraSmall
+          label='Close'
+          onClick={() => setShowCalender(false)}
+        />
+      </Slider>
       <Spacer size='large' />
       <div className='row'>
         <Title content='Your Dashboard' size='large-2' fontType='light' />
@@ -76,7 +76,7 @@ const DashboardScreen = ({}) => {
                   className='margin_xs'
                 />
                 <div
-                className='custom'
+                  className='custom'
                   style={{
                     display: 'flex'
                   }}
@@ -167,6 +167,7 @@ const DashboardScreen = ({}) => {
                   icon={faPhoneAlt}
                   isExtraSmall
                   theme='dark'
+                  onClick={() => setShowCalender(true)}
                 />
               </div>
             </div>
