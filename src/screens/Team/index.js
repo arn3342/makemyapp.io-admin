@@ -115,7 +115,7 @@ export default ({}) => {
                     />
                   </td>
                   <td>
-                    <Button label='Remove' isExtraSmall />
+                    <Button label='Remove' className='small_button' isExtraSmall />
                   </td>
                 </tr>
               )

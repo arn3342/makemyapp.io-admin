@@ -15,9 +15,7 @@ const MenuItem = ({
   label,
   performSelection,
   selected,
-  theme,
-  title,
-  style,
+  isBeta,
   onClick
 }) => {
   return (
@@ -35,7 +33,20 @@ const MenuItem = ({
           </div>
         </div>
         <div className='col m-auto'>
-          <SubTitle content={label} fontType='bold' className='m-auto' />
+          <SubTitle
+            content={
+              <div
+                style={{
+                  display: 'flex'
+                }}
+              >
+                {label}
+                {isBeta && <span className='font_xs beta_label'>Beta</span>}
+              </div>
+            }
+            fontType='bold'
+            className='m-auto'
+          />
         </div>
       </div>
       <Spacer />
@@ -105,6 +116,7 @@ export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
                         selected={location.pathname === subMenu.path}
                         label={subMenu.label}
                         id={subMenu.id}
+                        isBeta={subMenu.isBeta}
                       />
                     )
                   )

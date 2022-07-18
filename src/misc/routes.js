@@ -86,7 +86,8 @@ export const SiteRoutes = {
             id: 1241,
             label: 'My Team',
             path: '/engine/team',
-            element: <TeamScreen />
+            element: <TeamScreen />,
+            isBeta: true
           },
           CodeSnippet: {
             id: 1243,
@@ -103,11 +104,12 @@ export const SiteRoutes = {
       id: 125,
       Screens: () => {
         return {
-          Team: {
-            id: 1252,
+          Collaborators: {
+            id: 1251,
             label: 'Collaborators',
             path: '/engine/collaborators',
-            element: <TeamScreen />
+            element: <TeamScreen />,
+            isBeta: true
           }
         }
       }

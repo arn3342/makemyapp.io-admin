@@ -108,7 +108,7 @@ export const ScreenNode = ({ data }) => {
                     content={`${getScreenFeatures().length} Features`}
                   />
                 </div> */}
-                <SimpleChoiceList data={getScreenFeatures()} disableSelect />
+                <SimpleChoiceList data={getScreenFeatures()} disableSelect ignoreProps={['description']}/>
               </>
             )}
           </div>
@@ -333,6 +333,7 @@ export const FeatureSelector = ({
                 className: 'font_xs'
               }}
               comparingData={screenFeatures}
+              ignoreProps={['description']}
             />
           </div>
         ) : (

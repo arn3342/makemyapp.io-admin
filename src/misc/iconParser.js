@@ -23,7 +23,7 @@ import {
 } from 'react-icons/fc'
 import { RiTeamLine } from 'react-icons/ri'
 import { BiCodeAlt } from 'react-icons/bi'
-import { FaReact } from 'react-icons/fa'
+import { FaHandshake, FaReact } from 'react-icons/fa'
 import { VscDebugAlt } from 'react-icons/vsc'
 import { FiGitBranch, FiShoppingCart } from 'react-icons/fi'
 import { IoIosGlobe } from 'react-icons/io'
@@ -57,6 +57,9 @@ const IconParser = ({ itemId, size }) => {
       break
     case 1242:
       icon = <FiShoppingCart fontSize={size || 20} />
+      break
+    case 1251:
+      icon = <FaHandshake fontSize={size || 20} />
       break
     //#endregion
 

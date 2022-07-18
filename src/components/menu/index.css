@@ -39,7 +39,7 @@
   transition: all 300ms;
   cursor: pointer;
 }
-.arrow_container:hover{
+.arrow_container:hover {
   background: #4e69ff75;
 }
 .arrow {
@@ -76,4 +76,13 @@
 }
 .item > p {
   user-select: none;
+}
+.menu_item .beta_label {
+  margin-left: 5px;
+  background: var(--darkBlue);
+  padding: 0 5px;
+  border-radius: 5px;
+}
+.menu_item_selected .beta_label {
+  color: #fff;
 }
