@@ -143,6 +143,21 @@ export const ScreenBuilderWidget = ({ currentNodes = [], onAddScreenNode }) => {
   const mvpScreens = useSelector(state => state.roadmap.mvp.screens)
   const [selectedScreenId, setSelectedScreenId] = useState()
 
+  function getDevelopmentTime(features){
+    let devTime = 0;
+    if(features && Array.isArray(features)){
+      features.map(feature => {
+        devTime += Math.max(...feature.estDevTime.map(single => single.hours))
+      })
+    }
+    return devTime;
+  }
+
+  // function getDevelopmentTime(devTimeArray){
+  //   const maxDevTime = Math.max(...devTimeArray.map(single => single.hours))
+  //   return maxDevTime;
+  // }
+
   function performAddScreen () {
     if (onAddScreenNode) {
       const draggableId = `${screenName
@@ -283,12 +298,7 @@ export const ScreenBuilderWidget = ({ currentNodes = [], onAddScreenNode }) => {
                       <SubTitle
                         className='font_xs font_link no_margin'
                         fontType='bold'
-                        content={`Est. Development Time: ${screen.features.reduce(
-                          (accumulator, feature) => {
-                            return accumulator + feature.estDevTime
-                          },
-                          0
-                        )} hour(s)`}
+                        content={`Est. Development Time: ${getDevelopmentTime(screen.features)} hour(s)`}
                       />
                     </>
                   )}
