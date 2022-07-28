@@ -4,6 +4,7 @@ import MarketplaceScreen from '../screens/Marketplace'
 import SnippetScreen from '../screens/Marketplace/screens/snippetScreen'
 import RoadmapScreen from '../screens/Roadmap'
 import TeamScreen from '../screens/Team'
+import CollabScreen from '../screens/Collaborators'
 import FeatureScreen from '../screens/Feature'
 import ProfileScreen from '../screens/Profile'
 import OnboardingScreen from '../screens/Onboarding'
@@ -108,7 +109,7 @@ export const SiteRoutes = {
             id: 1251,
             label: 'Collaborators',
             path: '/engine/collaborators',
-            element: <TeamScreen />,
+            element: <CollabScreen />,
             isBeta: true
           }
         }

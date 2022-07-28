@@ -33,5 +33,35 @@ export const Constants = {
     LOADING: 0,
     SUCCESS: 1,
     ERROR: -1
-  }
+  },
+  MemberRoles: [
+    {
+      id: 0,
+      title: 'Front-End Engineer'
+    },
+    {
+      id: 1,
+      title: 'Back-End Engineer'
+    },
+    {
+      id: 2,
+      title: 'DevOps Engineer'
+    },
+    {
+      id: 3,
+      title: 'Unit-Tester'
+    },
+    {
+      id: 4,
+      title: 'Project Manager'
+    },
+    {
+      id: 5,
+      title: 'Virtual Assistant'
+    },
+    {
+      id: 6,
+      title: 'HR Manager'
+    }
+  ]
 }

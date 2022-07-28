@@ -3,96 +3,91 @@ import { Button, DropDown, Input } from '../../../components/form'
 import { InfoBox, Spacer } from '../../../components/global'
 import { Formik } from 'formik'
 import { Constants } from '../../../data/constants'
+import { faker } from '@faker-js/faker'
 
-export const AddTeamBox = ({onSubmitValues}) => {
+export const AddTeamBox = ({ onSubmitValues, team }) => {
   const [showAddBox, setShowAddBox] = useState(false)
   const [sendSuccess, setSendSuccess] = useState(false)
+
+  function getTeamNames () {
+    const members = []
+    if (team) {
+      team.map((member, index) => {
+        members.push({
+          id: index,
+          title: member.fullName
+        })
+      })
+    }
+    return members
+  }
   return (
     <>
       <Formik
-        initialValues={{ email: '', fullName: '', role: '' }}
-        // validate={values => {
-        //   const errors = {}
-        //   if (!values.email) {
-        //     errors.email = 'Required'
-        //   } else if (
-        //     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-        //   ) {
-        //     errors.email = 'Invalid email address'
-        //   }
-        //   return errors
-        // }}
-        onSubmit={(values, { setSubmitting }) => {
-          if (!showAddBox) {
-            setShowAddBox(true)
-            setSubmitting(false)
-          } else {
-            setSubmitting(true)
-            setTimeout(() => {
-              setSubmitting(false)
-              setShowAddBox(false)
-              setSendSuccess(true)
-              onSubmitValues && onSubmitValues(values)
-            }, 2000)
+        initialValues={{ fullName: '', role: '' }}
+        onSubmit={values => {
+          const data = {
+            id: faker.datatype.uuid(),
+            fullName: values.fullName,
+            role: values.role,
+            rate: {
+              hourly: 0,
+              fixed: 0
+            }
           }
+          onSubmitValues(data)
+          console.log(data)
         }}
       >
         {({ values, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
           <form onSubmit={handleSubmit}>
-            {showAddBox && (
-              <>
-                <div className='row'>
-                  <div className='col col-sm-3'>
-                    <Input
+            <div className='row'>
+              <div className='col col-sm-3'>
+                {/* <Input
                       name='fullName'
                       placeholder='Name of member'
                       onValueChange={handleChange('fullName')}
                       value={values.fullName}
-                    />
-                  </div>
-                  <div className='col col-sm-3'>
-                    <Input
-                      name='email'
-                      placeholder='Email address'
-                      onValueChange={handleChange('email')}
-                      value={values.email}
-                    />
-                  </div>
-                  <div className='col col-sm-2'>
-                    <DropDown
-                      name='role'
-                      options={Constants.TeamMemberTypes}
-                      placeholder='Assign Role...'
-                      defaultValue={values.role}
-                      onValueChange={handleChange('role')}
-                    />
-                  </div>
-                </div>
-                <Spacer />
-              </>
-            )}
-
-            <div className='row'>
-              <div className='col col-sm-2'>
-                <Button
-                  label={showAddBox ? 'Send Invite' : 'Add Member'}
-                  theme='dark'
-                  hasShadow
-                  animateScale={showAddBox}
-                  onClick={handleSubmit}
-                  isBusy={isSubmitting}
+                    /> */}
+                <DropDown
+                  options={getTeamNames(team)}
+                  label='Member:'
+                  labelProps={{
+                    className: 'font_xs line_s no_margin'
+                  }}
+                  containerProps={{
+                    className: 'col'
+                  }}
+                  isExtraSmall
+                  onValueChange={handleChange('fullName')}
                 />
               </div>
-              {showAddBox && (
-                <div className='col col-sm-1'>
-                  <Button
-                    disabled={isSubmitting}
-                    label='Cancel'
-                    onClick={() => setShowAddBox(false)}
-                  />
-                </div>
-              )}
+              <div className='col col-sm-3'>
+                <DropDown
+                  options={Constants.MemberRoles}
+                  label='Select Role:'
+                  labelProps={{
+                    className: 'font_xs line_s no_margin'
+                  }}
+                  containerProps={{
+                    className: 'col'
+                  }}
+                  isExtraSmall
+                  onValueChange={handleChange('role')}
+                />
+              </div>
+              <div className='col col-sm-2 m-auto'>
+                <Button
+                  label='Add To Team'
+                  theme='dark'
+                  hasShadow
+                  animateScale
+                  onClick={handleSubmit}
+                />
+              </div>
+              <div className='col' />
             </div>
+            <Spacer />
           </form>
         )}
       </Formik>

@@ -81,7 +81,7 @@ export const Input = ({
         'input_focused'} ${isError && 'input_error'}`}
     >
       {fontAwesomeIcon && (
-        <div className='col col-sm-1'>
+        <div className='col col-sm-1 m-auto'>
           <FontAwesomeIcon
             icon={fontAwesomeIcon}
             fontSize={15}

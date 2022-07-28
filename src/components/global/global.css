@@ -68,7 +68,7 @@ thead {
 }
 
 .container {
-  transition: all 300ms;
+  transition: all 200ms;
 }
 .menu_sticky {
   height: 80px;
@@ -83,7 +83,7 @@ thead {
   padding: 30px !important;
   max-height: 100%;
   overflow: scroll;
-  transition: all 300ms;
+  transition: all 200ms;
   transform: translateX(100%);
   height: 100%;
 }
@@ -103,7 +103,7 @@ thead {
   max-height: 100%;
   width: 100%;
   z-index: 99999;
-  transition: all 300ms;
+  transition: all 200ms;
   right: 0;
 }
 .slider_container {
@@ -378,7 +378,7 @@ i {
   bottom: -36px;
   left: -45%;
   right: -45%;
-  transition: all 300ms;
+  transition: all 200ms;
   transform: translateY(10px);
 }
 
@@ -393,7 +393,7 @@ i {
 .card {
   padding: 25px 20px;
   cursor: pointer;
-  transition: all 300ms;
+  transition: all 200ms;
   user-select: none !important;
   border: var(--blueLight) solid 1px;
   background: var(--darkBlue) !important;
@@ -423,7 +423,7 @@ i {
   border-radius: 30px;
   color: var(--blue);
   font-size: 0.75rem;
-  transition: all 300ms !important;
+  transition: all 200ms !important;
 }
 .card_option_bg_small {
   font-size: 0.68rem;
@@ -511,7 +511,7 @@ i {
   padding: 8px 20px;
   background: var(--lowLight);
   cursor: pointer;
-  transition: all 300ms;
+  transition: all 200ms;
   font-weight: 600;
   border-radius: var(--radius);
   user-select: none !important;
@@ -554,12 +554,12 @@ i {
   transform: translateX(0%);
 }
 .button_text {
-  transition: all 300ms;
+  transition: all 200ms;
 }
 .icon_hidden {
   opacity: 0;
   transform: translateX(50%);
-  transition: all 300ms;
+  transition: all 200ms;
 }
 .text_icon_animated {
   transform: translateX(10px);
@@ -585,8 +585,8 @@ i {
   padding: 8px 15px;
   background-color: #f0f0f0;
   border-radius: var(--radius);
-  transition: all 300ms;
-  border: 1px solid transparent;
+  transition: all 200ms;
+  border: 1px solid var(--blueLight);
 }
 .input input,
 textarea {
@@ -624,7 +624,7 @@ textarea {
   background: #fff;
   border-radius: 30px;
   color: var(--blue);
-  transition: all 300ms;
+  transition: all 200ms;
   max-width: max-content;
   padding: 0px 10px;
   cursor: pointer;
@@ -664,7 +664,7 @@ textarea {
   flex-wrap: wrap;
   margin-top: 20px;
   user-select: none;
-  transition: all 300ms;
+  transition: all 200ms;
   opacity: 1;
 }
 
