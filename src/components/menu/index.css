@@ -1,13 +1,5 @@
 @import url("../global/global.css");
 
-.menu_item_profile {
-  color: #fff;
-  transition: all 200ms;
-  background: var(--blueLight);
-  margin-left: 10px;
-  border-radius: var(--radius);
-  position: relative;
-}
 .no_rad_bottom {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -49,6 +41,48 @@
 .arrow_up {
   transform: rotateX(180deg);
 }
+.menu_sticky {
+  height: 80px;
+  /* border-bottom: 1px solid var(--blue); */
+}
+.menu_container {
+  background: #0d2456;
+  position: relative;
+}
+.menu_item {
+  transition: all 200ms;
+  cursor: pointer;
+  color: var(--light);
+  padding-left: 0px;
+}
+.menu_item_title {
+  color: var(--blueSemiLight);
+  padding-left: 10px;
+  margin-bottom: 8px;
+  font-size: 0.775rem;
+}
+.menu_item_selected {
+  color: #fff;
+  background: #173473;
+  padding: 5px 0px;
+  /* background: var(--blueLight); */
+}
+.menu_item:hover {
+  /* background: var(--blueLight); */
+  /* padding-left: 15px; */
+  /* transform: scale(1.01); */
+  color: #fff;
+}
+.menu_item_profile {
+  color: #fff;
+  transition: all 200ms;
+  background: var(--blueLight);
+  /* margin-left: 10px; */
+  border-radius: var(--radius);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 .menu_item_profile .item_container {
   position: absolute;
   top: 100%;
@@ -79,10 +113,12 @@
 }
 .menu_item .beta_label {
   margin-left: 5px;
-  background: var(--darkBlue);
+  color: var(--darkBlue);
   padding: 0 5px;
   border-radius: 5px;
 }
 .menu_item_selected .beta_label {
-  color: #fff;
+  /* color: #fff; */
+  color: var(--darkBlue);
+
 }

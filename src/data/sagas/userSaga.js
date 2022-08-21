@@ -92,6 +92,7 @@ function * performSignIn (payload) {
         get,
         child(ref(database), 'users/' + signIn.user.uid)
       )
+      console.log('Found profile:', signIn.user.uid)
       yield put(setProfile(profileResult.val()))
       yield call(
         StorageHelper.SaveItem,
@@ -203,10 +204,10 @@ function * performSignOut () {
 
 export default function * userSaga () {
   yield takeEvery(ProfileActions.GET_TEAM, performGetTeam)
-  yield takeLatest(AuthActions.PERFORM_SIGNUP, performSignUp)
-  yield takeLatest(AuthActions.PERFORM_SIGNIN, performSignIn)
-  yield takeLatest(AuthActions.PERFORM_SIGNIN_LOCAL, performLocalSignIn)
-  yield takeLatest(AuthActions.PERFORM_SIGNOUT, performSignOut)
+  yield takeEvery(AuthActions.PERFORM_SIGNUP, performSignUp)
+  yield takeEvery(AuthActions.PERFORM_SIGNIN, performSignIn)
+  yield takeEvery(AuthActions.PERFORM_SIGNIN_LOCAL, performLocalSignIn)
+  yield takeEvery(AuthActions.PERFORM_SIGNOUT, performSignOut)
   yield takeEvery(ProfileActions.UPDATE_PROFILE, performProfileUpdate)
 
   yield takeEvery(

@@ -10,7 +10,7 @@ export const Header = ({ spacing }) => {
     <div className={`menu_sticky spacing_${spacing} d-flex`}>
       <div className='container m-auto'>
         <Spacer size='small' />
-        <div className='row cols-2 menu_container'>
+        <div className='row cols-2'>
           <div className='col' style={{ textAlign: 'left' }}>
             <img src={Logo} className='site_logo' alt='site_logo' />
           </div>
@@ -197,9 +197,20 @@ export function Card ({
  * The global Spacer component
  * @param {object} props Component props
  * @param {'small' | 'medium' | 'large'} props.size Defines the size of the component, affecting `padding`, `border` etc. properties. Defaults to `small`.
+ * @param {number} props.times Multiply the size of the spacer.
  */
-export const Spacer = ({ size = 'small', multiplier }) => {
-  return <div className={`spacer_${size ? size : 'small'}`} />
+export const Spacer = ({ size = 'small', times }) => {
+  const initSize = 10 * times
+  return !times ? (
+    <div className={`spacer_${size ? size : 'small'}`} />
+  ) : (
+    <div
+      style={{
+        height: initSize,
+        widows: initSize
+      }}
+    />
+  )
 }
 
 export function Slider ({

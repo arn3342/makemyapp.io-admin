@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { Button, DropDown, Input } from '../../../components/form'
+import { Button, DropDown } from '../../../components/form'
 import { InfoBox, Spacer } from '../../../components/global'
 import { Formik } from 'formik'
 import { Constants } from '../../../data/constants'
 import { faker } from '@faker-js/faker'
 
 export const AddTeamBox = ({ onSubmitValues, team }) => {
-  const [showAddBox, setShowAddBox] = useState(false)
   const [sendSuccess, setSendSuccess] = useState(false)
 
   function getTeamNames () {

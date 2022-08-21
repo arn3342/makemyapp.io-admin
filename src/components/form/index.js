@@ -126,7 +126,8 @@ export const DropDown = ({
   label,
   contentContainerProps,
   labelProps,
-  containerProps
+  containerProps,
+  style
 }) => {
   const [isFocused, setFocused] = useState(false)
   const [currentValue, setCurrentValue] = useState()
@@ -155,6 +156,7 @@ export const DropDown = ({
       // style={{
       //   padding: '0px'
       // }}
+      style={style}
     >
       <div
         className={`input d-flex dropdown ${isExtraSmall &&

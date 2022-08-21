@@ -6,7 +6,6 @@ import { Spacer, SubTitle } from '../global'
 import './index.css'
 import { DropDown } from '../form'
 import { Constants } from '../../data/constants'
-import './index.css'
 import { useSelector } from 'react-redux'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
@@ -24,12 +23,11 @@ const MenuItem = ({
         className={`row cols-2 menu_item ${selected && 'menu_item_selected'}`}
         onClick={() => onClick()}
       >
-        <div className='col col-sm-3 d-flex'>
+        <div className='col col-sm-2 d-flex'>
           <div
-            className={`icon_regular icon_dark d-flex icon_small ${!selected &&
-              'shadow_light'}`}
+            className={`icon_regular icon_dark d-flex icon_small`}
           >
-            <IconParser itemId={id} />
+            <IconParser itemId={id} size={20}/>
           </div>
         </div>
         <div className='col m-auto'>
@@ -45,11 +43,14 @@ const MenuItem = ({
               </div>
             }
             fontType='bold'
-            className='m-auto'
+            className='m-auto font-xs'
+            style={{
+              fontSize: 12
+            }}
           />
         </div>
       </div>
-      <Spacer />
+      <Spacer/>
     </div>
   )
 }
@@ -67,7 +68,7 @@ export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
   }
 
   return (
-    <div className='menu_container'>
+    <div>
       {/* <div
         style={{
           paddingLeft: '10px'
@@ -80,7 +81,6 @@ export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
         />
         <Spacer size={'medium'} />
       </div> */}
-      <ProfileMenu onItemClick={item => onItemClick(item)} />
       <Spacer size={'medium'} />
       {data?.map(menuItem => {
         if (!menuItem.screens && !menuItem.ignoreRendering) {
@@ -96,7 +96,24 @@ export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
         } else {
           return (
             <div key={menuItem.id}>
-              {!menuItem.ignoreRendering && (
+              {menuItem.screens &&
+                menuItem.screens.map(subMenu => {
+                  return (
+                    !subMenu.ignoreRendering && (
+                      <>
+                        <MenuItem
+                          key={subMenu.id}
+                          onClick={() => performNavigation(subMenu.path)}
+                          selected={location.pathname === subMenu.path}
+                          label={subMenu.label}
+                          id={subMenu.id}
+                          isBeta={subMenu.isBeta}
+                        />
+                      </>
+                    )
+                  )
+                })}
+              {/* {!menuItem.ignoreRendering && (
                 <>
                   <Spacer />
                   <SubTitle
@@ -120,11 +137,12 @@ export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
                       />
                     )
                   )
-                })}
+                })} */}
             </div>
           )
         }
       })}
+      <ProfileMenu onItemClick={item => onItemClick(item)} />
     </div>
   )
 }
@@ -134,63 +152,12 @@ const ProfileMenu = ({ onItemClick = ({ item = '' }) => {} }) => {
   const [isExpanded, setExpanded] = useState(false)
   const containerRef = useRef()
 
-  useEffect(() => {
-    containerRef.current.focus()
-  }, [isExpanded])
+  // useEffect(() => {
+  //   containerRef.current.focus()
+  // }, [isExpanded])
   return (
     <div className={`menu_item_profile ${isExpanded && 'no_rad_bottom'}`}>
-      <div className='profile_container_main'>
-        <SubTitle
-          className='font_xs margin_xs'
-          content='Profile'
-          fontType='bold'
-        />
-        <div className='profile_name_container'>
-          <SubTitle
-            className='profile_img no_margin'
-            content={<>{getProfileInitials(userProfile)}</>}
-          />
-          <Spacer size='small' />
-          <SubTitle
-            size='small'
-            className='no_margin'
-            content={`${userProfile.firstName}`}
-            fontType='bold'
-          />
-          <div
-            className='arrow_container'
-            onClick={() => setExpanded(!isExpanded)}
-          >
-            <MdOutlineKeyboardArrowDown
-              size={20}
-              className={`arrow ${isExpanded && 'arrow_up'}`}
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        className={`item_container ${!isExpanded && 'item_container_hidden'}`}
-        tabIndex={0}
-        onBlur={() => setExpanded(false)}
-        ref={containerRef}
-      >
-        <div className='item' onClick={() => onItemClick('profile')}>
-          <SubTitle
-            size='small'
-            className='no_margin'
-            content='Go To Profile'
-            fontType='bold'
-          />
-        </div>
-        <div className='item' onClick={() => onItemClick('logout')}>
-          <SubTitle
-            size='small'
-            className='no_margin'
-            content='Log Out'
-            fontType='bold'
-          />
-        </div>
-      </div>
+      
     </div>
   )
 }

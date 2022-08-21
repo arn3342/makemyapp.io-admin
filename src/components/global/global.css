@@ -70,10 +70,7 @@ thead {
 .container {
   transition: all 200ms;
 }
-.menu_sticky {
-  height: 80px;
-  /* border-bottom: 1px solid var(--blue); */
-}
+
 .modal_main {
   overflow: scroll;
 }
@@ -109,37 +106,22 @@ thead {
 .slider_container {
   padding: 0;
 }
-.menu_container {
-  background: var(--darkTheme);
-}
-.menu_item {
-  transition: all 200ms;
-  cursor: pointer;
-  color: #fff;
-  padding-left: 10px;
-}
-.menu_item_title {
-  color: var(--blueSemiLight);
-  padding-left: 10px;
-  margin-bottom: 8px;
-  font-size: 0.775rem;
-}
-.menu_item_selected {
-  color: var(--darkBlue);
-  border-right: solid 5px var(--darkBlue);
-  /* background: var(--blueLight); */
-}
-.menu_item:hover {
-  /* background: var(--blueLight); */
-  padding-left: 15px;
-}
 
 .dim_opacity {
   opacity: 0.4;
 }
 
-.site_logo_main {
-  height: 40px;
+.company_logo_main {
+  /* height: 35px;
+  width: 35px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 55px;
+  width: 100%;
+  background-color: #173473;
+  padding: 6px;
+  margin-left: 20;
 }
 /*#endregion */
 
@@ -303,13 +285,13 @@ i {
 .padding_xs {
   padding: 5px !important;
 }
-.line_xs{
+.line_xs {
   line-height: 12px !important;
 }
-.line_s{
+.line_s {
   line-height: 18px !important;
 }
-.line_m{
+.line_m {
   line-height: 20px !important;
 }
 .padding_s {
@@ -582,11 +564,12 @@ i {
 
 /*#region Global Components */
 .input {
-  padding: 8px 15px;
+  padding: 6px 8px;
   background-color: #f0f0f0;
-  border-radius: var(--radius);
+  border-radius: 5px;
   transition: all 200ms;
-  border: 1px solid var(--blueLight);
+  border: 0.5px solid var(--blueLight);
+  font-size: 13px;
 }
 .input input,
 textarea {
@@ -597,20 +580,20 @@ textarea {
   text-align: left;
 }
 .input_focused {
-  border: 1px solid var(--blue);
+  border: 0.5px solid var(--blueSemiLight);
   color: var(--blue);
 }
 .input_error {
-  border: 1px solid orangered !important;
+  border: 0.5px solid orangered !important;
 }
 
 .icon_regular {
-  padding: 15px;
-  border-radius: 8px;
-  background-color: var(--darkLight);
+  /* padding: 15px; */
+  /* border-radius: 8px; */
+  /* background-color: var(--darkLight); */
 }
 .icon_dark {
-  background-color: var(--blueLight);
+  /* background-color: var(--blueLight); */
 }
 .icon_small {
   padding: 7px;

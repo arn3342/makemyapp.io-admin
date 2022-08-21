@@ -12,12 +12,13 @@ import { useEffect, useState } from 'react'
 import { Constants } from './data/constants'
 import { FirebaseActions } from './data/actions'
 import { AuthActions, ProfileActions } from './data/actions/userActions'
-import { Button, ExtendedButton, Input } from './components/form'
+import { Button, DropDown, ExtendedButton, Input } from './components/form'
 import { Formik } from 'formik'
 import { StringHelper } from './data/extensions/stringHelper'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FcVip } from 'react-icons/fc'
 import { getProfileInitials } from './misc/logics'
+import { FaCentercode } from 'react-icons/fa'
 
 function App () {
   //#region Setting site metadata
@@ -41,7 +42,7 @@ const LogOutScreen = ({ onHideRequest = () => {} }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   function performLogOut () {
-    onHideRequest();
+    onHideRequest()
     setTimeout(() => {
       dispatch({
         type: AuthActions.PERFORM_SIGNOUT
@@ -83,7 +84,7 @@ const ProfileScreen = ({ onHideRequest = () => {} }) => {
   function performUpdate (values) {
     dispatch({
       type: ProfileActions.UPDATE_PROFILE,
-      data: {...userProfile, ...values}
+      data: { ...userProfile, ...values }
     })
   }
   return (
@@ -128,7 +129,7 @@ const ProfileScreen = ({ onHideRequest = () => {} }) => {
             if (StringHelper.isEmpty(values.errMessage)) {
               setSubmitting(true)
               console.log('Should try updating profile now...')
-              const val = {...values}
+              const val = { ...values }
               delete val.errMessage
               performUpdate(val)
               setTimeout(() => {
@@ -137,13 +138,7 @@ const ProfileScreen = ({ onHideRequest = () => {} }) => {
             }
           }}
         >
-          {({
-            values,
-            handleChange,
-            handleSubmit,
-            isSubmitting,
-            errors
-          }) => (
+          {({ values, handleChange, handleSubmit, isSubmitting, errors }) => (
             <>
               <div className='container'>
                 <div className='row'>
@@ -193,7 +188,7 @@ const ProfileScreen = ({ onHideRequest = () => {} }) => {
                 isSelected
                 // onClick={() => onItemClick(item.id)}
               />
-              <Button label='Close' onClick={onHideRequest}/>
+              <Button label='Close' onClick={onHideRequest} />
             </>
           )}
         </Formik>
@@ -266,43 +261,79 @@ function ScreenRenderer () {
                 }))
             })}
           </Slider>
-          <div className='col-sm-2 shadow_light menu_container'>
-            <Spacer size='medium' />
-            <img src={Logo} className='site_logo_main' alt='site-logo' />
-            <Spacer size='large' />
-            <Menu
-              data={routes.Engine}
-              onItemClick={item =>
-                setSliderProps({
-                  screen: ({ onHideRequest }) =>
-                    item === 'logout' ? (
-                      <LogOutScreen onHideRequest={onHideRequest} />
-                    ) : item === 'profile' ? (
-                      <ProfileScreen onHideRequest={onHideRequest} />
-                    ) : (
-                      <></>
-                    ),
-                  isOpen: true
-                })
-              }
-            />
-          </div>
-          <div
-            className='col'
-            id='route_container'
-            style={{ overflow: 'scroll', position: 'relative', height:'100%' }}
-          >
-            <Routes>
-              {routes.Engine.map((route, index) => {
-                return !route.screens ? (
-                  <Route index={index == 0} {...route} key={route.id} />
-                ) : (
-                  route.screens.map(subRoute => {
-                    return <Route {...subRoute} key={subRoute.id} />
+
+          <div className='row'>
+            <div
+              className='menu_container'
+              style={{
+                width: '60px',
+                paddingRight: 0
+              }}
+            >
+              <Spacer />
+              <div className='company_logo_main shadow_light'>
+                <FaCentercode size={22} color='#fff' />
+              </div>
+              {/* <img src={Logo} alt='site-logo-min' /> */}
+            </div>
+            <div className='col-sm-2 shadow_light menu_container'>
+              <Spacer />
+              <DropDown
+                options={[
+                  {
+                    title: 'Trofeed Web'
+                  },
+                  {
+                    title: 'Trofeed Android'
+                  }
+                ]}
+                isExtraSmall
+                theme='dark'
+                label={'Project -'}
+                labelProps={{
+                  className: 'font_xs line_s no_margin'
+                }}
+              />
+
+              {/* <Spacer /> */}
+              <Menu
+                data={routes.Engine}
+                onItemClick={item =>
+                  setSliderProps({
+                    screen: ({ onHideRequest }) =>
+                      item === 'logout' ? (
+                        <LogOutScreen onHideRequest={onHideRequest} />
+                      ) : item === 'profile' ? (
+                        <ProfileScreen onHideRequest={onHideRequest} />
+                      ) : (
+                        <></>
+                      ),
+                    isOpen: true
                   })
-                )
-              })}
-            </Routes>
+                }
+              />
+            </div>
+            <div
+              className='col'
+              id='route_container'
+              style={{
+                overflow: 'scroll',
+                position: 'relative',
+                height: '100%'
+              }}
+            >
+              <Routes>
+                {routes.Engine.map((route, index) => {
+                  return !route.screens ? (
+                    <Route index={index == 0} {...route} key={route.id} />
+                  ) : (
+                    route.screens.map(subRoute => {
+                      return <Route {...subRoute} key={subRoute.id} />
+                    })
+                  )
+                })}
+              </Routes>
+            </div>
           </div>
         </div>
       )
