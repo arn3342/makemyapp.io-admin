@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Spacer, SubTitle, Title } from '../../components/global'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { filterData, getRandomInteger } from '../../misc/logics'
-import { Input, SimpleChoiceList, Button } from '../../components/form'
+import {
+  Input,
+  SimpleChoiceList,
+  Button,
+  DropDown
+} from '../../components/form'
 import { extractFeatures } from '../../misc/featureHelper'
 import { Constants } from '../../data/constants'
 import { useDispatch, useSelector } from 'react-redux'
@@ -34,21 +39,18 @@ const FeatureScreen = () => {
     )
   }
 
-  function performParentFilter (categoryIDs = []) {
+  function performParentFilter (categoryName) {
     let filteredFeatures =
-      categoryIDs.length > 0
-        ? initFeatureList.filter(x => categoryIDs.some(id => x.parent.id == id))
+      categoryName?.toLowerCase() !== 'all'
+        ? initFeatureList.filter(x => x.parent.title === categoryName)
         : initFeatureList
     setFeatureList(filteredFeatures)
   }
 
-  function performPhaseFilter (phases = []) {
-    let filteredFeatures =
-      phases.length > 0
-        ? initFeatureList.filter(x => {
-            return phases.some(phase => isFeatureInPhase(x.id, phase))
-          })
-        : initFeatureList
+  function performPhaseFilter (phase) {
+    let filteredFeatures = phase
+      ? initFeatureList.filter(x => isFeatureInPhase(x.id, phase))
+      : initFeatureList
     setFeatureList(filteredFeatures)
   }
 
@@ -77,9 +79,9 @@ const FeatureScreen = () => {
     })
   }
 
-  function getDevelopmentTime(devTimeArray){
+  function getDevelopmentTime (devTimeArray) {
     const maxDevTime = Math.max(...devTimeArray.map(single => single.hours))
-    return maxDevTime;
+    return maxDevTime
   }
 
   return (
@@ -95,40 +97,50 @@ const FeatureScreen = () => {
         />
       </div>
       {/* <Spacer size='small' /> */}
-      <div className='container row'>
-        <Input
-          className='col col-sm-4'
-          placeholder='Search features...'
-          fontAwesomeIcon={faSearch}
-          onValueChange={val => performFilter(val)}
-        />
-      </div>
-      <Spacer size='medium' />
-      <div className='container row d-flex'>
-        <SimpleChoiceList
-          data={parentFeatureList}
-          title='Filter By Category :'
-          onChoiceChange={val => performParentFilter(val)}
-          ignoreProps={['description']}
-        />
-      </div>
       <div
-        className='container row d-flex'
+        className='container row'
         style={{
-          position: 'relative'
+          paddingLeft: 0
         }}
       >
-        <SimpleChoiceList
-          data={Constants.BuildPhases.map((phase, index) => {
-            return {
-              id: phase,
-              title: phase
-            }
-          })}
-          title='Filter By Build Phase :'
-          onChoiceChange={val => performPhaseFilter(val)}
-        />
+        <div className='col col-sm-3'>
+          <Input
+            placeholder='Search features...'
+            fontAwesomeIcon={faSearch}
+            onValueChange={val => performFilter(val)}
+          />
+        </div>
+        <div
+          className='col col-sm-3'
+          style={{
+            paddingLeft: 0
+          }}
+        >
+          <DropDown
+            options={parentFeatureList}
+            isExtraSmall
+            onValueChange={performParentFilter}
+          />
+        </div>
+        <div
+          className='col col-sm-2'
+          style={{
+            paddingLeft: 0
+          }}
+        >
+          <DropDown
+            options={Constants.BuildPhases.map((phase, index) => {
+              return {
+                id: phase,
+                title: phase
+              }
+            })}
+            isExtraSmall
+            onValueChange={performPhaseFilter}
+          />
+        </div>
       </div>
+      <Spacer size='medium' />
       <div className='table_container shadow_light'>
         <table>
           <thead className='shadow_light'>
@@ -193,7 +205,9 @@ const FeatureScreen = () => {
                       />
                       <Spacer size='xs' />
                       <SubTitle
-                        content={`${getDevelopmentTime(feature.estDevTime)} hour(s)`}
+                        content={`${getDevelopmentTime(
+                          feature.estDevTime
+                        )} hour(s)`}
                         fontType='bold'
                         className='font_link no_margin'
                       />

@@ -9,13 +9,14 @@ import { Constants } from '../../data/constants'
 import { useSelector } from 'react-redux'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
-const MenuItem = ({
+export const MenuItem = ({
   id,
   label,
   performSelection,
   selected,
   isBeta,
-  onClick
+  onClick,
+  icon
 }) => {
   return (
     <div>
@@ -23,34 +24,39 @@ const MenuItem = ({
         className={`row cols-2 menu_item ${selected && 'menu_item_selected'}`}
         onClick={() => onClick()}
       >
-        <div className='col col-sm-2 d-flex'>
+        <div className={`col ${label ? 'col-sm-2 d-flex' : ''}`}>
           <div
             className={`icon_regular icon_dark d-flex icon_small`}
+            style={{
+              justifyContent: !label ? 'center' : 'inherit'
+            }}
           >
-            <IconParser itemId={id} size={20}/>
+            {!icon ? <IconParser itemId={id} size={20} /> : icon}
           </div>
         </div>
-        <div className='col m-auto'>
-          <SubTitle
-            content={
-              <div
-                style={{
-                  display: 'flex'
-                }}
-              >
-                {label}
-                {isBeta && <span className='font_xs beta_label'>Beta</span>}
-              </div>
-            }
-            fontType='bold'
-            className='m-auto font-xs'
-            style={{
-              fontSize: 12
-            }}
-          />
-        </div>
+        {label && (
+          <div className='col m-auto'>
+            <SubTitle
+              content={
+                <div
+                  style={{
+                    display: 'flex'
+                  }}
+                >
+                  {label}
+                  {isBeta && <span className='font_xs beta_label'>Beta</span>}
+                </div>
+              }
+              fontType='bold'
+              className='m-auto font-xs'
+              style={{
+                fontSize: 12
+              }}
+            />
+          </div>
+        )}
       </div>
-      <Spacer/>
+      <Spacer />
     </div>
   )
 }
@@ -81,7 +87,7 @@ export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
         />
         <Spacer size={'medium'} />
       </div> */}
-      <Spacer size={'medium'} />
+      {/* <Spacer size={'medium'} /> */}
       {data?.map(menuItem => {
         if (!menuItem.screens && !menuItem.ignoreRendering) {
           return (
@@ -147,7 +153,7 @@ export const Menu = ({ data, onItemClick = ({ item = '' }) => {} }) => {
   )
 }
 
-const ProfileMenu = ({ onItemClick = ({ item = '' }) => {} }) => {
+export const ProfileMenu = ({ onItemClick = ({ item = '' }) => {} }) => {
   const userProfile = useSelector(state => state.user.profile)
   const [isExpanded, setExpanded] = useState(false)
   const containerRef = useRef()

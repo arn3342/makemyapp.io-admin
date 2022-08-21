@@ -2,9 +2,10 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import Logo from './logo-trans.png'
+import CompanyLogo from './comapny_thumb.png'
 import { Slider, Spacer, SubTitle, Title } from './components/global'
 import { getRoutes, SiteRoutes } from './misc/routes'
-import { Menu } from './components/menu'
+import { Menu, MenuItem, ProfileMenu } from './components/menu'
 import { Provider, useDispatch } from 'react-redux'
 import store from './data/reducers'
 import { useSelector } from 'react-redux'
@@ -271,14 +272,25 @@ function ScreenRenderer () {
               }}
             >
               <Spacer />
-              <div className='company_logo_main shadow_light'>
-                <FaCentercode size={22} color='#fff' />
+              <div
+                className='row'
+                style={{
+                  padding: 10
+                }}
+              >
+                <img src={CompanyLogo} />
               </div>
+
+              <MenuItem
+                // onClick={() => performNavigation(menuItem.path)}
+                selected
+                icon={<FaCentercode size={22} color='#fff' />}
+              />
               {/* <img src={Logo} alt='site-logo-min' /> */}
             </div>
             <div className='col-sm-2 shadow_light menu_container'>
-              <Spacer />
-              <DropDown
+              {/* <Spacer /> */}
+              {/* <DropDown
                 options={[
                   {
                     title: 'Trofeed Web'
@@ -293,9 +305,24 @@ function ScreenRenderer () {
                 labelProps={{
                   className: 'font_xs line_s no_margin'
                 }}
-              />
+              /> */}
+              {/* <ProfileMenu /> */}
 
-              {/* <Spacer /> */}
+              <Spacer times={0.6}/>
+              <SubTitle
+                size='small'
+                content='Project:'
+                theme='light'
+                fontType='light'
+                className='font_xs no_margin'
+              />
+              <SubTitle
+                size='medium'
+                content='Trofeed Web'
+                theme='light'
+                fontType='light'
+                className='margin_xs'
+              />
               <Menu
                 data={routes.Engine}
                 onItemClick={item =>

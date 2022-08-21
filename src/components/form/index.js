@@ -84,7 +84,7 @@ export const Input = ({
         <div className='col col-sm-1 m-auto'>
           <FontAwesomeIcon
             icon={fontAwesomeIcon}
-            fontSize={15}
+            fontSize={14}
             className='m-auto'
           />
         </div>
