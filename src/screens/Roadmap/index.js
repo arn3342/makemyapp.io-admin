@@ -137,7 +137,6 @@ export default ({}) => {
           screenFeatures={getScreenFeatures(modalProps.screenId)}
         />
       </Slider>
-      {/* <Spacer size='large' /> */}
       <div
         className='row'
         style={{
@@ -213,7 +212,6 @@ export default ({}) => {
               }}
             />
           </div>
-          {/* <FlowToolbox/> */}
         </div>
       </div>
     </div>

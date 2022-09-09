@@ -153,11 +153,6 @@ export const ScreenBuilderWidget = ({ currentNodes = [], onAddScreenNode }) => {
     return devTime;
   }
 
-  // function getDevelopmentTime(devTimeArray){
-  //   const maxDevTime = Math.max(...devTimeArray.map(single => single.hours))
-  //   return maxDevTime;
-  // }
-
   function performAddScreen () {
     if (onAddScreenNode) {
       const draggableId = `${screenName

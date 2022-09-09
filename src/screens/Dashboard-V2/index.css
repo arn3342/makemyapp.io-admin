@@ -1,0 +1,64 @@
+@import url("../../components/global/global.css");
+.icon_platform {
+  padding: 10px 15px;
+  margin-right: 10px;
+}
+.custom_card {
+  padding: 25px 20px;
+  transition: all 200ms;
+  user-select: none !important;
+  background: var(--placeholderColor);
+  border-radius: var(--radius);
+  height: 100%;
+  padding-right: 10px;
+  padding-bottom: 0;
+}
+.custom_card .font_gradient {
+  font-weight: 500 !important;
+  line-height: 1.8rem !important;
+  padding: 0;
+}
+.custom_card .dropdown .input {
+  background: #fff;
+}
+.custom_card .dropdown_container .item:hover {
+  background: var(--blue) !important;
+}
+.custom_card .font_pad {
+  padding: 0px !important;
+  font-weight: 700 !important;
+}
+.neg_margin {
+  margin-top: -4px !important;
+}
+.custom .choice_extra-small {
+  border: none;
+}
+.custom .custom_choice {
+  padding: 3px 15px;
+}
+.custom .custom_platform {
+  border: 1px solid var(--blueLight);
+}
+.card_button {
+  transition: all 100ms !important;
+  padding-left: 0 !important;
+  color: #b5cfea !important;
+}
+.card_button:hover {
+  background: transparent !important;
+  color: #fff !important;
+}
+.card_button .text_icon_animated {
+  transform: translateX(0px);
+}
+.info_success {
+  background: -webkit-linear-gradient(
+    120deg,
+    rgba(24, 13, 217, 1) 0%,
+    rgba(139, 0, 255, 1) 100%
+  );
+  border-radius: 5px;
+  font-size: 0.7rem;
+  box-shadow: 3px 0px 15px 5px rgb(23 57 143 / 24%);
+}

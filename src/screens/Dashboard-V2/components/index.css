@@ -1,0 +1,10 @@
+@import url('../../../components/global/global.css');
+.hour_box{
+    background: var(--darkBlue);
+    padding: 0px 7px;
+    max-width: fit-content;
+}
+.team_option_container{
+    display: flex;
+    flex-wrap: wrap;
+}

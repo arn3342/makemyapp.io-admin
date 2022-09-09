@@ -9,6 +9,7 @@ import FeatureScreen from '../screens/Feature'
 import ProfileScreen from '../screens/Profile'
 import OnboardingScreen from '../screens/Onboarding'
 import { Navigate } from 'react-router-dom'
+import DashboardV2Screen from '../screens/Dashboard-V2'
 
 export const SiteRoutes = {
   Onboarding: {
@@ -36,7 +37,7 @@ export const SiteRoutes = {
       id: 121,
       label: 'Dashboard',
       path: '/engine',
-      element: <DashboardScreen />
+      element: <DashboardV2Screen />
     },
     Profile: {
       id: 122,

@@ -20,7 +20,9 @@ export const Button = ({
   isBusy,
   className,
   disabled,
-  style
+  underlined,
+  isFontAwesomeIcon = true,
+  style = {}
 }) => {
   return (
     <div
@@ -29,18 +31,19 @@ export const Button = ({
         'shadow'} button_size_${size} d-flex button_light_${isExtraSmall &&
         'extended'} ${animateIcon && 'icon_animated'} ${animateScale &&
         'scale_animated'} ${isRounded && 'button_rounded'} ${className}
-        ${disabled && 'disabled'}`}
+        ${disabled && 'disabled'} ${underlined && 'button_underline'}`}
       style={{
-        pointerEvents: isBusy || disabled ? 'none' : 'all'
+        pointerEvents: isBusy || disabled ? 'none' : 'all',
+        ...style
       }}
       onClick={() => onClick && onClick()}
     >
       {!isBusy ? (
         <div className='d-flex'>
-          <span className={animateIcon && 'button_text text_icon_animated'}>
+          <span className={`${animateIcon && 'button_text text_icon_animated'}`}>
             {label}
           </span>
-          {icon && (
+          {icon && isFontAwesomeIcon && (
             <FontAwesomeIcon
               className={animateIcon && 'icon_hidden'}
               icon={icon}
@@ -52,6 +55,15 @@ export const Button = ({
               }}
             />
           )}
+          {icon && !isFontAwesomeIcon && <div
+            style={{
+              marginLeft: '5px',
+              alignSelf: 'center'
+            }}
+            className={animateIcon && 'icon_hidden'}
+          >
+            {icon}
+          </div>}
         </div>
       ) : (
         <div
@@ -206,7 +218,9 @@ export const DropDown = ({
           </div>
         )}
         <div
-          className={`col col-sm-1 dropdown_arrow ${isFocused ? 'dropdown_arrow_up' : ''}`}
+          className={`col col-sm-1 dropdown_arrow ${
+            isFocused ? 'dropdown_arrow_up' : ''
+          }`}
           style={{
             display: 'flex'
           }}
@@ -445,9 +459,9 @@ export const SimpleChoiceList = ({
     if (data && ignoreProps) {
       const formattedList = []
       data.map(x => {
-        let formatted = {...x}
+        let formatted = { ...x }
         Object.keys(x).map(dataProp => {
-          if(ignoreProps.includes(dataProp)){
+          if (ignoreProps.includes(dataProp)) {
             delete formatted[dataProp]
           }
         })

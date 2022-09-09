@@ -20,11 +20,16 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FcVip } from 'react-icons/fc'
 import { getProfileInitials } from './misc/logics'
 import { FaCentercode } from 'react-icons/fa'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+
 
 function App () {
   //#region Setting site metadata
   useEffect(() => {
     document.title = Constants.Site.title
+  }, [])
+  useEffect(() => {
+    ChartJS.register(ArcElement, Tooltip, Legend)
   }, [])
   //#endregion
 

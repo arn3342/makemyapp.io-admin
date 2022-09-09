@@ -59,6 +59,11 @@ thead {
   background-color: #fff;
   z-index: 99;
 }
+.page_title {
+  border-bottom: 1px solid var(--blueLight);
+  padding-bottom: 10px;
+  color: #425a92;
+}
 .table_row {
   transition: all 200ms;
   border-bottom: solid 1px var(--lowLight);
@@ -70,7 +75,15 @@ thead {
 .container {
   transition: all 200ms;
 }
-
+.link{
+  cursor: pointer;
+}
+.scale{
+  transition: all 200ms;
+}
+.scale:hover {
+  transform: scale(1.04);
+}
 .modal_main {
   overflow: scroll;
 }
@@ -537,6 +550,11 @@ i {
 }
 .button_text {
   transition: all 200ms;
+}
+.button_underline{
+  border-bottom-width: 2px;
+  border-bottom-style: dashed;
+  border-bottom-color: #fff;
 }
 .icon_hidden {
   opacity: 0;
